@@ -1,8 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void sobre()
+// funcoes
+int main();
+void sobre(void);
+void cadastrar_usuario(void);
+void deletar_usuario(void);
+void atualizar_usario(void);
+void ler_usuario(void);
+// funcoes
+
+// telas
+void sobre(void)
 {
+    system("clear || cls");
+    pritnf("\n");
     printf(" ==================================================================\n");
     printf(" ==================================================================\n");
     printf(" ===                                                            ===\n");
@@ -16,6 +28,78 @@ void sobre()
     printf(" ===                                                            ===\n");
     printf(" ==================================================================\n");
     printf(" ==================================================================\n");
+    printf("\n");
+}
+
+void cadastrar_usuario(void)
+{
+    system("clear || cls");
+    printf("\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                 == CADASTRAR USUARIO ==                    ===\n");
+    prinft(" ===                                                            ===\n");
+    printf(" ===                     Nome completo:                         ===\n");
+    printf(" ===                     Id: (só numeros)                       ===\n");
+    printf(" ===               Data de Nascimento: (dd/mm/aaaa)             ===\n");
+    printf(" ===                   Telefone: (só numeros)                   ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf("\n");
+    getchar();
+}
+
+void deletar_usuario(void);
+{
+    system("clear || cls");
+    pritnf("\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                   == DELETAR USUARIO ==                    ===\n");
+    prinft(" ===                                                            ===\n");
+    printf(" ===                     Id: (só numeros)                       ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    pritnf("\n");
+    getchar();
+}
+
+void atualizar_usuario(void);
+{
+    system("clear || cls");
+    pritnf("\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                   == ATUALIZAR USUARIO ==                  ===\n");
+    prinft(" ===                                                            ===\n");
+    printf(" ===                     Id: (só numeros)                       ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    pritnf("\n");
+    getchar();
+}
+
+void ler_usuario();
+{
+    system("clear || cls");
+    pritnf("\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                     == LER USUARIO ==                      ===\n");
+    prinft(" ===                                                            ===\n");
+    printf(" ===                     Id: (só numeros)                       ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    pritnf("\n");
+    getchar();
 }
 
 int main()
@@ -25,9 +109,12 @@ int main()
 
     do
     {
+        system("clear || cls");
+        printf("\n");
         printf(" ==================================================================\n");
         printf(" ==================================================================\n");
         printf(" ===                                                            ===\n");
+        printf(" ===                   == MENU PRINCIPAL ==                     ===\n");
         printf(" ===                                                            ===\n");
         printf(" ===                     1. CRIAR USUARIO                       ===\n");
         printf(" ===                                                            ===\n");
@@ -44,22 +131,28 @@ int main()
         printf(" ===                                                            ===\n");
         printf(" ==================================================================\n");
         printf(" ==================================================================\n");
+        printf("\n");
 
         switch (escolha)
         {
         case 1:
-            printf("Criando usuario");
+            // chamada da tela e funcoes
+            cadastrar_usuario();
             break;
         case 2:
-            printf("Deletando usuario");
+            // chamada da tela e funcoes
+            deletar_usuario();
             break;
         case 3:
-            printf("Atualizando usuario");
+            // chamada da tela e funcoes
+            atualizar_usario();
             break;
         case 4:
-            printf("Lendo usuario");
+            // chamada da tela e funcoes
+            ler_usuario();
             break;
         case 0:
+            // chamada da tela e funcoes
             sobre();
             break;
 
