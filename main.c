@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "clientes.h"
+#include "vendas.h"
+
 
 // funcoes usuarios 
 int main();
@@ -119,6 +122,7 @@ void cadastrar_usuario(void)
     int telefone;
     int id;
     char nome[75];
+    char email[30];
     char respt;
 
     while (1)
@@ -144,6 +148,7 @@ void cadastrar_usuario(void)
         printf(" ===                                                                                               === \n");
         printf(" ===                                   Telefone: (so numeros)                                      === \n");
         printf(" ===                                                                                               === \n");
+        printf(" ===                                           Email:                                              === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===================================================================================================== \n");
         printf(" ===================================================================================================== \n");
@@ -157,6 +162,9 @@ void cadastrar_usuario(void)
 
         printf("Telefone:");
         scanf("%d", &telefone);
+
+        printf("Email:");
+        scanf("%s", email);
 
         getchar();
 
@@ -474,7 +482,6 @@ void registrar_venda(void)
         printf(" ===                                                                                               ===\n");
         printf(" =====================================================================================================\n");
         printf(" =====================================================================================================\n");
-        printf(" ===                                                                                               ===\n");
         printf(" ===                                                                                               ===\n");
         printf(" ===                                                                                               ===\n");
         printf(" ===                                                                                               ===\n");
