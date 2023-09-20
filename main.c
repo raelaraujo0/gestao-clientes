@@ -11,6 +11,7 @@ void cadastrar_usuario(void);
 void deletar_usuario(void);
 void atualizar_usuario(void);
 void ler_usuario(void);
+void listar_usuarios(void);
 
 // funcoes vendas
 void menuV(void);
@@ -18,6 +19,7 @@ void registrar_venda(void);
 void deletar_venda(void);
 void atualizar_venda(void);
 void ler_venda(void);
+void listar_vendas(void);
 
 
 // telas
@@ -41,6 +43,8 @@ void sobre(void)
     printf(" ==================================================================\n");
     printf(" ==================================================================\n");
     printf("\n");
+
+    system("pause");
 }
 
 int main()
@@ -72,7 +76,10 @@ int main()
     printf(" ===                                       4. LER USUARIO                                          === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
-    printf(" ===                                       = 5. VENDAS =                                           === \n");
+    printf(" ===                                     5. LISTAR USUARIOS                                        === \n");
+    printf(" ===                                                                                               === \n");
+    printf(" ===                                                                                               === \n");
+    printf(" ===                                        = 6. VENDAS =                                          === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                          0. SOBRE                                             === \n");
@@ -105,6 +112,9 @@ int main()
         ler_usuario();
         break;
     case 5:
+        listar_usuarios();
+        break;
+    case 6:
         menuV();
     case 0:
         // chamada da tela e funcoes
@@ -347,6 +357,11 @@ void ler_usuario(void)
     }
 }
 
+void listar_usuarios(void)
+{
+
+}
+
 
 void menuV(void)
 {
@@ -377,6 +392,9 @@ void menuV(void)
     printf(" ===                                        4. LER VENDA                                           ===\n");
     printf(" ===                                                                                               ===\n");
     printf(" ===                                                                                               ===\n");
+    printf(" ===                                      5 - LISTAS VENDAS                                        ===\n");
+    printf(" ===                                                                                               ===\n");
+    printf(" ===                                                                                               ===\n");
     printf(" ===                                          0 - MENU                                             ===\n");
     printf(" ===                                                                                               ===\n");
     printf(" ===                                                                                               ===\n");
@@ -402,7 +420,9 @@ void menuV(void)
     case 4:
         ler_venda();
         break;
-    case 0:
+    case 5:
+        listar_vendas();
+    case 6:
         main();
     default:
         printf("opcao invalida \n");
@@ -640,4 +660,9 @@ void ler_venda(void)
             printf("Funcao invalida");
         }
     }
+}
+
+void listar_vendas(void)
+{
+
 }
