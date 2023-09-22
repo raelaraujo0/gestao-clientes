@@ -3,8 +3,7 @@
 #include "clientes.h"
 #include "vendas.h"
 
-
-// funcoes usuarios 
+// funcoes usuarios
 int main();
 void sobre(void);
 void cadastrar_usuario(void);
@@ -20,7 +19,6 @@ void deletar_venda(void);
 void atualizar_venda(void);
 void ler_venda(void);
 void listar_vendas(void);
-
 
 // telas
 void sobre(void)
@@ -122,7 +120,9 @@ int main()
         break;
 
     default:
-        printf("opcao invalida \n");
+        printf("opcao invalida,tente novamente \n");
+        system("pause");
+        main();
         break;
     }
 }
@@ -165,16 +165,16 @@ void cadastrar_usuario(void)
         printf("\n");
 
         printf("Nome Completo:");
-        scanf("%s", nome);
+        scanf("%[A-Z a-z]", nome);
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
 
         printf("Telefone:");
-        scanf("%d", &telefone);
+        scanf("%[0-9 -]", &telefone);
 
         printf("Email:");
-        scanf("%s", email);
+        scanf("%[A-Z a-z @ -9 . @]", email);
 
         getchar();
 
@@ -229,7 +229,8 @@ void deletar_usuario(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
+
         getchar();
 
         printf("Deseja deletar outro usuario?(S/N)");
@@ -281,7 +282,7 @@ void atualizar_usuario(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
 
         getchar();
 
@@ -333,8 +334,7 @@ void ler_usuario(void)
         printf(" ===================================================================================================== \n");
 
         printf("Id:");
-        scanf("%d", &id);
-
+        scanf("%[0-9]", &id);
         getchar();
 
         printf("Deseja ler outro usuario?(S/N)");
@@ -359,9 +359,7 @@ void ler_usuario(void)
 
 void listar_usuarios(void)
 {
-
 }
-
 
 void menuV(void)
 {
@@ -395,7 +393,7 @@ void menuV(void)
     printf(" ===                                      5 - LISTAS VENDAS                                        ===\n");
     printf(" ===                                                                                               ===\n");
     printf(" ===                                                                                               ===\n");
-    printf(" ===                                          0 - MENU                                             ===\n");
+    printf(" ===                                          6 - MENU                                             ===\n");
     printf(" ===                                                                                               ===\n");
     printf(" ===                                                                                               ===\n");
     printf(" ===                                     Escolha uma das opcoes                                    ===\n");
@@ -405,6 +403,7 @@ void menuV(void)
     printf(" =====================================================================================================\n");
     scanf("%d", &escolha);
     printf("\n");
+    
 
     switch (escolha)
     {
@@ -422,10 +421,13 @@ void menuV(void)
         break;
     case 5:
         listar_vendas();
-    case 6:
+    case 0:
         main();
+        break;
     default:
-        printf("opcao invalida \n");
+        printf("opcao invalida,tente novamente \n");
+        system("pause");
+        menuV();
         break;
     }
 }
@@ -459,7 +461,8 @@ void deletar_venda(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
+
         getchar();
 
         printf("Deseja deletar outra venda?(S/N)");
@@ -483,15 +486,16 @@ void deletar_venda(void)
 }
 
 void registrar_venda(void)
-{   
+{
     int id;
     float preco;
     int data;
-    char categoria[30];
+    char categoria[100];
     char respt;
 
-    while(1)
-    {   system("clear || cls");
+    while (1)
+    {
+        system("clear || cls");
         printf("\n");
         printf(" =====================================================================================================\n");
         printf(" =====================================================================================================\n");
@@ -523,13 +527,13 @@ void registrar_venda(void)
         scanf("%f", &preco);
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
 
         printf("Data da venda:");
         scanf("%d", &data);
 
         printf("Categoria da venda:");
-        scanf("%s", categoria);
+        scanf("%[A-Z a-z]", categoria);
 
         getchar();
 
@@ -584,7 +588,7 @@ void atualizar_venda(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
 
         getchar();
 
@@ -638,7 +642,7 @@ void ler_venda(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%d", &id);
+        scanf("%[0-9]", &id);
 
         getchar();
 
@@ -664,5 +668,4 @@ void ler_venda(void)
 
 void listar_vendas(void)
 {
-
 }
