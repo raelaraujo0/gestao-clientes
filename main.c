@@ -115,7 +115,7 @@ int main()
     case 6:
         menuV();
     case 0:
-        // chamada da tela e funcoes
+        // chamada da tela e funcoes    
         sobre();
         break;
 
@@ -165,16 +165,16 @@ void cadastrar_usuario(void)
         printf("\n");
 
         printf("Nome Completo:");
-        scanf("%[A-Z a-z]", nome);
+        scanf("%s", nome);
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         printf("Telefone:");
-        scanf("%[0-9 -]", &telefone);
+        scanf("%d", &telefone);
 
         printf("Email:");
-        scanf("%[A-Z a-z @ -9 . @]", email);
+        scanf("%c", email);
 
         getchar();
 
@@ -229,7 +229,7 @@ void deletar_usuario(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         getchar();
 
@@ -282,7 +282,7 @@ void atualizar_usuario(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         getchar();
 
@@ -334,7 +334,7 @@ void ler_usuario(void)
         printf(" ===================================================================================================== \n");
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
         getchar();
 
         printf("Deseja ler outro usuario?(S/N)");
@@ -461,7 +461,7 @@ void deletar_venda(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         getchar();
 
@@ -527,7 +527,7 @@ void registrar_venda(void)
         scanf("%f", &preco);
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         printf("Data da venda:");
         scanf("%d", &data);
@@ -588,7 +588,7 @@ void atualizar_venda(void)
         printf("\n");
 
         printf("Id:");
-        scanf("%[0-9]", &id);
+        scanf("%d", &id);
 
         getchar();
 
