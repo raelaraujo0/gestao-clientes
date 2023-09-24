@@ -115,8 +115,9 @@ int main()
     case 6:
         menuV();
     case 0:
-        // chamada da tela e funcoes    
         sobre();
+        getchar();
+        main();
         break;
 
     default:
@@ -129,7 +130,7 @@ int main()
 
 void cadastrar_usuario(void)
 {
-    int telefone;
+    float telefone;
     int id;
     char nome[75];
     char email[30];
@@ -165,7 +166,7 @@ void cadastrar_usuario(void)
         printf("\n");
 
         printf("Nome Completo:");
-        scanf("%s", nome);
+        scanf(" %s", nome);
 
         printf("Id:");
         scanf("%d", &id);
@@ -174,7 +175,7 @@ void cadastrar_usuario(void)
         scanf("%d", &telefone);
 
         printf("Email:");
-        scanf("%c", email);
+        scanf(" %s", email);
 
         getchar();
 
@@ -403,7 +404,6 @@ void menuV(void)
     printf(" =====================================================================================================\n");
     scanf("%d", &escolha);
     printf("\n");
-    
 
     switch (escolha)
     {
