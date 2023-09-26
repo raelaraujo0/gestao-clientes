@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 #include "clientes.h"
 #include "vendas.h"
 
@@ -21,6 +22,30 @@ void deletar_venda(void);
 void atualizar_venda(void);
 void ler_venda(void);
 void listar_vendas(void);
+
+// validador
+bool validardata(int dia, int mes, int ano){
+    if (dia < 1 || dia > 31){
+        printf("Dia invalido \n");
+        return false;
+        }
+        if (mes < 1 || mes > 12){
+            printf("Mes invalido \n");
+            return false;
+        }
+        if (ano < 1){
+            printf("Ano invalido \n");
+            return false;
+        }
+
+        if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) {
+        // É bissexto
+    } else {
+        // Não é bissexto
+    }
+
+    return true;
+}
 
 // telas
 void sobre(void)
@@ -44,7 +69,7 @@ void sobre(void)
     printf(" ==================================================================\n");
     printf("\n");
 
-    _sleep(5000);
+    _sleep(10000);
 }
 
 int main()
@@ -125,7 +150,7 @@ int main()
 
     default:
         printf("opcao invalida,tente novamente \n");
-        _sleep(1000);
+        _sleep(5000);
         main();
         break;
     }
@@ -139,7 +164,8 @@ void cadastrar_usuario(void)
     char nome[75];
     char email[50];
     char respt;
-    int dia, mes, ano;
+    int dia, mes, ano; 
+    bool data_val;
 
     while (1)
     {
@@ -179,14 +205,15 @@ void cadastrar_usuario(void)
         // a funcao de verificador de ID foi reaproveitada para as outras telas
         for (i = 0; i < strlen(id); i++){
             if (!isdigit(id[i])){
-                printf("Id incorreto ter algum nao numero \n");
+                printf("Id incorreto ter algum nao numero, a entrada ID estara constada como vazia \n");
                 printf("Tente novamente \n");
-                break;
+                id[10] = "";
+                break;;
             }
             if (i > 10){
-                printf("Id incorreto por conter mais de 10 digitos \n");
+                printf("Id incorreto por conter mais de 10 digitos, a entrada ID estara constada como vazia \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                id[10]="";
                 break;
             }
         }
@@ -195,60 +222,21 @@ void cadastrar_usuario(void)
             getchar();
 
             // amparo do google bard
-            printf("insira dia de nascimento: \n");
+            printf("insira dia de nascimento:");
             scanf("%d", &dia);
-            printf("insira mes de nascimento: \n");
+            printf("insira mes de nascimento:");
             scanf("%d", &mes);
-            printf("insira ano de nascimento: \n");
+            printf("insira ano de nascimento:");
             scanf("%d", &ano);
 
-            if (dia < 1 || dia > 31){
-                printf("Dia invalido \n");
-                return 1;
+            data_val = validardata (dia, mes, ano);
+            if (!data_val){
+                printf("Data de nascimeto invalida \n");
             }
-            if (mes < 1 || mes > 12){
-                printf("Mes invalido \n");
-                return 1;
-            }
-            if (ano < 1){
-                printf("Ano invalido \n");
-                return 1;
-            }
-
-            if (ano % 4 == 0){
-                if (ano % 100 == 0){
-                    if (ano % 400 == 0){
-                    } else {
-                        // Nao bissexto
-                    }
-                } else {
-                    // bissexto
-                }
-            } else {
-                // Nao bissexto
-            }
-        if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano >= 1){
-            if (ano % 4 == 0){
-                if (ano % 100 == 0){
-                    if (ano % 400 == 0){
-                        printf("Data de nascimento válida e ano bissexto.\n");
-                    } else {
-                        printf("Data de nascimento válida e ano não bissexto.\n");
-                    }
-                } else {
-                    printf("Data de nascimento válida e ano bissexto.\n");
-                }
-            } else {
-                printf("Data de nascimento válida e ano não bissexto.\n");
-                }
-        } else {
-            printf("Data de nascimento inválida.\n");
-        }
-        return 0;
     }
 
         printf("Telefone:");
-        scanf("%d", &telefone);
+        scanf(" %f", &telefone);
 
         printf("Email:");
         scanf(" %[^\n]", email);
@@ -305,6 +293,7 @@ void deletar_usuario(void)
         printf("\n");
 
         printf("Id:\n");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++)
         {
             if (!isdigit(id[i]))
@@ -317,7 +306,7 @@ void deletar_usuario(void)
             {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
@@ -374,6 +363,7 @@ void atualizar_usuario(void)
         printf("\n");
 
         printf("Id:");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++)
         {
             if (!isdigit(id[i]))
@@ -386,7 +376,7 @@ void atualizar_usuario(void)
             {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
@@ -442,6 +432,7 @@ void ler_usuario(void)
         printf(" ===================================================================================================== \n");
 
         printf("Id:");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++)
         {
             if (!isdigit(id[i]))
@@ -454,7 +445,7 @@ void ler_usuario(void)
             {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
@@ -544,7 +535,7 @@ void menuV(void)
     case 5:
         listar_vendas();
         break;
-    case 0:
+    case 6:
         main();
         break;
     default:
@@ -585,6 +576,7 @@ void deletar_venda(void)
         printf("\n");
 
         printf("Id:");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++)
         {
             if (!isdigit(id[i]))
@@ -597,7 +589,7 @@ void deletar_venda(void)
             {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
@@ -629,7 +621,8 @@ void registrar_venda(void)
     char id[10];
     int i;
     float preco;
-    int data;
+    int dia, mes, ano; 
+    bool data_val;
     char categoria[100];
     char respt;
 
@@ -667,6 +660,7 @@ void registrar_venda(void)
         scanf("%f", &preco);
 
         printf("Id:");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++)
         {
             if (!isdigit(id[i]))
@@ -679,16 +673,25 @@ void registrar_venda(void)
             {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
 
-        printf("Data da venda:");
-        scanf("%d", &data);
+        printf("Dia da venda:");
+        scanf("%d", &dia);
+        printf("Mes da venda:");
+        scanf("%d", &mes);
+        printf("Ano da venda:");
+        scanf("%d", &ano);
+
+        data_val = validardata (dia, mes, ano);
+            if (!data_val){
+                printf("Data de nascimeto invalida \n");
+            }
 
         printf("Categoria da venda:");
-        scanf("%[A-Z a-z]", categoria);
+        scanf("%[^\nd]", categoria);
 
         getchar();
 
@@ -744,6 +747,7 @@ void atualizar_venda(void)
         printf("\n");
 
         printf("Id:");
+        scanf(" %[^\n]", id);
         for (i = 0; i < strlen(id); i++){
             if (!isdigit(id[i])){
                 printf("Id incorreto ter algum nao numero \n");
@@ -753,7 +757,7 @@ void atualizar_venda(void)
             if (i > 10){
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
-                _sleep(5);
+                _sleep(5000);
                 break;
             }
         }
@@ -811,17 +815,19 @@ void ler_venda(void)
         printf("\n");
 
         printf("Id:");
-        fgets(id, sizeof(id), stdin);
-        for (int i = 0; i < strlen(id); i++)
-        {
-            if (isdigit(id[i]))
-            {
-                printf("Id incorreto \n");
+        scanf(" %[^\n]", id);
+        for (i = 0; i < strlen(id); i++){
+            if (!isdigit(id[i])){
+                printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
-                fgets(id, sizeof(id), stdin);
                 break;
             }
-            i++;
+            if (i > 10){
+                printf("Id incorreto por conter mais de 10 digitos \n");
+                printf("Tente novamente \n");
+                _sleep(5000);
+                break;
+            }
         }
 
         getchar();
