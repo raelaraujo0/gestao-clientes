@@ -5,7 +5,6 @@
 #include "clientes.h"
 #include "vendas.h"
 
-
 // funcoes usuarios
 int main();
 void sobre(void);
@@ -140,6 +139,7 @@ void cadastrar_usuario(void)
     char nome[75];
     char email[50];
     char respt;
+    int dia, mes, ano;
 
     while (1)
     {
@@ -177,8 +177,8 @@ void cadastrar_usuario(void)
         scanf(" %[^\n]", id);
 
         // a funcao de verificador de ID foi reaproveitada para as outras telas
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++){
+            if (!isdigit(id[i])){
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
@@ -191,34 +191,86 @@ void cadastrar_usuario(void)
             }
         }
 
-        if (i == strlen(id)) {
+        if (i == strlen(id)){
             getchar();
 
-            printf("Telefone:");
-            scanf("%d", &telefone);
+            // amparo do google bard
+            printf("insira dia de nascimento: \n");
+            scanf("%d", &dia);
+            printf("insira mes de nascimento: \n");
+            scanf("%d", &mes);
+            printf("insira ano de nascimento: \n");
+            scanf("%d", &ano);
 
-            printf("Email:");
-            scanf(" %[^\n]", email);
-
-            printf("Seja bem-vindo %s\n", nome);
-
-            printf("Deseja adicionar outro usuario?(S/N)");
-            scanf(" %c", &respt);
-
-            // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
-            switch (respt)
-            {
-            case 'S':
-            case 's':
-                cadastrar_usuario();
-                break;
-            case 'N':
-            case 'n':
-                main();
-                break;
-            default:
-                printf("Funcao invalida");
+            if (dia < 1 || dia > 31){
+                printf("Dia invalido \n");
+                return 1;
             }
+            if (mes < 1 || mes > 12){
+                printf("Mes invalido \n");
+                return 1;
+            }
+            if (ano < 1){
+                printf("Ano invalido \n");
+                return 1;
+            }
+
+            if (ano % 4 == 0){
+                if (ano % 100 == 0){
+                    if (ano % 400 == 0){
+                    } else {
+                        // Nao bissexto
+                    }
+                } else {
+                    // bissexto
+                }
+            } else {
+                // Nao bissexto
+            }
+        if (dia >= 1 && dia <= 31 && mes >= 1 && mes <= 12 && ano >= 1){
+            if (ano % 4 == 0){
+                if (ano % 100 == 0){
+                    if (ano % 400 == 0){
+                        printf("Data de nascimento válida e ano bissexto.\n");
+                    } else {
+                        printf("Data de nascimento válida e ano não bissexto.\n");
+                    }
+                } else {
+                    printf("Data de nascimento válida e ano bissexto.\n");
+                }
+            } else {
+                printf("Data de nascimento válida e ano não bissexto.\n");
+                }
+        } else {
+            printf("Data de nascimento inválida.\n");
+        }
+        return 0;
+    }
+
+        printf("Telefone:");
+        scanf("%d", &telefone);
+
+        printf("Email:");
+        scanf(" %[^\n]", email);
+
+        printf("Seja bem-vindo %s\n", nome);
+
+        printf("Deseja adicionar outro usuario?(S/N)");
+        scanf(" %c", &respt);
+
+        // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
+        switch (respt)
+        {
+        case 'S':
+        case 's':
+            cadastrar_usuario();
+            break;
+        case 'N':
+        case 'n':
+            main();
+            break;
+        default:
+            printf("Funcao invalida");
         }
     }
 }
@@ -253,13 +305,16 @@ void deletar_usuario(void)
         printf("\n");
 
         printf("Id:\n");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++)
+        {
+            if (!isdigit(id[i]))
+            {
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
             }
-            if (i > 10){
+            if (i > 10)
+            {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
                 _sleep(5);
@@ -319,13 +374,16 @@ void atualizar_usuario(void)
         printf("\n");
 
         printf("Id:");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++)
+        {
+            if (!isdigit(id[i]))
+            {
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
             }
-            if (i > 10){
+            if (i > 10)
+            {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
                 _sleep(5);
@@ -384,13 +442,16 @@ void ler_usuario(void)
         printf(" ===================================================================================================== \n");
 
         printf("Id:");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++)
+        {
+            if (!isdigit(id[i]))
+            {
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
             }
-            if (i > 10){
+            if (i > 10)
+            {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
                 _sleep(5);
@@ -524,13 +585,16 @@ void deletar_venda(void)
         printf("\n");
 
         printf("Id:");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++)
+        {
+            if (!isdigit(id[i]))
+            {
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
             }
-            if (i > 10){
+            if (i > 10)
+            {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
                 _sleep(5);
@@ -603,13 +667,16 @@ void registrar_venda(void)
         scanf("%f", &preco);
 
         printf("Id:");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++)
+        {
+            if (!isdigit(id[i]))
+            {
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
             }
-            if (i > 10){
+            if (i > 10)
+            {
                 printf("Id incorreto por conter mais de 10 digitos \n");
                 printf("Tente novamente \n");
                 _sleep(5);
@@ -677,8 +744,8 @@ void atualizar_venda(void)
         printf("\n");
 
         printf("Id:");
-        for (i = 0; i < strlen(id); i++) {
-            if (!isdigit(id[i])) {
+        for (i = 0; i < strlen(id); i++){
+            if (!isdigit(id[i])){
                 printf("Id incorreto ter algum nao numero \n");
                 printf("Tente novamente \n");
                 break;
@@ -745,8 +812,10 @@ void ler_venda(void)
 
         printf("Id:");
         fgets(id, sizeof(id), stdin);
-        for (int i = 0; i < strlen(id); i++){
-            if (isdigit(id[i])){
+        for (int i = 0; i < strlen(id); i++)
+        {
+            if (isdigit(id[i]))
+            {
                 printf("Id incorreto \n");
                 printf("Tente novamente \n");
                 fgets(id, sizeof(id), stdin);
