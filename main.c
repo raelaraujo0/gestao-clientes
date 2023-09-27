@@ -168,7 +168,6 @@ void cadastrar_usuario(void)
     char telefone[12];
     char id[10];
     int i;
-    int i2;
     char nome[75];
     char email[50];
     char respt;
@@ -205,28 +204,28 @@ void cadastrar_usuario(void)
         printf("\n");
 
         printf("Nome Completo:");
-        scanf(" %[^\n]", nome);
-        int tamanho = strlen(nome);
-         for (i2 = 0; i2 < tamanho; i++) {
-            if (!isalpha(nome[i2])) {
-            printf("O nome e invalido por conter algum caractere invalido\n");
-            printf("Tente novamente atualizando.\n");
-            nome[75] = "";
-            break;
-        }
-    }
-    if (tamanho > 75 || strcmp(nome, "") == 0) {
-        printf("O nome e invalido por conter mais de 75 caracteres ou ser uma string vazia.\n");
-        printf("Tente novamente atualizando.\n");
-        nome[75] = "";
-    }
+        scanf(" %[^\n]*c", nome);
+        getchar();
 
-    printf("Id:");
-    scanf(" %[^\n]", id);
+        int tamanho = strlen(nome);
+
+        for (int i = 0; i < tamanho; i++){
+            if(!isalpha(nome[i]) && nome[i] != " "){
+            printf("O nome esta errado por conter caracter indevido ou estar vazio \n");
+            printf("Tente novamente atualizando \n");
+            }
+        }
+            if (tamanho > 75 || strcmp(nome, "") == 0) {
+                printf("O nome e invalido por conter mais de 75 caracteres ou ser uma string vazia.\n");
+                printf("Tente novamente atualizando.\n");
+                strcpy(nome, "");
+            }
+
+        printf("Id:");
+        scanf(" %[^\n]", id);
 
     // a funcao de verificador de ID foi reaproveitada para as outras telas
-    for (i = 0; i < strlen(id); i++)
-    {
+    for (i = 0; i < strlen(id); i++){
         if (!isdigit(id[i]))
         {
             printf("Id incorreto ter algum nao numero, a entrada ID estara constada como vazia \n");
@@ -272,31 +271,26 @@ void cadastrar_usuario(void)
     }
     else
     { // verificacoes de DD
-        if (telefone[0] < '1' || telefone[0] > '9')
-        {
+        if (telefone[0] < '1' || telefone[0] > '9'){
             valido = false;
         }
-        else if (telefone[1] < '2' || telefone[1] > '9')
-        {
+        else if (telefone[1] < '2' || telefone[1] > '9'){
             valido = false;
         }
-        else if (telefone[2] < '2' || telefone[2] > '9')
-        {
+        else if (telefone[2] < '2' || telefone[2] > '9'){
             valido = false;
         }
 
-        for (int i = 3; i < 11; i++)
-        {
+        for (int i = 3; i < 11; i++){
             if (telefone[i] < '0' || telefone[i] > '9')
                 ;
             valido = false;
             break;
         }
-        if (!isdigit(telefone[0]) || !isdigit(telefone[1]) || !isdigit(telefone[2]))
-        {
+        if (!isdigit(telefone[0]) || !isdigit(telefone[1]) || !isdigit(telefone[2])){
             printf("Numero invalido por conter caractere inapropriado \n");
             printf("Tente novamente atualizando os dados \n");
-            telefone[12] = "";
+            strcpy(telefone,"");
             break;
         }
 
@@ -318,8 +312,7 @@ void cadastrar_usuario(void)
     scanf(" %c", &respt);
 
     // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
-    switch (respt)
-    {
+    switch (respt){
     case 'S':
     case 's':
         cadastrar_usuario();
@@ -330,8 +323,8 @@ void cadastrar_usuario(void)
         break;
     default:
         printf("Funcao invalida");
-    }
-}
+        }
+    }  
 }
 
 void deletar_usuario(void)
@@ -757,13 +750,14 @@ void registrar_venda(void)
         scanf("%d", &ano);
 
         data_val = validardata(dia, mes, ano);
-        if (!data_val)
-        {
-            printf("Data de nascimeto invalida \n");
+        if (!data_val){
+            printf("Data invalida \n");
         }
 
+        getchar();
+
         printf("Categoria da venda:");
-        scanf("%[^\nd]", categoria);
+        scanf("%[^\n]", categoria);
 
         getchar();
 
