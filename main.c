@@ -271,6 +271,7 @@ void cadastrar_usuario(void)
 }
 
         // amparo do google bard
+        while(1){
         printf("insira dia de nascimento:");
         scanf("%d", &dia);
         getchar();
@@ -281,10 +282,24 @@ void cadastrar_usuario(void)
         scanf("%d", &ano);
         getchar();
 
+        int datavalida =1;
+
         data_val = validardata(dia, mes, ano);
         if (!data_val){
             printf("Data de nascimeto invalida \n");
+            printf("insira dia de nascimento:");
+            scanf("%d", &dia);
+            getchar();
+            printf("insira mes de nascimento:");
+            scanf("%d", &mes);
+            getchar();
+            printf("insira ano de nascimento:");
+            scanf("%d", &ano);
+            getchar();
+        } if (datavalida){
+            break;
         }
+    }
     
 
     printf("Telefone:");
