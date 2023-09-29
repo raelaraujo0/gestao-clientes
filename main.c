@@ -26,28 +26,22 @@ void listar_vendas(void);
 // validador
 bool validardata(int dia, int mes, int ano)
 {
-    if (dia < 1 || dia > 31)
-    {
+    if (dia < 1 || dia > 31){
         printf("Dia invalido \n");
         return false;
-    }
-    if (mes < 1 || mes > 12)
-    {
+     }
+    if (mes < 1 || mes > 12){
         printf("Mes invalido \n");
         return false;
-    }
-    if (ano < 1)
-    {
+      }
+    if (ano < 1){
         printf("Ano invalido \n");
         return false;
-    }
+      }
 
-    if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0))
-    {
+    if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
         // É bissexto
-    }
-    else
-    {
+    } else {
         // Não é bissexto
     }
 
@@ -124,6 +118,7 @@ int main()
     printf(" ===================================================================================================== \n");
     scanf("%d", &escolha);
     printf("\n");
+    getchar();
 
     switch (escolha)
     {
@@ -166,7 +161,7 @@ int main()
 void cadastrar_usuario(void)
 {
     char telefone[12];
-    char id[10];
+    int id[12];
     int i;
     char nome[75];
     char email[50];
@@ -203,70 +198,100 @@ void cadastrar_usuario(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
+        while (1){
         printf("Nome Completo:");
-        scanf(" %[^\n]*c", nome);
+        scanf( "%[A-Z a-z]", nome);
         getchar();
 
         int tamanho = strlen(nome);
+        int nomeValido = 1;
 
         for (int i = 0; i < tamanho; i++){
-            if(!isalpha(nome[i]) && nome[i] != " "){
-            printf("O nome esta errado por conter caracter indevido ou estar vazio \n");
-            printf("Tente novamente atualizando \n");
+            if (!isalpha(nome[i]) && nome[i] != ' ') {
+            printf("O nome esta errado por conter caracter indevido ou estar vazio, tente novamente \n");
+            nomeValido = 0;
+            printf("Nome Completo: ");
+            scanf(" %[A-Z a-z]", nome);
+            getchar();
+            }
+         }
+            if (tamanho > 75 || tamanho == 0){
+                printf("O nome e invalido por conter mais de 75 caracteres ou ser uma entrada vazia.\n");
+                nomeValido = 0;
+                printf("Nome Completo: ");
+                scanf(" %[A-Z a-z]", nome);
+                getchar();
+            }
+            if (nomeValido){
+            break;
             }
         }
-            if (tamanho > 75 || strcmp(nome, "") == 0) {
-                printf("O nome e invalido por conter mais de 75 caracteres ou ser uma string vazia.\n");
-                printf("Tente novamente atualizando.\n");
-                strcpy(nome, "");
-            }
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
+    while (1) {
+    printf("Id: ");
+    scanf(" %11s", id);
+    getchar();
 
-    // a funcao de verificador de ID foi reaproveitada para as outras telas
-    for (i = 0; i < strlen(id); i++){
-        if (!isdigit(id[i]))
-        {
-            printf("Id incorreto ter algum nao numero, a entrada ID estara constada como vazia \n");
-            printf("Tente novamente \n");
-            id[10] = "";
+    int tamanho = strlen(id);
+    int idValido = 1;
+
+    for (i = 0; i < tamanho; i++) {
+        if (id[i] == ' ') {
+            printf("Id incorreto por conter espaço em branco, tente novamente \n");
+            printf("Id: ");
+            scanf(" %11s", id);
+            getchar();
             break;
-            ;
         }
-        if (i > 10)
-        {
-            printf("Id incorreto por conter mais de 10 digitos, a entrada ID estara constada como vazia \n");
-            printf("Tente novamente \n");
-            id[10] = "";
+
+        if (isalpha(id[i])) {
+            printf("Id incorreto por conter letra, tente novamente \n");
+            printf("Id: ");
+            scanf(" %11s", id);
+            getchar();
             break;
+        }
+
+        if (idValido) {
+            sscanf(id, "%d", &idValido);
+            if (idValido < 0 || idValido > 999999999) {
+                printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
+            } else {
+                break;
+            }
         }
     }
 
-    if (i == strlen(id))
-    {
-        getchar();
+    if (idValido) {
+        break;
+    }
+}
 
         // amparo do google bard
         printf("insira dia de nascimento:");
         scanf("%d", &dia);
+        getchar();
         printf("insira mes de nascimento:");
         scanf("%d", &mes);
+        getchar();
         printf("insira ano de nascimento:");
         scanf("%d", &ano);
+        getchar();
 
         data_val = validardata(dia, mes, ano);
-        if (!data_val)
-        {
+        if (!data_val){
             printf("Data de nascimeto invalida \n");
         }
-    }
+    
 
     printf("Telefone:");
     scanf(" %11s", &telefone);
+    getchar();
     int valido = true;
-    if (strlen(telefone) != 11)
-    {
+    if (strlen(telefone) != 11){
         valido = false;
     }
     else
@@ -282,8 +307,7 @@ void cadastrar_usuario(void)
         }
 
         for (int i = 3; i < 11; i++){
-            if (telefone[i] < '0' || telefone[i] > '9')
-                ;
+            if (telefone[i] < '0' || telefone[i] > '9');
             valido = false;
             break;
         }
@@ -298,18 +322,20 @@ void cadastrar_usuario(void)
         {
             printf("Numero invalido por exceder 12 caracteres, o numero estara constado como vazio \n");
             printf("Tente atualizando depois");
-            telefone[12] = "";
+            strcpy(telefone, "");
             break;
         }
     }
 
     printf("Email:");
     scanf(" %[^\n]", email);
+    getchar();
 
     printf("Seja bem-vindo %s\n", nome);
 
     printf("Deseja adicionar outro usuario?(S/N)");
     scanf(" %c", &respt);
+    getchar();
 
     // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
     switch (respt){
@@ -356,29 +382,54 @@ void deletar_usuario(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        printf("Id:\n");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
 
         getchar();
 
         printf("Deseja deletar outro usuario?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -426,29 +477,53 @@ void atualizar_usuario(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
 
+        if (idValido) {
+            break;
+        }
+    }
         getchar();
 
         printf("Deseja atualizar outro usuario?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -495,24 +570,48 @@ void ler_usuario(void)
         printf(" ===================================================================================================== \n");
         printf(" ===================================================================================================== \n");
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
         getchar();
 
         printf("Deseja ler outro usuario?(S/N)");
@@ -639,29 +738,54 @@ void deletar_venda(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
 
         getchar();
 
         printf("Deseja deletar outra venda?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -723,24 +847,48 @@ void registrar_venda(void)
         printf("Informe o preco:");
         scanf("%f", &preco);
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
 
         printf("Dia da venda:");
         scanf("%d", &dia);
@@ -763,6 +911,7 @@ void registrar_venda(void)
 
         printf("Deseja adicionar outra venda?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -812,29 +961,54 @@ void atualizar_venda(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
 
         getchar();
 
         printf("Deseja atualizar outra venda?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -883,29 +1057,54 @@ void ler_venda(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        printf("Id:");
-        scanf(" %[^\n]", id);
-        for (i = 0; i < strlen(id); i++)
-        {
-            if (!isdigit(id[i]))
-            {
-                printf("Id incorreto ter algum nao numero \n");
-                printf("Tente novamente \n");
+        while (1) {
+        printf("Id: ");
+        scanf(" %11s", id);
+        getchar();
+
+        int tamanho = strlen(id);
+        int idValido = 1;
+
+        for (i = 0; i < tamanho; i++) {
+            if (id[i] == ' ') {
+                printf("Id incorreto por conter espaço em branco, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
             }
-            if (i > 10)
-            {
-                printf("Id incorreto por conter mais de 10 digitos \n");
-                printf("Tente novamente \n");
-                _sleep(5000);
+
+            if (isalpha(id[i])) {
+                printf("Id incorreto por conter letra, tente novamente \n");
+                printf("Id: ");
+                scanf(" %11s", id);
+                getchar();
                 break;
+            }
+
+            if (idValido) {
+                sscanf(id, "%d", &idValido);
+                if (idValido < 0 || idValido > 999999999) {
+                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
+                    printf("Id: ");
+                    scanf(" %11s", id);
+                    getchar();
+                } else {
+                    break;
+                }
             }
         }
+
+        if (idValido) {
+            break;
+        }
+    }
 
         getchar();
 
         printf("Deseja ler outra venda?(S/N)");
         scanf(" %c", &respt);
+        getchar();
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
