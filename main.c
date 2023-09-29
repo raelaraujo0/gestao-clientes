@@ -271,35 +271,50 @@ void cadastrar_usuario(void)
 }
 
         // amparo do google bard
+        int datavalida =1;
         while(1){
         printf("insira dia de nascimento:");
         scanf("%d", &dia);
         getchar();
-        printf("insira mes de nascimento:");
-        scanf("%d", &mes);
-        getchar();
-        printf("insira ano de nascimento:");
-        scanf("%d", &ano);
-        getchar();
-
-        int datavalida =1;
-
-        data_val = validardata(dia, mes, ano);
         if (!data_val){
-            printf("Data de nascimeto invalida \n");
+            printf("dia incorreto \n");
             printf("insira dia de nascimento:");
             scanf("%d", &dia);
             getchar();
+        } if (datavalida){
+            break;
+            }
+        }
+
+        while(1){
+        printf("insira mes de nascimento:");
+        scanf("%d", &mes);
+        getchar();
+        if (!data_val){
+            printf("mes incorreto \n");
             printf("insira mes de nascimento:");
             scanf("%d", &mes);
             getchar();
+        } if (datavalida){
+            break;
+            }
+        }
+
+        while(1){
+        printf("insira ano de nascimento:");
+        scanf("%d", &ano);
+        getchar();
+        if (!data_val){
+            printf("ano incorreto \n");
             printf("insira ano de nascimento:");
             scanf("%d", &ano);
             getchar();
         } if (datavalida){
             break;
+            }
         }
-    }
+
+        data_val = validardata(dia, mes, ano);
     
 
     printf("Telefone:");
