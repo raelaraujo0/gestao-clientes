@@ -26,25 +26,39 @@ void listar_vendas(void);
 // validador
 bool validardata(int dia, int mes, int ano)
 {
-    if (dia < 1 || dia > 31){
-        printf("Dia invalido \n");
-        return false;
-     }
-    if (mes < 1 || mes > 12){
-        printf("Mes invalido \n");
-        return false;
-      }
-    if (ano < 1){
-        printf("Ano invalido \n");
-        return false;
-      }
-
     if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
+        if (mes == 2 && (dia > 29 || dia < 1)){
+            return false;
+        }
         // É bissexto
     } else {
+        if (mes == 2 && (dia > 28 || dia < 1)){
+            return false;
+        }
         // Não é bissexto
     }
 
+    return true;
+}
+
+bool validartelefone(char telefone[]){
+    // pra esse validador necessitei de amparo do CHAT GPT
+    char TelSemEspc[12];
+    int j = 0;
+    for (int i = 0; telefone[i] != '0'; i++){
+        if (isspace (telefone[i])){
+            TelSemEspc[j++] = telefone[i];
+        }
+    }
+    TelSemEspc[j] = '\0';
+    if (strlen(TelSemEspc) < 11 || strlen(TelSemEspc) > 11){
+        return false;
+    }
+    for (int i = 0; i < strlen(TelSemEspc); i++){
+        if (!isdigit(TelSemEspc[i])){
+            return false;
+        }
+    }
     return true;
 }
 
@@ -70,7 +84,7 @@ void sobre(void)
     printf(" ==================================================================\n");
     printf("\n");
 
-    _sleep(10000);
+    _sleep(3000);
 }
 
 int main()
@@ -160,14 +174,14 @@ int main()
 
 void cadastrar_usuario(void)
 {
-    char telefone[12];
-    int id[12];
+    char telefone[100];
+    int id[100];
     int i;
     char nome[75];
     char email[50];
     char respt;
     int dia, mes, ano;
-    bool data_val;
+    bool datavalida = false;
 
     while (1)
     {
@@ -190,7 +204,7 @@ void cadastrar_usuario(void)
         printf(" ===                                                                                               === \n");
         printf(" ===                                 Data de Nascimento: (dd/mm/aaaa)                              === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                  Telefone: (000 0000 0000)                                    === \n");
+        printf(" ===                                          Telefone:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                           Email:                                              === \n");
         printf(" ===                                                                                               === \n");
@@ -199,7 +213,7 @@ void cadastrar_usuario(void)
         printf("\n");
 
         while (1){
-        printf("Nome Completo:");
+        printf("Nome Completo: ");
         scanf( "%[A-Z a-z]", nome);
         getchar();
 
@@ -270,90 +284,35 @@ void cadastrar_usuario(void)
     }
 }
 
-        // amparo do google bard
-        int datavalida =1;
-        while(1){
-        printf("insira dia de nascimento:");
+    while(!datavalida){
+        printf("insira dia de nascimento: ");
         scanf("%d", &dia);
         getchar();
-        if (!data_val){
-            printf("dia incorreto \n");
-            printf("insira dia de nascimento:");
-            scanf("%d", &dia);
-            getchar();
-        } if (datavalida){
-            break;
-            }
-        }
-
-        while(1){
-        printf("insira mes de nascimento:");
+        printf("insira mes de nascimento: ");
         scanf("%d", &mes);
         getchar();
-        if (!data_val){
-            printf("mes incorreto \n");
-            printf("insira mes de nascimento:");
-            scanf("%d", &mes);
-            getchar();
-        } if (datavalida){
-            break;
-            }
-        }
-
-        while(1){
-        printf("insira ano de nascimento:");
+        printf("insira ano de nascimento: ");
         scanf("%d", &ano);
         getchar();
-        if (!data_val){
-            printf("ano incorreto \n");
-            printf("insira ano de nascimento:");
-            scanf("%d", &ano);
-            getchar();
-        } if (datavalida){
-            break;
-            }
+
+        datavalida = validardata(dia, mes, ano);
+        if (!datavalida){
+            printf("Data invalida \n");
         }
-
-        data_val = validardata(dia, mes, ano);
-    
-
-    printf("Telefone:");
-    scanf(" %11s", &telefone);
-    getchar();
-    int valido = true;
-    if (strlen(telefone) != 11){
-        valido = false;
     }
-    else
-    { // verificacoes de DD
-        if (telefone[0] < '1' || telefone[0] > '9'){
-            valido = false;
-        }
-        else if (telefone[1] < '2' || telefone[1] > '9'){
-            valido = false;
-        }
-        else if (telefone[2] < '2' || telefone[2] > '9'){
-            valido = false;
-        }
+    
+    while(1){
+        printf("Telefone: ");
+        scanf(" %c[^\n]", &telefone);
+        getchar();
 
-        for (int i = 3; i < 11; i++){
-            if (telefone[i] < '0' || telefone[i] > '9');
-            valido = false;
+        if (validartelefone(telefone)){
             break;
-        }
-        if (!isdigit(telefone[0]) || !isdigit(telefone[1]) || !isdigit(telefone[2])){
-            printf("Numero invalido por conter caractere inapropriado \n");
-            printf("Tente novamente atualizando os dados \n");
-            strcpy(telefone,"");
-            break;
-        }
-
-        if (i > 12)
-        {
-            printf("Numero invalido por exceder 12 caracteres, o numero estara constado como vazio \n");
-            printf("Tente atualizando depois");
-            strcpy(telefone, "");
-            break;
+        } else {
+            printf("Telefone invalido, tente novamente \n");
+            printf("Telefone: ");
+            scanf(" %c[^\n]", &telefone);
+            getchar();
         }
     }
 
