@@ -66,47 +66,60 @@ bool validarnome(char* nome, char* sobrenome){
 }
 
 bool validarcpf(char* cpf){
-  if (strlen(cpf) != 11) {
+    if (strlen(cpf) != 11) {
     return false;
   }
-  for (int i = 0; i < 11; i++) {
-    if (!isdigit(cpf[i])) {
-      return false;
+    for (int i = 0; i < 11; i++) {
+        if (!isdigit(cpf[i])) {
+            return false;
+        }
     }
-  }
   int soma = 0;
   for (int i = 0; i < 9; i++) {
     soma += (cpf[i] - '0') * (10 - i);
   }
-
   int resto = soma % 11;
   if (resto == 10) {
     resto = 0;
   }
-
-  if (resto != (cpf[9] - '0')) {
-    return false;
-  }
   return true;
 }
 
-bool validartelefone(char telefone[]){
+bool validartelefone(const char* telefone){
     // pra esse validador necessitei de amparo do CHAT GPT
-    char TelSemEspc[12];
-    int j = 0;
-    for (int i = 0; telefone[i] != '0'; i++){
-        if (isspace (telefone[i])){
-            TelSemEspc[j++] = telefone[i];
+    char telesemespaco[12];
+    int tamanho = 0;
+    for (int i =0; telefone[i]; i++ ){
+        if (!isspace(telefone[i])){
+            telesemespaco[tamanho++] = telefone[i];
         }
-    }
-    TelSemEspc[j] = '\0';
-    if (strlen(TelSemEspc) < 11 || strlen(TelSemEspc) > 11){
+    }   telesemespaco[tamanho] = '\0';
+
+    if (strlen(telesemespaco) != 11){
         return false;
-    }
-    for (int i = 0; i < strlen(TelSemEspc); i++){
-        if (!isdigit(TelSemEspc[i])){
+    }   for (int i = 0; i < strlen(telesemespaco); i++) {
+        if (!isdigit(telesemespaco[i])) {
             return false;
         }
+    }
+
+    return true;
+}
+
+bool validaremail(const char* email){
+    int tamanho =strlen(email);
+    bool arroba =false;
+    bool ponto =false;
+
+    for (int i = 0; i < tamanho; i++) {
+        if (email[i] == '@') {
+            if (arroba) {
+                return false;
+            }
+            arroba = true;
+        }
+    }  if (tamanho == 0){
+        return false;
     }
     return true;
 }
@@ -231,6 +244,9 @@ void cadastrar_usuario(void){
     bool datavalida = false;
     bool cpf_valido = false;
     bool nomevalido =false;
+    bool telvalido =false;
+    bool emailvalido= false;
+
 
     while (1)
     {
@@ -308,29 +324,44 @@ void cadastrar_usuario(void){
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
             }
-        } while(!datavalida);
+        } while (!datavalida);
 
     
-    while(1){
-        printf("Telefone: ");
-        scanf(" %c[^\n]", &telefone);
-        getchar();
-
-        if (validartelefone(telefone)){
-            break;
-        } else {
-            printf("Telefone invalido, tente novamente \n");
+        do{
             printf("Telefone: ");
-            scanf(" %c[^\n]", &telefone);
-            getchar();
-        }
-    }
+            fgets(telefone, sizeof(telefone), stdin);
+            telefone[strcspn(telefone, "\n")] = '\0';
+            telvalido = validartelefone(telefone);
 
-    printf("Email:");
-    scanf(" %[^\n]", email);
-    getchar();
+            size_t len = strlen(telefone);
+            if (len > 0 && telefone[len - 1] == '\n') {
+             telefone[len - 1] = '\0';
+            }
+            
+            if (!telvalido){
+                printf("Telefone invalido, tente novamente \n");
+                }
+            } while (!telvalido);
+
+        do {
+            printf("Email:");
+            fgets(email, sizeof(email), stdin);
+            email[strcspn(email, "\n")] = '\0';
+            emailvalido = validaremail(email);
+            
+            if (!emailvalido){
+                printf("Email invalido, tente novamente \n");
+            }
+        } while (!emailvalido);
+
+        char tresdigitos[4];
+        strncpy(tresdigitos, cpf, 3);
+        tresdigitos[3] =='\0';
+        char nametag[100];
+        snprintf(nametag, sizeof(nametag), "%s.%s.%s", nome, sobrenome, tresdigitos);
 
     printf("Seja bem-vindo %s\n", nome);
+    printf("Sua nametag ===>> %s guarde-a para usar em outras entradas \n", nametag);
 
     printf("Deseja adicionar outro usuario?(S/N)");
     scanf(" %c", &respt);
@@ -348,13 +379,13 @@ void cadastrar_usuario(void){
         break;
     default:
         printf("Funcao invalida");
-        }
-    }  
-}
+            }
+        }  
+    }
+
 
 void deletar_usuario(void){
-    char id[10];
-    int i;
+    nametag[100];
     char respt;
 
     while (1)
@@ -372,7 +403,7 @@ void deletar_usuario(void){
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Id: (so numeros)                                        === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
@@ -380,48 +411,8 @@ void deletar_usuario(void){
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
 
         getchar();
 
@@ -447,8 +438,7 @@ void deletar_usuario(void){
 }
 
 void atualizar_usuario(void){
-    char id[10];
-    int i;
+    nametag[100];
     char respt;
 
     while (1)
@@ -466,7 +456,7 @@ void atualizar_usuario(void){
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Id: (so numeros)                                        === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
@@ -474,48 +464,8 @@ void atualizar_usuario(void){
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
         getchar();
 
         printf("Deseja atualizar outro usuario?(S/N)");
@@ -540,10 +490,8 @@ void atualizar_usuario(void){
 }
 
 void ler_usuario(void){
-    char id[10];
-    int i;
+    nametag[100];
     char respt;
-
     while (1)
     {
         system("clear || cls");
@@ -559,55 +507,15 @@ void ler_usuario(void){
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Id: (so numeros)                                        === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===================================================================================================== \n");
         printf(" ===================================================================================================== \n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
         getchar();
 
         printf("Deseja ler outro usuario?(S/N)");
@@ -704,8 +612,7 @@ void menuV(void){
 }
 
 void deletar_venda(void){
-    char id[10];
-    int i;
+    nametag[100];   
     char respt;
 
     while (1)
@@ -723,7 +630,7 @@ void deletar_venda(void){
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Id: (so numeros)                                        === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
@@ -731,49 +638,8 @@ void deletar_venda(void){
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
-
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
         getchar();
 
         printf("Deseja deletar outra venda?(S/N)");
@@ -798,12 +664,11 @@ void deletar_venda(void){
 }
 
 void registrar_venda(void){
-    char id[10];
-    int i;
     float preco;
     int dia, mes, ano;
     bool data_val;
     char categoria[100];
+    bool datavalida = false;
     char respt;
 
     while (1)
@@ -824,8 +689,6 @@ void registrar_venda(void){
         printf(" ===                                                                                               ===\n");
         printf(" ===                                        Informe preco:                                         ===\n");
         printf(" ===                                                                                               ===\n");
-        printf(" ===                                       Id: (so numeros)                                        ===\n");
-        printf(" ===                                                                                               ===\n");
         printf(" ===                                   Data da venda: (dd/mm/aaaa)                                 ===\n");
         printf(" ===                                                                                               ===\n");
         printf(" ===                                      Categoria do item:                                       ===\n");
@@ -839,60 +702,21 @@ void registrar_venda(void){
         printf("Informe o preco:");
         scanf("%f", &preco);
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
+       do {
+            printf("insira dia da venda: ");
+            scanf("%d", &dia);
+            getchar();
+            printf("insira mes da venda: ");
+            scanf("%d", &mes);
+            getchar();
+            printf("insira ano da venda: ");
+            scanf("%d", &ano);
+            getchar();
+            datavalida = validardata(dia, mes, ano);
+        if (!datavalida){
+            printf("Data invalida, tente novamente \n");
             }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
-
-        printf("Dia da venda:");
-        scanf("%d", &dia);
-        printf("Mes da venda:");
-        scanf("%d", &mes);
-        printf("Ano da venda:");
-        scanf("%d", &ano);
-
-        data_val = validardata(dia, mes, ano);
-        if (!data_val){
-            printf("Data invalida \n");
-        }
+        } while (!datavalida);
 
         getchar();
 
@@ -923,10 +747,8 @@ void registrar_venda(void){
 }
 
 void atualizar_venda(void){
-    char id[10];
-    int i;
     char respt;
-
+    nametag[100];
     while (1)
     {
         system("clear || cls");
@@ -943,7 +765,7 @@ void atualizar_venda(void){
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Id: (so numeros)                                        === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
@@ -951,49 +773,8 @@ void atualizar_venda(void){
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
-
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
         getchar();
 
         printf("Deseja atualizar outra venda?(S/N)");
@@ -1018,8 +799,7 @@ void atualizar_venda(void){
 }
 
 void ler_venda(void){
-    char id[10];
-    int i;
+    nametag[100];
     char respt;
 
     while (1)
@@ -1038,7 +818,7 @@ void ler_venda(void){
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                        Id: (so numeros)                                       === \n");
+        printf(" ===                                           Nametag:                                            === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
@@ -1046,49 +826,8 @@ void ler_venda(void){
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1) {
-        printf("Id: ");
-        scanf(" %11s", id);
-        getchar();
-
-        int tamanho = strlen(id);
-        int idValido = 1;
-
-        for (i = 0; i < tamanho; i++) {
-            if (id[i] == ' ') {
-                printf("Id incorreto por conter espaço em branco, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (isalpha(id[i])) {
-                printf("Id incorreto por conter letra, tente novamente \n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-                break;
-            }
-
-            if (idValido) {
-                sscanf(id, "%d", &idValido);
-                if (idValido < 0 || idValido > 999999999) {
-                    printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                    printf("Id: ");
-                    scanf(" %11s", id);
-                    getchar();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (idValido) {
-            break;
-        }
-    }
-
+        printf("Digite sua nametag: ");
+        fgets(nametag, sizeof(nametag), stdin);
         getchar();
 
         printf("Deseja ler outra venda?(S/N)");
@@ -1112,6 +851,6 @@ void ler_venda(void){
     }
 }
 
-void listar_vendas(void)
-{
+void listar_vendas(void){
+
 }
