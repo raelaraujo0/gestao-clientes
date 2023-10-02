@@ -41,6 +41,55 @@ bool validardata(int dia, int mes, int ano)
     return true;
 }
 
+bool validarnome(char* nome, char* sobrenome){
+    for (int i = 0; i < strlen(nome); i++) {
+    if (!isalpha(nome[i]) && nome[i] != ' ') {
+      return false;
+    }
+  }
+    for (int i = 0; i < strlen(sobrenome); i++) {
+    if (!isalpha(sobrenome[i]) && sobrenome[i] != ' ') {
+      return false;
+    }
+  }
+
+  if (strlen(nome) < 3){
+    return false;
+  }
+  if (strlen(sobrenome) < 3){
+    return false;
+  }
+  if (strlen(nome) == 0 || strlen(sobrenome) == 0) {
+    return false;
+  }
+  return true;
+}
+
+bool validarcpf(char* cpf){
+  if (strlen(cpf) != 11) {
+    return false;
+  }
+  for (int i = 0; i < 11; i++) {
+    if (!isdigit(cpf[i])) {
+      return false;
+    }
+  }
+  int soma = 0;
+  for (int i = 0; i < 9; i++) {
+    soma += (cpf[i] - '0') * (10 - i);
+  }
+
+  int resto = soma % 11;
+  if (resto == 10) {
+    resto = 0;
+  }
+
+  if (resto != (cpf[9] - '0')) {
+    return false;
+  }
+  return true;
+}
+
 bool validartelefone(char telefone[]){
     // pra esse validador necessitei de amparo do CHAT GPT
     char TelSemEspc[12];
@@ -63,8 +112,7 @@ bool validartelefone(char telefone[]){
 }
 
 // telas
-void sobre(void)
-{
+void sobre(void){
     system("clear || cls");
     printf("\n");
     printf(" ==================================================================\n");
@@ -84,11 +132,10 @@ void sobre(void)
     printf(" ==================================================================\n");
     printf("\n");
 
-    _sleep(3000);
+    _sleep(1000);
 }
 
-int main()
-{
+int main(){
     int escolha;
 
     system("clear || cls");
@@ -131,8 +178,8 @@ int main()
     printf(" ===================================================================================================== \n");
     printf(" ===================================================================================================== \n");
     scanf("%d", &escolha);
-    printf("\n");
     getchar();
+    printf("\n");
 
     switch (escolha)
     {
@@ -172,16 +219,18 @@ int main()
     }
 }
 
-void cadastrar_usuario(void)
-{
+void cadastrar_usuario(void){
     char telefone[100];
-    int id[100];
     int i;
-    char nome[75];
     char email[50];
+    char nome[100];
+    char sobrenome[100];
+    char cpf[12];
     char respt;
     int dia, mes, ano;
     bool datavalida = false;
+    bool cpf_valido = false;
+    bool nomevalido =false;
 
     while (1)
     {
@@ -198,9 +247,9 @@ void cadastrar_usuario(void)
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                       Nome completo:                                          === \n");
+        printf(" ===                                     Nome e sobrenome:                                         === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                      Id: (so numeros)                                         === \n");
+        printf(" ===                                    CPF: (Apenas numeros)                                      === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                 Data de Nascimento: (dd/mm/aaaa)                              === \n");
         printf(" ===                                                                                               === \n");
@@ -212,94 +261,55 @@ void cadastrar_usuario(void)
         printf(" ===================================================================================================== \n");
         printf("\n");
 
-        while (1){
-        printf("Nome Completo: ");
-        scanf( "%[A-Z a-z]", nome);
-        getchar();
+        do {
+            printf("Digite seu nome: ");
+            fgets(nome, sizeof(nome), stdin); 
+            nome[strcspn(nome, "\n")] = '\0';
+            printf("Digite seu sobrenome: ");
+            fgets(sobrenome, sizeof(sobrenome), stdin);
+            sobrenome[strcspn(nome, "\n")] = '\0';
+            nomevalido = validarnome(nome, sobrenome);
+            
+            if (!nomevalido){
+                printf("Nome ou sobrenome invalidos, tente nvamente \n");
+                printf("Digite seu nome: ");
+                fgets(nome, sizeof(nome), stdin);
+                nome[strcspn(nome, "\n")] = '\0';
+                printf("Digite seu sobrenome: ");
+                fgets(sobrenome, sizeof(sobrenome), stdin); 
+                sobrenome[strcspn(nome, "\n")] = '\0';
+                nomevalido = validarnome(nome, sobrenome);
+            }
+        } while (!nomevalido);
 
-        int tamanho = strlen(nome);
-        int nomeValido = 1;
+        do {
+            printf("Digite seu CPF: ");
+            fgets(cpf, sizeof(cpf), stdin);
+            cpf[strcspn(cpf, "\n")] = '\0';
+            cpf_valido = validarcpf(cpf);
+            if (!cpf_valido){
+                printf("CPF invalido, tente novamente \n");
+                printf("Digite seu CPF: ");
+                fgets(cpf, sizeof(cpf), stdin); getchar();
+            }
+        } while (!cpf_valido);
 
-        for (int i = 0; i < tamanho; i++){
-            if (!isalpha(nome[i]) && nome[i] != ' ') {
-            printf("O nome esta errado por conter caracter indevido ou estar vazio, tente novamente \n");
-            nomeValido = 0;
-            printf("Nome Completo: ");
-            scanf(" %[A-Z a-z]", nome);
+        do {
+            printf("insira dia de nascimento: ");
+            scanf("%d", &dia);
             getchar();
-            }
-         }
-            if (tamanho > 75 || tamanho == 0){
-                printf("O nome e invalido por conter mais de 75 caracteres ou ser uma entrada vazia.\n");
-                nomeValido = 0;
-                printf("Nome Completo: ");
-                scanf(" %[A-Z a-z]", nome);
-                getchar();
-            }
-            if (nomeValido){
-            break;
-            }
-        }
-
-    while (1) {
-    printf("Id: ");
-    scanf(" %11s", id);
-    getchar();
-
-    int tamanho = strlen(id);
-    int idValido = 1;
-
-    for (i = 0; i < tamanho; i++) {
-        if (id[i] == ' ') {
-            printf("Id incorreto por conter espaço em branco, tente novamente \n");
-            printf("Id: ");
-            scanf(" %11s", id);
+            printf("insira mes de nascimento: ");
+            scanf("%d", &mes);
             getchar();
-            break;
-        }
-
-        if (isalpha(id[i])) {
-            printf("Id incorreto por conter letra, tente novamente \n");
-            printf("Id: ");
-            scanf(" %11s", id);
+            printf("insira ano de nascimento: ");
+            scanf("%d", &ano);
             getchar();
-            break;
-        }
-
-        if (idValido) {
-            sscanf(id, "%d", &idValido);
-            if (idValido < 0 || idValido > 999999999) {
-                printf("Id incorreto por conter mais de 10 dígitos, tente novamente.\n");
-                printf("Id: ");
-                scanf(" %11s", id);
-                getchar();
-            } else {
-                break;
-            }
-        }
-    }
-
-    if (idValido) {
-        break;
-    }
-}
-
-    while(!datavalida){
-        printf("insira dia de nascimento: ");
-        scanf("%d", &dia);
-        getchar();
-        printf("insira mes de nascimento: ");
-        scanf("%d", &mes);
-        getchar();
-        printf("insira ano de nascimento: ");
-        scanf("%d", &ano);
-        getchar();
-
-        datavalida = validardata(dia, mes, ano);
+            datavalida = validardata(dia, mes, ano);
         if (!datavalida){
-            printf("Data invalida \n");
-        }
-    }
+            printf("Data invalida, tente novamente \n");
+            }
+        } while(!datavalida);
+
     
     while(1){
         printf("Telefone: ");
@@ -342,8 +352,7 @@ void cadastrar_usuario(void)
     }  
 }
 
-void deletar_usuario(void)
-{
+void deletar_usuario(void){
     char id[10];
     int i;
     char respt;
@@ -437,8 +446,7 @@ void deletar_usuario(void)
     }
 }
 
-void atualizar_usuario(void)
-{
+void atualizar_usuario(void){
     char id[10];
     int i;
     char respt;
@@ -531,8 +539,7 @@ void atualizar_usuario(void)
     }
 }
 
-void ler_usuario(void)
-{
+void ler_usuario(void){
     char id[10];
     int i;
     char respt;
@@ -623,12 +630,10 @@ void ler_usuario(void)
     }
 }
 
-void listar_usuarios(void)
-{
+void listar_usuarios(void){
 }
 
-void menuV(void)
-{
+void menuV(void){
     int escolha;
 
     system("clear || cls");
@@ -698,8 +703,7 @@ void menuV(void)
     }
 }
 
-void deletar_venda(void)
-{
+void deletar_venda(void){
     char id[10];
     int i;
     char respt;
@@ -793,8 +797,7 @@ void deletar_venda(void)
     }
 }
 
-void registrar_venda(void)
-{
+void registrar_venda(void){
     char id[10];
     int i;
     float preco;
@@ -919,9 +922,7 @@ void registrar_venda(void)
     }
 }
 
-void atualizar_venda(void)
-
-{
+void atualizar_venda(void){
     char id[10];
     int i;
     char respt;
@@ -1016,8 +1017,7 @@ void atualizar_venda(void)
     }
 }
 
-void ler_venda(void)
-{
+void ler_venda(void){
     char id[10];
     int i;
     char respt;
