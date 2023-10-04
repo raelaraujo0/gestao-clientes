@@ -24,8 +24,7 @@ void ler_venda(void);
 void listar_vendas(void);
 
 // validador
-bool validardata(int dia, int mes, int ano)
-{
+bool validardata(int dia, int mes, int ano){
     if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
         if (mes == 2 && (dia > 29 || dia < 1)){
             return false;
@@ -63,6 +62,17 @@ bool validarnome(char* nome, char* sobrenome){
     return false;
   }
   return true;
+}
+
+bool validarcategoria(const char* categoria){
+    if (strlen(categoria) < 1 || strlen(categoria) > 100){
+        return false;
+    } for (int i = 0; categoria[i] != '\0'; i++){
+        if (!isalpha(categoria[i] && categoria[i] != ' ')){
+            return false;
+        }
+    }
+    return true;
 }
 
 bool validarcpf(char* cpf){
@@ -239,6 +249,7 @@ void cadastrar_usuario(void){
     char nome[100];
     char sobrenome[100];
     char cpf[12];
+    char nametag[100];
     char respt;
     int dia, mes, ano;
     bool datavalida = false;
@@ -385,7 +396,7 @@ void cadastrar_usuario(void){
 
 
 void deletar_usuario(void){
-    nametag[100];
+    char nametag[100];
     char respt;
 
     while (1)
@@ -438,7 +449,7 @@ void deletar_usuario(void){
 }
 
 void atualizar_usuario(void){
-    nametag[100];
+    char nametag[100];
     char respt;
 
     while (1)
@@ -490,7 +501,7 @@ void atualizar_usuario(void){
 }
 
 void ler_usuario(void){
-    nametag[100];
+    char nametag[100];
     char respt;
     while (1)
     {
@@ -543,6 +554,8 @@ void listar_usuarios(void){
 
 void menuV(void){
     int escolha;
+    char nametag[100];
+    int i;
 
     system("clear || cls");
     printf("\n");
@@ -611,8 +624,94 @@ void menuV(void){
     }
 }
 
+void registrar_venda(void){
+    float preco;
+    int dia, mes, ano;
+    bool datavalida;
+    char categoria[100];
+    int i;
+    bool categoriaval = false;
+    char respt;
+
+    while (1)
+    {
+        system("clear || cls");
+        printf("\n");
+        printf(" =====================================================================================================\n");
+        printf(" =====================================================================================================\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                     == REGISTRAR VENDA ==                                     ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" =====================================================================================================\n");
+        printf(" =====================================================================================================\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                        Informe preco:                                         ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                   Data da venda: (dd/mm/aaaa)                                 ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                      Categoria do item:                                       ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" ===                                                                                               ===\n");
+        printf(" =====================================================================================================\n");
+        printf(" =====================================================================================================\n");
+        printf("\n");
+
+        printf("Informe o preco:");
+        scanf("%f", &preco); getchar();
+
+       do {
+            printf("insira dia da venda: ");
+            scanf("%d", &dia);
+            getchar();
+            printf("insira mes da venda: ");
+            scanf("%d", &mes);
+            getchar();
+            printf("insira ano da venda: ");
+            scanf("%d", &ano);
+            getchar();
+            datavalida = validardata(dia, mes, ano);
+        if (!datavalida){
+            printf("Data invalida, tente novamente \n");
+            }
+        } while (!datavalida); getchar();
+
+        do {
+            printf("Categoria da venda:");
+            scanf("%[^\n]", categoria);
+            categoria[strcspn (categoria, "\n")] = '\0';
+            if (!categoriaval){
+                printf("A categoria esta incorreta, tente novamente \n");
+            }
+        } while (!categoriaval); getchar();
+
+        printf("Deseja adicionar outra venda?(S/N)");
+        scanf(" %c", &respt);
+        getchar();
+
+        // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
+        switch (respt)
+        {
+        case 'S':
+        case 's':
+            registrar_venda();
+            break;
+        case 'N':
+        case 'n':
+            menuV();
+            break;
+        default:
+            printf("Funcao invalida");
+        }
+    }
+}
+
 void deletar_venda(void){
-    nametag[100];   
+    char nametag[100];   
     char respt;
 
     while (1)
@@ -663,92 +762,9 @@ void deletar_venda(void){
     }
 }
 
-void registrar_venda(void){
-    float preco;
-    int dia, mes, ano;
-    bool data_val;
-    char categoria[100];
-    bool datavalida = false;
-    char respt;
-
-    while (1)
-    {
-        system("clear || cls");
-        printf("\n");
-        printf(" =====================================================================================================\n");
-        printf(" =====================================================================================================\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                     == REGISTRAR VENDA ==                                     ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" =====================================================================================================\n");
-        printf(" =====================================================================================================\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                        Informe preco:                                         ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                   Data da venda: (dd/mm/aaaa)                                 ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                      Categoria do item:                                       ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" ===                                                                                               ===\n");
-        printf(" =====================================================================================================\n");
-        printf(" =====================================================================================================\n");
-        printf("\n");
-
-        printf("Informe o preco:");
-        scanf("%f", &preco);
-
-       do {
-            printf("insira dia da venda: ");
-            scanf("%d", &dia);
-            getchar();
-            printf("insira mes da venda: ");
-            scanf("%d", &mes);
-            getchar();
-            printf("insira ano da venda: ");
-            scanf("%d", &ano);
-            getchar();
-            datavalida = validardata(dia, mes, ano);
-        if (!datavalida){
-            printf("Data invalida, tente novamente \n");
-            }
-        } while (!datavalida);
-
-        getchar();
-
-        printf("Categoria da venda:");
-        scanf("%[^\n]", categoria);
-
-        getchar();
-
-        printf("Deseja adicionar outra venda?(S/N)");
-        scanf(" %c", &respt);
-        getchar();
-
-        // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
-        switch (respt)
-        {
-        case 'S':
-        case 's':
-            registrar_venda();
-            break;
-        case 'N':
-        case 'n':
-            menuV();
-            break;
-        default:
-            printf("Funcao invalida");
-        }
-    }
-}
-
 void atualizar_venda(void){
     char respt;
-    nametag[100];
+    char nametag[100];
     while (1)
     {
         system("clear || cls");
@@ -799,7 +815,7 @@ void atualizar_venda(void){
 }
 
 void ler_venda(void){
-    nametag[100];
+    char nametag[100];
     char respt;
 
     while (1)
@@ -810,7 +826,7 @@ void ler_venda(void){
         printf(" ===================================================================================================== \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
-        printf(" ===                                         == LER VENDA ==                                       === \n");
+        printf(" ===                                        == LER VENDA ==                                        === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===                                                                                               === \n");
         printf(" ===================================================================================================== \n");
