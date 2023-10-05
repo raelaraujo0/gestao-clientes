@@ -24,11 +24,14 @@ void ler_venda(void);
 void listar_vendas(void);
 
 // validador
-bool validardata(int dia, int mes, int ano){
+bool validardata(int dia, int mes, int ano){    
+    if (ano < 0 || ano > 2023 || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
+        return false;
+    }
     if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
         if (mes == 2 && (dia > 29 || dia < 1)){
             return false;
-        }
+        } 
         // É bissexto
     } else {
         if (mes == 2 && (dia > 28 || dia < 1)){
@@ -36,7 +39,6 @@ bool validardata(int dia, int mes, int ano){
         }
         // Não é bissexto
     }
-
     return true;
 }
 
@@ -65,10 +67,11 @@ bool validarnome(char* nome, char* sobrenome){
 }
 
 bool validarcategoria(const char* categoria){
-    if (strlen(categoria) < 1 || strlen(categoria) > 100){
+    if (strlen(categoria) == 0) {
         return false;
-    } for (int i = 0; categoria[i] != '\0'; i++){
-        if (!isalpha(categoria[i] && categoria[i] != ' ')){
+    }
+    for (int i = 0; categoria[i] != '\0'; i++) {
+        if (!isalpha(categoria[i])) {
             return false;
         }
     }
@@ -680,8 +683,10 @@ void registrar_venda(void){
 
         do {
             printf("Categoria da venda:");
-            scanf("%[^\n]", categoria);
+            fgets(categoria, sizeof(categoria), stdin);
             categoria[strcspn (categoria, "\n")] = '\0';
+            categoriaval = validarcategoria(categoria);
+
             if (!categoriaval){
                 printf("A categoria esta incorreta, tente novamente \n");
             }
