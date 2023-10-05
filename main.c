@@ -119,7 +119,9 @@ bool validartelefone(const char* telefone){
 bool validaremail(const char* email){
     int tamanho =strlen(email);
     bool arroba =false;
-    bool ponto =false;
+    if (tamanho == 0){
+        return false;
+    }
 
     for (int i = 0; i < tamanho; i++) {
         if (email[i] == '@') {
@@ -128,7 +130,7 @@ bool validaremail(const char* email){
             }
             arroba = true;
         }
-    }  if (tamanho == 0){
+    }   if (!arroba){
         return false;
     }
     return true;
@@ -244,12 +246,10 @@ int main(){
 
 void cadastrar_usuario(void){
     char telefone[100];
-    int i;
     char email[50];
     char nome[100];
     char sobrenome[100];
     char cpf[12];
-    char nametag[100];
     char respt;
     int dia, mes, ano;
     bool datavalida = false;
@@ -294,7 +294,7 @@ void cadastrar_usuario(void){
             nome[strcspn(nome, "\n")] = '\0';
             printf("Digite seu sobrenome: ");
             fgets(sobrenome, sizeof(sobrenome), stdin);
-            sobrenome[strcspn(nome, "\n")] = '\0';
+            sobrenome[strcspn(sobrenome, "\n")] = '\0';
             nomevalido = validarnome(nome, sobrenome);
             
             if (!nomevalido){
@@ -314,6 +314,7 @@ void cadastrar_usuario(void){
             fgets(cpf, sizeof(cpf), stdin);
             cpf[strcspn(cpf, "\n")] = '\0';
             cpf_valido = validarcpf(cpf);
+
             if (!cpf_valido){
                 printf("CPF invalido, tente novamente \n");
                 printf("Digite seu CPF: ");
@@ -332,6 +333,7 @@ void cadastrar_usuario(void){
             scanf("%d", &ano);
             getchar();
             datavalida = validardata(dia, mes, ano);
+
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
             }
@@ -367,16 +369,16 @@ void cadastrar_usuario(void){
 
         char tresdigitos[4];
         strncpy(tresdigitos, cpf, 3);
-        tresdigitos[3] =='\0';
+        tresdigitos[3] ='\0';
         char nametag[100];
         snprintf(nametag, sizeof(nametag), "%s.%s.%s", nome, sobrenome, tresdigitos);
 
-    printf("Seja bem-vindo %s\n", nome);
-    printf("Sua nametag ===>> %s guarde-a para usar em outras entradas \n", nametag);
+        printf("Seja bem-vindo %s\n\n", nome);
+        printf("Sua nametag >>> %s <<<< guarde-a para usar em outras entradas \n\n", nametag);
 
-    printf("Deseja adicionar outro usuario?(S/N)");
-    scanf(" %c", &respt);
-    getchar();
+        printf("Deseja adicionar outro usuario?(S/N)");
+        scanf(" %c", &respt);
+        getchar();
 
     // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
     switch (respt){
@@ -390,10 +392,9 @@ void cadastrar_usuario(void){
         break;
     default:
         printf("Funcao invalida");
-            }
-        }  
-    }
-
+        }
+    }  
+}
 
 void deletar_usuario(void){
     char nametag[100];
@@ -424,7 +425,7 @@ void deletar_usuario(void){
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
-
+        nametag[strcspn(nametag, "\n")] = '\0';
         getchar();
 
         printf("Deseja deletar outro usuario?(S/N)");
@@ -554,8 +555,6 @@ void listar_usuarios(void){
 
 void menuV(void){
     int escolha;
-    char nametag[100];
-    int i;
 
     system("clear || cls");
     printf("\n");
@@ -629,7 +628,6 @@ void registrar_venda(void){
     int dia, mes, ano;
     bool datavalida;
     char categoria[100];
-    int i;
     bool categoriaval = false;
     char respt;
 
