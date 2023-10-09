@@ -1,17 +1,17 @@
 #ifndef TELAS_H
 #define TELAS_H
 
-void TelaSobre();
-void TelaPrincipal();
-void Tela_CadUsu();
-void Tela_DelUsu();
-void Tela_AttUsu();
-void Tela_LerUsu();
+void TelaSobre(void);
+void TelaPrincipal(void);
+void Tela_CadUsu(void);
+void Tela_DelUsu(void);
+void Tela_AttUsu(void);
+void Tela_LerUsu(void);
 
-void Tela_MenuV();
-void Tela_RegVen();
-void Tela_DelVen();
-void Tela_AttVen();
-void Tela_LerVen();
+void Tela_MenuV(void);
+void Tela_RegVen(void);
+void Tela_DelVen(void);
+void Tela_AttVen(void);
+void Tela_LerVen(void);
 
 #endif
