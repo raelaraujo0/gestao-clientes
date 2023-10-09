@@ -4,8 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "telas.h"
-#include "clientes.h"
-#include "vendas.h"
+
 
 // funcoes usuarios
 int main();
@@ -139,10 +138,29 @@ bool validaremail(const char* email){
     return true;
 }
 
-// telas
 void sobre(void){
-    void TelaSobre();
+    system("clear || cls");
+    printf("\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                 programa desenvolvido                      ===\n");
+    printf(" ===                por Rael Araujo, aluno de                   ===\n");
+    printf(" ===                sistemas de informacao/UF                   ===\n");
+    printf(" ===                no componente PROGRAMACAO                   ===\n");
+    printf(" ===                2 periodo - JUL/DEZ - 2023                  ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf("\n");
+
+    _sleep(1000);
 }
+
 
 int main(){
     int escolha;
@@ -231,7 +249,7 @@ void cadastrar_usuario(void){
                 printf("Nome ou sobrenome invalidos, tente nvamente \n");
                 printf("Digite seu nome: ");
                 fgets(nome, sizeof(nome), stdin);
-                nome[strcspn(nome, "\n")] = '\0';
+                nome[strcspn(nome,"\n")] = '\0';
 
                 printf("Digite seu sobrenome: ");
                 fgets(sobrenome, sizeof(sobrenome), stdin); 
