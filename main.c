@@ -6,24 +6,6 @@
 #include "telas.h"
 #include "subtelas.h"
 
-
-// funcoes usuarios
-int main();
-void sobre(void);
-void cadastrar_usuario(void);
-void deletar_usuario(void);
-void atualizar_usuario(void);
-void ler_usuario(void);
-void listar_usuarios(void);
-
-// funcoes vendas
-void menuV(void);
-void registrar_venda(void);
-void deletar_venda(void);
-void atualizar_venda(void);
-void ler_venda(void);
-void listar_vendas(void);
-
 // validador
 bool validardata(int dia, int mes, int ano){    
     if (ano < 0 || ano > 2023 || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
