@@ -4,6 +4,9 @@ all: telas.o main.o
 telas.o:	telas.h
 	gcc -c telas.c
 
+subtelas.0: subtelas.h
+	gcc -c subtelas.c
+
 clean:
 	rm -rf *.o
 
