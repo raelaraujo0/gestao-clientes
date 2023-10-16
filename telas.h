@@ -1,6 +1,8 @@
 #ifndef TELAS_H
 #define TELAS_H
 
+void Sobre();
+
 void TelaSobre(void);
 void TelaPrincipal(void);
 void Tela_CadUsu(void);
