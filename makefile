@@ -7,6 +7,9 @@ telas.o:	telas.h
 subtelas.0: subtelas.h
 	gcc -c subtelas.c
 
+validadores.o:
+	gcc -o validadores.c
+
 clean:
 	rm -rf *.o
 
