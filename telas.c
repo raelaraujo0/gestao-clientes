@@ -1,6 +1,23 @@
 #include <stdio.h>
-#include "telas.h"
 
+void Sobre(void){
+        system("clear || cls")
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                 programa desenvolvido                      ===\n");
+    printf(" ===                por Rael Araujo, aluno de                   ===\n");
+    printf(" ===                sistemas de informacao/UF                   ===\n");
+    printf(" ===                no componente PROGRAMACAO                   ===\n");
+    printf(" ===                2 periodo - JUL/DEZ - 2023                  ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ===                                                            ===\n");
+    printf(" ==================================================================\n");
+    printf(" ==================================================================\n");
+}
 
 void TelaPrincipal(void){
     printf(" ===================================================================================================== \n");
