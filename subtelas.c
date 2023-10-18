@@ -1,10 +1,16 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include "subtelas.h"
+#include "validadores.h"
 
-int SubTelaCadUsu(){
+void SubTelaCadUsu(void){
     char telefone[100];
     char email[50];
     char nome[100];
     char sobrenome[100];
+    int tamanhoda_nametag = strlen(nome) + strlen(sobrenome) + strlen(tresdigitos) +3;
+    char *nametag = (char*)malloc(tamanhoda_nametag);
     char cpf[12];
     char respt;
     int dia, mes, ano;
@@ -109,6 +115,7 @@ int SubTelaCadUsu(){
         tresdigitos[3] ='\0';
         char nametag[100];
         snprintf(nametag, sizeof(nametag), "%s.%s.%s", nome, sobrenome, tresdigitos);
+        free(nametag);
 
         printf("Seja bem-vindo %s\n\n", nome);
         printf("Sua nametag >>> %s <<<< guarde-a para usar em outras entradas \n\n", nametag);
@@ -121,19 +128,18 @@ int SubTelaCadUsu(){
     switch (respt){
     case 'S':
     case 's':
-        cadastrar_usuario();
+        SubTelaCadUsu();
         break;
     case 'N':
     case 'n':
-        main();
-        break;
+        return;
     default:
         printf("Funcao invalida");
         }
     }  
 }
 
-int SubTelaDelUsu(){
+void SubTelaDelUsu(void){
     char nametag[100];
     char respt;
 
@@ -155,19 +161,18 @@ int SubTelaDelUsu(){
         {
         case 'S':
         case 's':
-            deletar_usuario();
+            SubTelaDelUsu();
             break;
         case 'N':
         case 'n':
-            main();
-            break;
+            return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
-int SubTelaAttUsu(){
+void SubTelaAttUsu(void){
     char nametag[100];
     char respt;
 
@@ -188,19 +193,18 @@ int SubTelaAttUsu(){
         {
         case 'S':
         case 's':
-            atualizar_usuario();
+            SubTelaAttUsu();
             break;
         case 'N':
         case 'n':
-            main();
-            break;
+            return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
-int SubTelaLerUsu(){
+void SubTelaLerUsu(void){
     char nametag[100];
     char respt;
     while (1)
@@ -219,20 +223,23 @@ int SubTelaLerUsu(){
         {
         case 'S':
         case 's':
-            ler_usuario();
+            SubTelaLerUsu();
             break;
         case 'N':
         case 'n':
-            main();
-            break;
+        return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
+void SubTelaListarUsu(void){
 
-int SubtelaRegVen(){
+}
+
+
+void SubTelaRegVen(void){
     float preco;
     int dia, mes, ano;
     bool datavalida;
@@ -283,19 +290,18 @@ int SubtelaRegVen(){
         {
         case 'S':
         case 's':
-            registrar_venda();
+            SubTelaRegVen();
             break;
         case 'N':
         case 'n':
-            menuV();
-            break;
+        return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
-int SubtelaDelVen(){
+void SubTelaDelVen(void){
     char nametag[100];   
     char respt;
 
@@ -316,19 +322,18 @@ int SubtelaDelVen(){
         {
         case 'S':
         case 's':
-            deletar_venda();
+            SubTelaDelVen();
             break;
         case 'N':
         case 'n':
-            menuV();
-            break;
+        return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
-int SubTelaAttVen(){
+void SubTelaAttVen(void){
     char respt;
     char nametag[100];
     while (1)
@@ -348,19 +353,18 @@ int SubTelaAttVen(){
         {
         case 'S':
         case 's':
-            atualizar_venda();
+            SubTelaAttVen();
             break;
         case 'N':
         case 'n':
-            menuV();
-            break;
+        return;
         default:
             printf("Funcao invalida");
         }
     }
 }
 
-int SubTelaLerVen(){
+void SubTelaLerVen(void){
     char nametag[100];
     char respt;
 
@@ -381,14 +385,17 @@ int SubTelaLerVen(){
         {
         case 'S':
         case 's':
-            ler_venda();
+            SubTelaLerVen();
             break;
         case 'N':
         case 'n':
-            menuV();
-            break;
+        return;
         default:
             printf("Funcao invalida");
         }
     }
+}
+
+void SubTelaListarVen(void){
+    
 }
