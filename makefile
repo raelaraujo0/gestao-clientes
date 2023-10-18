@@ -1,17 +1,22 @@
-all: telas.o main.o
-	gcc telas.o main.o -o main
+all: main
 
-telas.o:	telas.h
+main: telas.o subtelas.o validadores.o main.o
+	gcc telas.o subtelas.o validadores.o main.o -o main
+
+telas.o: telas.c telas.h
 	gcc -c telas.c
 
-subtelas.0: subtelas.h
+subtelas.o: subtelas.c subtelas.h
 	gcc -c subtelas.c
 
-validadores.o:
-	gcc -o validadores.c
+validadores.o: validadores.c validadores.h
+	gcc -c validadores.c
+
+main.o: main.c telas.h subtelas.h validadores.h
+	gcc -c main.c
 
 clean:
-	rm -rf *.o
+	rm -rf *.o main
 
-run:
+run: main
 	./main
