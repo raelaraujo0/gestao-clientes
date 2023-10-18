@@ -9,6 +9,8 @@ void SubTelaAttUsu();
 
 void SubTelaLerUsu();
 
+void SubTelaListarUsu();
+
 
 void SubTelaRegVen();
 
@@ -17,5 +19,7 @@ void SubTelaDelVen();
 void SubTelaAttVen();
 
 void SubTelaLerVen();
+
+void SubTelaListarVen();
 
 #endif
