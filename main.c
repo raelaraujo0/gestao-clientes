@@ -21,25 +21,23 @@ int main(){
     {
     case 1:
         // chamada da tela e funcoes
-        cadastrar_usuario();
+        SubTelaCadUsu();
         break;
     case 2:
         // chamada da tela e funcoes
-        deletar_usuario();
+        SubTelaDelUsu();
         break;
     case 3:
-        // chamada da tela e funcoes
-        atualizar_usuario();
+        SubTelaAttUsu();
         break;
     case 4:
-        // chamada da tela e funcoes
-        ler_usuario();
+        SubTelaLerUsu();
         break;
     case 5:
-        listar_usuarios();
+        SubTelaListarUsu();
         break;
     case 6:
-        menuV();
+        Tela_MenuV();
         break;
     case 0:
         printf("\n");
@@ -61,7 +59,7 @@ int main(){
         printf("\n");
         Tela_CadUsu();
         printf("\n");
-        SubTelaCadUsu();x
+        SubTelaCadUsu();
     }
 
     void deletar_usuario(void){
@@ -101,19 +99,19 @@ int main(){
         switch (escolha)
         {
         case 1:
-            registrar_venda();
+            SubTelaRegVen();
             break;
         case 2:
-            deletar_venda();
+            SubTelaDelVen();
             break;
         case 3:
-            atualizar_venda();
+            SubTelaAttVen();
             break;
         case 4:
-            ler_venda();
+            SubTelaLerVen();
             break;
         case 5:
-            listar_vendas();
+            SubTelaListarVen();
             break;
         case 6:
             main();
@@ -130,14 +128,14 @@ int main(){
         printf("\n");
         Tela_RegVen();
         printf("\n");
-        SubtelaRegVen();
+        SubTelaRegVen();
     }
 
     void deletar_venda(void){
         printf("\n");
         Tela_DelVen();
         printf("\n");
-        SubtelaDelVen();
+        SubTelaDelVen();
     }
 
     void atualizar_venda(void){
@@ -154,6 +152,6 @@ int main(){
         SubTelaLerVen();
     }
 
-    void listar_vendas(void){
-    }
+      void listar_vendas(void){
+      }
 }
