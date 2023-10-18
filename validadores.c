@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
 
 bool validardata(int dia, int mes, int ano){    
     if (ano < 0 || ano > 2023 || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
