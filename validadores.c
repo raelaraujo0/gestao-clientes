@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include "cbclho.h"
 
 bool validardata(int dia, int mes, int ano){    
     if (ano < 0 || ano > 2023 || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
@@ -24,25 +26,25 @@ bool validardata(int dia, int mes, int ano){
 bool validarnome(char* nome, char* sobrenome){
     for (int i = 0; i < strlen(nome); i++) {
     if (!isalpha(nome[i]) && nome[i] != ' ') {
-      return false;
+    return false;
     }
-  }
+    }
     for (int i = 0; i < strlen(sobrenome); i++) {
     if (!isalpha(sobrenome[i]) && sobrenome[i] != ' ') {
-      return false;
+        return false;
     }
-  }
+    }
 
-  if (strlen(nome) < 3){
+    if (strlen(nome) < 3){
     return false;
-  }
-  if (strlen(sobrenome) < 3){
+    }
+    if (strlen(sobrenome) < 3){
     return false;
-  }
-  if (strlen(nome) == 0 || strlen(sobrenome) == 0) {
+    }
+    if (strlen(nome) == 0 || strlen(sobrenome) == 0) {
     return false;
-  }
-  return true;
+    }
+    return true;
 }
 
 bool validarcategoria(const char* categoria){
@@ -60,21 +62,21 @@ bool validarcategoria(const char* categoria){
 bool validarcpf(char* cpf){
     if (strlen(cpf) != 11) {
     return false;
-  }
+    }
     for (int i = 0; i < 11; i++) {
         if (!isdigit(cpf[i])) {
             return false;
         }
     }
-  int soma = 0;
-  for (int i = 0; i < 9; i++) {
+    int soma = 0;
+    for (int i = 0; i < 9; i++) {
     soma += (cpf[i] - '0') * (10 - i);
-  }
-  int resto = soma % 11;
-  if (resto == 10) {
+    }
+    int resto = soma % 11;
+    if (resto == 10) {
     resto = 0;
-  }
-  return true;
+    }
+    return true;
 }
 
 bool validartelefone(const char* telefone){

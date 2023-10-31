@@ -1,16 +1,17 @@
 #ifndef VALIDADORES_H
 #define VALIDADORES_H
+#include <stdbool.h>
 
-void validardata();
+bool validardata(int dia, int mes, int ano);
 
-void validarnome();
+bool validarnome(char* nome, char* sobrenome);
 
-void validarcategoria();
+bool validarcategoria(const char* categoria);
 
-void validarcpf();
+bool validarcpf(char* cpf);
 
-void validartelefone();
+bool validartelefone(const char* telefone);
 
-void validaremail();
+bool validaremail(const char* email);
 
 #endif

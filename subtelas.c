@@ -1,30 +1,30 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include "subtelas.h"
-#include "validadores.h"
+#include <stdlib.h>
+#include "cbclho.h"
 
-void SubTelaCadUsu(void){
+void SubTelaCadUsu(){
     char telefone[100];
     char email[50];
     char nome[100];
     char sobrenome[100];
-    int tamanhoda_nametag = strlen(nome) + strlen(sobrenome) + strlen(tresdigitos) +3;
-    char *nametag = (char*)malloc(tamanhoda_nametag);
+    char nametag[400];
+    char tresdigitos[4];
     char cpf[12];
     char respt;
     int dia, mes, ano;
     bool datavalida = false;
     bool cpf_valido = false;
-    bool nomevalido =false;
-    bool telvalido =false;
+    bool nomevalido = false;
+    bool telvalido = false;
     bool emailvalido= false;
 
 
     while (1)
     {
         system("clear || cls");
-
+        Tela_CadUsu();
         do {
             printf("Digite seu nome: ");
             fgets(nome, sizeof(nome), stdin); 
@@ -91,7 +91,7 @@ void SubTelaCadUsu(void){
 
             size_t len = strlen(telefone);
             if (len > 0 && telefone[len - 1] == '\n') {
-             telefone[len - 1] = '\0';
+            telefone[len - 1] = '\0';
             }
             
             if (!telvalido){
@@ -110,12 +110,9 @@ void SubTelaCadUsu(void){
             }
         } while (!emailvalido);
 
-        char tresdigitos[4];
         strncpy(tresdigitos, cpf, 3);
         tresdigitos[3] ='\0';
-        char nametag[100];
         snprintf(nametag, sizeof(nametag), "%s.%s.%s", nome, sobrenome, tresdigitos);
-        free(nametag);
 
         printf("Seja bem-vindo %s\n\n", nome);
         printf("Sua nametag >>> %s <<<< guarde-a para usar em outras entradas \n\n", nametag);
@@ -129,7 +126,6 @@ void SubTelaCadUsu(void){
     case 'S':
     case 's':
         SubTelaCadUsu();
-        break;
     case 'N':
     case 'n':
         return;
@@ -139,13 +135,14 @@ void SubTelaCadUsu(void){
     }  
 }
 
-void SubTelaDelUsu(void){
+void SubTelaDelUsu(){
     char nametag[100];
     char respt;
 
     while (1)
     {
         system("clear || cls");
+        Tela_DelUsu();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -162,7 +159,6 @@ void SubTelaDelUsu(void){
         case 'S':
         case 's':
             SubTelaDelUsu();
-            break;
         case 'N':
         case 'n':
             return;
@@ -172,13 +168,14 @@ void SubTelaDelUsu(void){
     }
 }
 
-void SubTelaAttUsu(void){
+void SubTelaAttUsu(){
     char nametag[100];
     char respt;
 
     while (1)
     {
         system("clear || cls");
+        Tela_AttUsu();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -194,7 +191,6 @@ void SubTelaAttUsu(void){
         case 'S':
         case 's':
             SubTelaAttUsu();
-            break;
         case 'N':
         case 'n':
             return;
@@ -204,12 +200,13 @@ void SubTelaAttUsu(void){
     }
 }
 
-void SubTelaLerUsu(void){
+void SubTelaLerUsu(){
     char nametag[100];
     char respt;
     while (1)
     {
         system("clear || cls");
+        Tela_LerUsu();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -224,7 +221,6 @@ void SubTelaLerUsu(void){
         case 'S':
         case 's':
             SubTelaLerUsu();
-            break;
         case 'N':
         case 'n':
         return;
@@ -234,12 +230,12 @@ void SubTelaLerUsu(void){
     }
 }
 
-void SubTelaListarUsu(void){
+void SubTelaListarUsu(){
 
 }
 
 
-void SubTelaRegVen(void){
+void SubTelaRegVen(){
     float preco;
     int dia, mes, ano;
     bool datavalida;
@@ -250,11 +246,12 @@ void SubTelaRegVen(void){
     while (1)
     {
         system("clear || cls");
+        Tela_RegVen();
 
         printf("Informe o preco:");
         scanf("%f", &preco); getchar();
 
-       do {
+    do {
             printf("insira dia da venda: ");
             scanf("%d", &dia);
             getchar();
@@ -291,7 +288,6 @@ void SubTelaRegVen(void){
         case 'S':
         case 's':
             SubTelaRegVen();
-            break;
         case 'N':
         case 'n':
         return;
@@ -301,13 +297,14 @@ void SubTelaRegVen(void){
     }
 }
 
-void SubTelaDelVen(void){
+void SubTelaDelVen(){
     char nametag[100];   
     char respt;
 
     while (1)
     {
         system("clear || cls");
+        Tela_DelVen();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -323,7 +320,6 @@ void SubTelaDelVen(void){
         case 'S':
         case 's':
             SubTelaDelVen();
-            break;
         case 'N':
         case 'n':
         return;
@@ -333,12 +329,13 @@ void SubTelaDelVen(void){
     }
 }
 
-void SubTelaAttVen(void){
+void SubTelaAttVen(){
     char respt;
     char nametag[100];
     while (1)
     {
         system("clear || cls");
+        Tela_AttVen();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -354,7 +351,6 @@ void SubTelaAttVen(void){
         case 'S':
         case 's':
             SubTelaAttVen();
-            break;
         case 'N':
         case 'n':
         return;
@@ -364,13 +360,14 @@ void SubTelaAttVen(void){
     }
 }
 
-void SubTelaLerVen(void){
+void SubTelaLerVen(){
     char nametag[100];
     char respt;
 
     while (1)
     {
         system("clear || cls");
+        Tela_LerVen();
 
         printf("Digite sua nametag: ");
         fgets(nametag, sizeof(nametag), stdin);
@@ -386,7 +383,6 @@ void SubTelaLerVen(void){
         case 'S':
         case 's':
             SubTelaLerVen();
-            break;
         case 'N':
         case 'n':
         return;
@@ -396,6 +392,6 @@ void SubTelaLerVen(void){
     }
 }
 
-void SubTelaListarVen(void){
+void SubTelaListarVen(){
     
 }

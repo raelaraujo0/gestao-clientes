@@ -15,6 +15,9 @@ validadores.o: validadores.c validadores.h
 main.o: main.c telas.h subtelas.h validadores.h
 	gcc -c main.c
 
+subdivisoes.o: subdivisoes.c subdivisoes.h
+	gcc -c subdivisoes.c
+
 clean:
 	rm -rf *.o main
 
