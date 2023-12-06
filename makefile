@@ -1,22 +1,28 @@
 all: main
 
-main: telas.o subtelas.o validadores.o main.o
-	gcc telas.o subtelas.o validadores.o main.o -o main
+main: telas.o validadores.o main.o menuvendas.o menuusuarios.o logicausuarios.o logicavendas.o
+	gcc telas.o validadores.o main.o menuvendas.o menuusuarios.o logicausuarios.o logicavendas.o -o main
 
 telas.o: telas.c telas.h
 	gcc -c telas.c
 
-subtelas.o: subtelas.c subtelas.h
-	gcc -c subtelas.c
+logicausuarios.o: logicausuarios.c logicausuarios.h
+	gcc -c logicausuarios.c
+
+logicavendas.o: logicavendas.c logicavendas.h
+	gcc -c logicavendas.c
 
 validadores.o: validadores.c validadores.h
 	gcc -c validadores.c
 
-main.o: main.c telas.h subtelas.h validadores.h
-	gcc -c main.c
+menuvendas.o: menuvendas.c menuvendas.h
+	gcc -c menuvendas.c
 
-subdivisoes.o: subdivisoes.c subdivisoes.h
-	gcc -c subdivisoes.c
+menuusuarios.o: menuusuarios.c menuusuarios.c
+	gcc -c menuusuarios.c
+
+main.o: main.c telas.h validadores.h menuusuarios.h menuvendas.h logicausuarios.h logicavendas.h
+	gcc -c main.c
 
 clean:
 	rm -rf *.o main

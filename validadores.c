@@ -1,12 +1,12 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include "cbclho.h"
+#include <stdbool.h>
 
-bool validardata(int dia, int mes, int ano){    
-    if (ano < 0 || ano > 2023 || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
+int validardata(int dia, int mes, int ano){    
+    if (ano < 0 && ano > 2023 && mes < 1 && mes > 12 && dia < 1 && dia > 31) {
         return false;
     }
     if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
@@ -23,31 +23,31 @@ bool validardata(int dia, int mes, int ano){
     return true;
 }
 
-bool validarnome(char* nome, char* sobrenome){
+int validarnome(char* nome, char* sobrenome){
     for (int i = 0; i < strlen(nome); i++) {
     if (!isalpha(nome[i]) && nome[i] != ' ') {
     return false;
-    }
+        }
     }
     for (int i = 0; i < strlen(sobrenome); i++) {
     if (!isalpha(sobrenome[i]) && sobrenome[i] != ' ') {
         return false;
-    }
+        }
     }
 
     if (strlen(nome) < 3){
     return false;
-    }
+        }
     if (strlen(sobrenome) < 3){
     return false;
-    }
+        }
     if (strlen(nome) == 0 || strlen(sobrenome) == 0) {
     return false;
-    }
+        }
     return true;
 }
 
-bool validarcategoria(const char* categoria){
+int validarcategoria(const char* categoria){
     if (strlen(categoria) == 0) {
         return false;
     }
@@ -59,7 +59,7 @@ bool validarcategoria(const char* categoria){
     return true;
 }
 
-bool validarcpf(char* cpf){
+int validarcpf(char* cpf){
     if (strlen(cpf) != 11) {
     return false;
     }
@@ -79,7 +79,7 @@ bool validarcpf(char* cpf){
     return true;
 }
 
-bool validartelefone(const char* telefone){
+int validartelefone(const char* telefone){
     // pra esse validador necessitei de amparo do CHAT GPT
     char telesemespaco[12];
     int tamanho = 0;
@@ -99,7 +99,7 @@ bool validartelefone(const char* telefone){
     return true;
 }
 
-bool validaremail(const char* email){
+int validaremail(const char* email){
     int tamanho =strlen(email);
     bool arroba =false;
     if (tamanho == 0){
