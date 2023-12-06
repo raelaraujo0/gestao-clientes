@@ -4,14 +4,6 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
-typedef struct venda Venda;
-struct venda{
-    float preco[1000];
-    int dia[3], mes[3], ano[5];
-    char categoria[100];
-    char tag[450];
-};
-
 Venda* SubTelaRegVen()
 {
     Venda *venda;
@@ -91,7 +83,6 @@ void SubTelaDelVen(Venda *venda)
 {
     char line[255];  
     char respt;
-    Venda venda;
     char tag;
 
     while (1)
@@ -113,6 +104,7 @@ void SubTelaDelVen(Venda *venda)
         fclose(arquivovenda);
         fclose(novoarquivovenda);
 
+        // exclusao fisica do arquivo de vendas
         remove("vendas.txt");
         rename("novoarquivovendas.txt", "vendas.txt");
 
