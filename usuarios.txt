@@ -1,0 +1,4 @@
+Nome e sobrenome: Rael Araujo, CPF: 70627336442, Data de nascimento: 27/7/2003, Telefone: 84992259693, Email: rael@gmail.com, Senha: qualquer
+
+Nome e sobrenome: Ana Sophia, CPF: 70627346405, Data de nascimento: 18/6/2004, Telefone: 84991887410, Email: sophia@gmail.com, Senha: romeu
+
