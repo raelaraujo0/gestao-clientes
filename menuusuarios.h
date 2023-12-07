@@ -3,5 +3,6 @@
 
 void pausa();
 void menu_principal();
+void opcoeslistagens();
 
 #endif

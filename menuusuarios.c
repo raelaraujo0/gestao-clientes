@@ -58,8 +58,7 @@ void menu_principal(void){
             opcoeslistagens(); break;
 
         case 6:
-            Tela_Login(); break;
-
+            Login();
         case 0:
             system("clear || cls");
             Sobre();

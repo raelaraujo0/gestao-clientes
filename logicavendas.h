@@ -3,10 +3,10 @@
 
 typedef struct venda Venda;
 struct venda{
-    float preco[1000];
-    int dia[3], mes[3], ano[5];
-    char categoria[100];
-    char tag[450];
+    float preco[50];
+    int dia[2], mes[2], ano[4];
+    char categoria[20];
+    char tag[20];
 };
 
 Venda* SubTelaRegVen(void);

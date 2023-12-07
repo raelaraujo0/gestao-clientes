@@ -3,13 +3,13 @@
 
 typedef struct usuario Usuario;
 struct usuario{
-    char telefone[100];
-    char email[50];
-    char nome[100];
-    char sobrenome[100];
+    char telefone[11];
+    char email[20];
+    char nome[15];
+    char sobrenome[15];
     char cpf[12];
-    int dia[3], mes[3], ano[5];
-    char senha[250];
+    int dia[2], mes[2], ano[4];
+    char senha[50];
     int ativo;
 };
 
