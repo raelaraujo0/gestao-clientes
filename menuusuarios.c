@@ -2,9 +2,15 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
-void pausa() {
+void pausa(){
     printf("Pressione Enter para voltar");
     while (getchar() != '\n');
+}
+
+void limparBuffer()
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void opcoeslistagens(){
@@ -14,15 +20,16 @@ void opcoeslistagens(){
         system("clear || cls");
         Tela_Listagem();
 
-        scanf("%d", &escolha); getchar();
+        scanf("%d", &escolha); limparBuffer();
         switch(escolha){
             case 1:
-            SubTelaListarUsu(); 
+            SubTelaListarUsu(); break;
 
             case 2:
-            listagem_por_nome();
+            listagem_alf(); break;
 
-            case 0:  menu_principal(); break;
+            case 0:  
+                menu_principal(); break;
 
             default:
                 printf("Opcao invalida \n");
@@ -33,12 +40,13 @@ void opcoeslistagens(){
 
 void menu_principal(void){
     int escolha;
+    int n = 7;
     do{
-        system("pause");
+        system("clear || cls");
         TelaPrincipal();
 
         scanf("%d", &escolha);
-        getchar();
+        limparBuffer();
 
         switch (escolha)
         {
@@ -58,7 +66,7 @@ void menu_principal(void){
             opcoeslistagens(); break;
 
         case 6:
-            Login();
+            menuVendas();
         case 0:
             system("clear || cls");
             Sobre();
@@ -68,5 +76,5 @@ void menu_principal(void){
             printf("opcao invalida,tente novamente \n");
             continue;
         }
-    } while (escolha != '0');
+    } while (escolha != 'n' || 'n+1');
 }

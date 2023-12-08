@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
- Usuario* SubTelaCadUsu(void)
+Usuario* SubTelaCadUsu(void)
 {
     Usuario *usuario;
     usuario = (Usuario*)malloc(sizeof(Usuario));
@@ -17,7 +17,7 @@
     bool emailvalido = false;
 
     FILE *arquivousuarios;
-    arquivousuarios = fopen("usuarios.txt", "a");
+    arquivousuarios = fopen("usuarios.dat", "a");
     if (arquivousuarios == NULL){
         printf("erro");
         exit(1);
@@ -29,11 +29,11 @@
 
         do {
             printf("Digite seu nome: ");
-            fgets(usuario->nome, sizeof(usuario->nome), stdin);
+            scanf("%15s", usuario->nome);
             usuario->nome[strcspn(usuario->nome, "\n")] = '\0';
 
             printf("Digite seu sobrenome: ");
-            fgets(usuario->sobrenome, sizeof(usuario->sobrenome), stdin);
+            scanf("%15s", usuario->sobrenome);
             usuario->sobrenome[strcspn(usuario->sobrenome, "\n")] = '\0';
 
             nomevalido = validarnome(usuario->nome, usuario->sobrenome);
@@ -45,24 +45,25 @@
 
         do {
             printf("Digite seu CPF: ");
-            fgets(usuario->cpf, sizeof(usuario->cpf), stdin);
+            scanf("%11s", usuario->cpf);
             cpf_valido = validarcpf(usuario->cpf);
+            limparBuffer();
 
             if (!cpf_valido) {
-                printf("CPF inválido, tente novamente.\n");
+                printf("CPF invalido, tente novamente.\n");
             }
             } while (!cpf_valido);
 
         do {
             printf("insira dia do nascimento: ");
-            scanf("%d", &usuario->dia);
-            getchar();
+            scanf("%2s", &usuario->dia);
+            limparBuffer();
             printf("insira mes da nascimento: ");
-            scanf("%d", &usuario->mes);
-            getchar();
+            scanf("%2s", &usuario->mes);
+            limparBuffer();
             printf("insira ano da nascimento: ");
-            scanf("%d", &usuario->ano);
-            getchar();
+            scanf("%4s", &usuario->ano);
+            limparBuffer();
 
             datavalida = validardata(usuario->dia, usuario->mes, usuario->ano);
 
@@ -74,7 +75,6 @@
         do {
             printf("Telefone: ");
             fgets(usuario->telefone, sizeof(usuario->telefone), stdin);
-            usuario->telefone[strcspn(usuario->telefone, "\n")] = '\0';
 
             telvalido = validartelefone(usuario->telefone);
 
@@ -85,28 +85,26 @@
 
         do {
             printf("Email: ");
-            fgets(usuario->email, sizeof(usuario->email), stdin);
-            usuario->email[strcspn(usuario->email, "\n")] = '\0';
+            scanf("%25s", usuario->email);
             emailvalido = validaremail(usuario->email);
-
             if (!emailvalido) {
-                printf("Email inválido, tente novamente.\n");
+                printf("Email invalido, tente novamente.\n");
             }
             } while (!emailvalido);
 
             printf("Crie uma senha: ");
-            fgets(usuario->senha, sizeof(usuario->senha), stdin);
+            scanf("%50s", usuario->senha);
 
         free(usuario);
 
         printf("Seja bem-vindo %s\n", usuario->nome);
 
-        fprintf(arquivousuarios, "Nome e sobrenome: %s %s, CPF: %s, Data de nascimento: %d/%d/%d, Telefone: %s, Email: %s, Senha: %s\n", usuario->nome, usuario->sobrenome, usuario->cpf, usuario->dia[0], usuario->mes[0], usuario->ano[0], usuario->telefone, usuario->email, usuario->senha);
+        fprintf(arquivousuarios, "Nome e sobrenome: %s %s, CPF: %s, Data de nascimento: %s/%s/%s, Telefone: %s, Email: %s, Senha: %s\n", usuario->nome, usuario->sobrenome, usuario->cpf, usuario->dia, usuario->mes, usuario->ano, usuario->telefone, usuario->email, usuario->senha);
         fclose(arquivousuarios);
 
         printf("Deseja adicionar outro usuario? (S/N)");
         scanf(" %c", &respt);
-        getchar();
+        limparBuffer();
 
         // Função de loop para caso queira fazer a operação novamente, voltar à função, senão ir ao menu principal.
         switch (respt) {
@@ -122,69 +120,129 @@
     }
 }
 
-void SubTelaAttUsu(Usuario *usuario)
+void SubTelaAttUsu(void)
 {
+    Usuario *usuario_att;
     char cpf;
     char respt;
 
-    while(1){
-    system("clear || cls");
-    Tela_AttUsu();
+    bool datavalida = false;
+    bool cpf_valido = false;
+    bool nomevalido = false;
+    bool telvalido = false;
+    bool emailvalido = false;
 
-    FILE* arquivousuarios = fopen("usuarios.txt", "r+");
-    if (arquivousuarios == NULL) {
-        printf("Erro\n");
-        return;
-    }
-    int encontrado = 0;
-    while (fscanf(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1) {
-        if (strcmp(usuario->cpf, cpf) == 0) {
-            encontrado = 1;
-            break;
+    while (1)
+    {
+        system("clear || cls");
+        Tela_AttUsu();
+
+        FILE* arquivousuarios = fopen("usuarios.dat", "rb+");
+        if (arquivousuarios == NULL)
+        {
+            printf("Erro\n");
+            return;
         }
-    }
 
-    if (!encontrado) {
-        printf("Usuario nao encontrado.\n");
-        fclose(arquivousuarios);
-        return;
-    }
+        int encontrado = 0;
 
-    fseek(arquivousuarios, -sizeof(Usuario), SEEK_CUR);
+        printf("Digite o CPF: ");
+        scanf("%11s", cpf);
+        limparBuffer();
 
-    printf("Digite o novo nome: ");
-    fgets(usuario->nome, sizeof(usuario->nome), stdin);
+        while (fread(&usuario_att, sizeof(Usuario), 1, arquivousuarios) == 1){
+            if (strcmp(usuario_att->cpf, cpf) == 0)
+            {
+                encontrado = 1;
+                break;
+            }
+        }
 
-    printf("Digite o novo sobrenome: ");
-    fgets(usuario->sobrenome, sizeof(usuario->sobrenome), stdin);
-
-    printf("Digite o novo CPF: ");
-    fgets(usuario->cpf, sizeof(usuario->cpf), stdin);
-
-    printf("Digite o novo dia de nascimento: ");
-    scanf("%d", &usuario->dia[0]); getchar();
-
-    printf("Digite o novo mes de nascimento: ");
-    scanf("%d", &usuario->mes[0]); getchar();
-
-    printf("Digite o novo ano de nascimento: ");
-    scanf("%d", &usuario->ano[0]);  getchar();
-
-    printf("Digite o novo telefone: ");
-    fgets(usuario->telefone, sizeof(usuario->telefone), stdin);
-
-    printf("Digite o novo email: ");
-    fgets(usuario->email, sizeof(usuario->email), stdin);
+        if (!encontrado)
+        {
+            printf("Usuario nao encontrado\n");
+            fclose(arquivousuarios);
+            return;
+        }
 
     fseek(arquivousuarios, -sizeof(Usuario), SEEK_CUR);
-    fwrite(&usuario, sizeof(Usuario), 1, arquivousuarios);
+
+    do {
+            printf("Digite seu nome: ");
+            scanf("%14s", usuario_att->nome);
+            usuario_att->nome[strcspn(usuario_att->nome, "\n")] = '\0';
+
+            printf("Digite seu sobrenome: ");
+            scanf("%14s", usuario_att->sobrenome);
+            usuario_att->sobrenome[strcspn(usuario_att->sobrenome, "\n")] = '\0';
+
+            nomevalido = validarnome(usuario_att->nome, usuario_att->sobrenome);
+
+            if (!nomevalido) {
+                printf("Nome ou sobrenome invalidos, tente novamente.\n");
+            }
+            } while (!nomevalido);
+
+        do {
+            printf("Digite seu CPF: ");
+            scanf("%12s", usuario_att->cpf);
+            cpf_valido = validarcpf(usuario_att->cpf);
+            limparBuffer();
+
+            if (!cpf_valido) {
+                printf("CPF invalido, tente novamente.\n");
+            }
+            } while (!cpf_valido);
+
+        do {
+            printf("insira dia do nascimento: ");
+            scanf("%s", &usuario_att->dia);
+            limparBuffer();
+            printf("insira mes da nascimento: ");
+            scanf("%s", &usuario_att->mes);
+            limparBuffer();
+            printf("insira ano da nascimento: ");
+            scanf("%s", &usuario_att->ano);
+            limparBuffer();
+
+            datavalida = validardata(usuario_att->dia, usuario_att->mes, usuario_att->ano);
+
+            if (!datavalida) {
+                printf("Data invalida, tente novamente.\n");
+            }
+            } while (!datavalida);
+
+        do {
+            printf("Telefone: ");
+            scanf("%s", usuario_att->telefone);
+            usuario_att->telefone[strcspn(usuario_att->telefone, "\n")] = '\0';
+
+            telvalido = validartelefone(usuario_att->telefone);
+
+            if (!telvalido) {
+                printf("Telefone invalido, tente novamente\n");
+            }
+            } while (!telvalido);
+
+        do {
+            printf("Email: ");
+            fscanf("%s", usuario_att->email);
+            usuario_att->email[strcspn(usuario_att->email, "\n")] = '\0';
+            emailvalido = validaremail(usuario_att->email);
+            if (!emailvalido) {
+                printf("Email invalido, tente novamente.\n");
+            }
+            } while (!emailvalido);
+
+    fseek(arquivousuarios, -sizeof(Usuario), SEEK_CUR);
+    fwrite(&usuario_att, sizeof(Usuario), 1, arquivousuarios);
 
     fclose(arquivousuarios);
 
     printf("Usuario com CPF %s atualizado\n", cpf);
 
     printf("Deseja atualizar outro usuario? (S/N)");
-    scanf("%c", &respt); getchar();
+    scanf("%c", &respt); limparBuffer();
 
     switch (respt){
     case 'S':
@@ -199,13 +257,15 @@ void SubTelaAttUsu(Usuario *usuario)
     }
 }
 
-void SubTelaLerUsu(Usuario *usuario)
+void SubTelaLerUsu(void)
 {
+    Usuario usuario;
+
     char cpf[12];
     char respt;
     bool found = false;
 
-    FILE *arquivousuarios = fopen("usuarios.txt", "r");
+    FILE *arquivousuarios = fopen("usuarios.dat", "rb");
     if (arquivousuarios == NULL)
     {
         printf("Erro\n");
@@ -219,18 +279,17 @@ void SubTelaLerUsu(Usuario *usuario)
 
         printf("Digite seu cpf: ");
         scanf(" %s", cpf);
-        getchar();
+        limparBuffer();
 
-        while (fscanf(usuario, sizeof(Usuario), 1, arquivousuarios) == 1)
-        {
-            if (strcmp(usuario->cpf, cpf) == 0)
+        while (fread(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1){
+            if (strcmp(usuario.cpf, cpf) == 0)
             {
                 found = true;
-                printf("Nome: %s %s\n", usuario->nome, usuario->sobrenome);
-                printf("CPF: %s\n", usuario->cpf);
-                printf("Data de nascimento:  %d/%d/%d\n", usuario->dia, usuario->mes, usuario->ano);
-                printf("Telefone: %s\n", usuario->telefone);
-                printf("Email: %s\n", usuario->email);
+                printf("Nome: %s %s\n", usuario.nome, usuario.sobrenome);
+                printf("CPF: %s\n", usuario.cpf);
+                printf("Data de nascimento:  %s/%s/%s\n", usuario.dia, usuario.mes, usuario.ano);
+                printf("Telefone: %s\n", usuario.telefone);
+                printf("Email: %s\n", usuario.email);
                 break;
             }
         }
@@ -242,7 +301,7 @@ void SubTelaLerUsu(Usuario *usuario)
 
         printf("Deseja procurar outro usuario? (S/N) ");
         scanf(" %c", &respt);
-        getchar();
+        limparBuffer();
 
         if (respt == 'N' || respt == 'n')
         {
@@ -256,23 +315,25 @@ void SubTelaLerUsu(Usuario *usuario)
     fclose(arquivousuarios);
 }
 
-void SubTelaDelUsu(Usuario *usuario)
+void SubTelaDelUsu(void)
 {   
+    Usuario usuario;
     char cpf[12];
     char respt;
+    char respt2;
     while (1)
     {
         system("clear || cls");
         Tela_DelUsu();
 
         printf("Digite seu cpf: (somente numeros) ");
-        scanf("%s", cpf);
+        scanf("%s", cpf); limparBuffer();
 
-        FILE* arquivousuarios = fopen("usuarios.txt", "r+");
+        FILE* arquivousuarios = fopen("usuarios.dat", "rb+");
 
-            while (fscanf(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1) {
-                if (strcmp(usuario->cpf, cpf) == 0) {
-                    usuario->ativo = 0; // marca usuario como ausente
+            while (fread(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1) {
+                if (strcmp(usuario.cpf, cpf) == 0) {
+                    usuario.ativo = 0; // marca usuario como ausente
                     fseek(arquivousuarios, -sizeof(Usuario), SEEK_CUR);
                     fwrite(&usuario, sizeof(Usuario), 1, arquivousuarios);
                     break;
@@ -281,23 +342,23 @@ void SubTelaDelUsu(Usuario *usuario)
 
         fclose(arquivousuarios);
 
-    if (usuario->ativo == 0){
+    if (usuario.ativo == 0){
             printf("Deseja deletar este usuario? (S/N)");
-            scanf(" %c", &respt);
-            getchar();
+            scanf(" %c", &respt2);
+            limparBuffer();
 
-            if (respt == 'S' || respt == 's') {
+            if (respt2 == 'S' || respt2 == 's') {
                 printf("Usuario marcado como inativo\n");
                 menu_principal();
                 break;
             } else {
-                printf("Operação cancelada\n");
+                printf("deu errado po\n");
             }
         } else {
             printf("Usuario nao encontrado\n");
 
     printf("Deseja deletar outro usuario? (S/N)");
-    scanf("%c", &respt); getchar();
+    scanf("%c", &respt); limparBuffer();
 
     switch (respt){
     case 'S':
@@ -313,16 +374,18 @@ void SubTelaDelUsu(Usuario *usuario)
     }
 }
 
-void SubTelaListarUsu(Usuario *usuario)
+void SubTelaListarUsu(void)
 {
-    FILE* arquivousuarios = fopen("usuarios.txt", "r"); 
+    Usuario usuario;
+
+    FILE* arquivousuarios = fopen("usuarios.dat", "rb"); 
     printf("Lista de usuarios:\n");
-    while(fscanf(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1){
-        printf("Nome: %s %s\n", usuario->nome, usuario->sobrenome);
-        printf("CPF: %s\n", usuario->cpf);
-        printf("Data de nascimento:  %d/%d/%d\n", usuario->dia, usuario->mes, usuario->ano);
-        printf("Telefone: %s\n", usuario->telefone);
-        printf("Email: %s\n", usuario->email);
+    while(fread(&usuario, sizeof(Usuario), 1, arquivousuarios) == 1){
+        printf("Nome: %s %s\n", usuario.nome, usuario.sobrenome);
+        printf("CPF: %s\n", usuario.cpf);
+        printf("Data de nascimento:  %s/%s/%s\n", usuario.dia, usuario.mes, usuario.ano);
+        printf("Telefone: %s\n", usuario.telefone);
+        printf("Email: %s\n", usuario.email);
     }if(arquivousuarios == NULL){
         printf("erro");
         return;
@@ -331,23 +394,38 @@ void SubTelaListarUsu(Usuario *usuario)
     fclose(arquivousuarios);
 }
 
-void listagem_por_nome(Usuario *usuario)
+void listagem_alf(void)
 {
-    FILE* arquivousuarios = fopen("usuarios.txt", "r");
-
-    printf("Lista de usuarios pelo seu nome:\n");
-    while (1) {
-        if (fscanf(arquivousuarios, "Nome:", usuario->nome) != EOF){
-            printf("Nome: %s\n", usuario->nome);
-        } else {
-            break;
-        }
+    FILE* arquivousuarios = fopen("usuarios.dat", "rb");
+    if (arquivousuarios == NULL)
+    {
+        printf("Erro \n");
+        return;
     }
+
+    fseek(arquivousuarios, 0, SEEK_END);
+    long tamanho_arquivo = ftell(arquivousuarios);
+    rewind(arquivousuarios);
+
+    int num_usuarios = tamanho_arquivo / sizeof(Usuario);
+    Usuario* usuarios = (Usuario*)malloc(num_usuarios * sizeof(Usuario));
+
+    fread(usuarios, sizeof(Usuario), num_usuarios, arquivousuarios);
+    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
+
+    printf("Lista de usuarios em ordem alfabetica:\n");
+    for (int i = 0; i < num_usuarios; i++)
+    {
+        printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+    }
+
+    free(usuarios);
     fclose(arquivousuarios);
 }
 
-void Login(Usuario *usuario)
+void Login(void)
 {
+    Usuario* usuario;
     char senha[50];
     char cpf[12];
     while (1)
@@ -357,16 +435,16 @@ void Login(Usuario *usuario)
 
         printf("Digite seu cpf: ");
         scanf("%s", cpf); 
-        getchar();
+        limparBuffer();
 
         printf("Digite sua senha: ");
         scanf("%s", senha); 
-        getchar();
+        limparBuffer();
 
-        FILE* arquivousuarios = fopen("usuarios.txt", "r");
+        FILE* arquivousuarios = fopen("usuarios.dat", "r");
         Usuario usuario_encontrado;
         int encontrado = 0;
-        while (fscanf(arquivousuarios, "CPF: %s, Senha: %s\n",
+        while (fread(arquivousuarios, "CPF: %s, Senha: %s\n",
             usuario_encontrado.cpf, usuario_encontrado.senha) != EOF)
         {
             if (strcmp(usuario->cpf, usuario_encontrado.cpf) == 0 && strcmp(usuario->senha, usuario_encontrado.senha) == 0)
@@ -386,7 +464,7 @@ void Login(Usuario *usuario)
             printf("Usuario nao encontrado. Deseja cadastrar um novo usuario? (S/N)\n");
             char respt;
             scanf(" %c", &respt);
-            getchar();
+            limparBuffer();
 
             if (respt == 'S' || respt == 's')
             {

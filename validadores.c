@@ -118,3 +118,8 @@ int validaremail(const char* email){
     }
     return true;
 }
+
+int comparador(const void* a, const void* b)
+{
+    return strcmp(((Usuario*)a)->nome, ((Usuario*)b)->nome);
+}

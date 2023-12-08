@@ -18,5 +18,6 @@ void Tela_RegVen(void);
 void Tela_DelVen(void);
 void Tela_AttVen(void);
 void Tela_LerVen(void);
+void ListagemCategoria(void);
 
 #endif
