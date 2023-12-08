@@ -48,7 +48,6 @@ Venda* SubTelaRegVen()
         do {
             printf("Categoria da venda:");
             fgets(venda->categoria, sizeof(venda->categoria), stdin);
-            venda->categoria[strcspn (venda->categoria, "\n")] = '\0';
             categoriaval = validarcategoria(venda->categoria);
 
             if (!categoriaval){
@@ -217,7 +216,7 @@ void SubTelaAttVen(void)
             } while (!datavalida); limparBuffer();
 
         arquivovenda = fopen("vendas.dat", "w");
-        fprintf(arquivovenda, "%s;%s;%s/%s/%s;%s", vendaatt->categoria, vendaatt->preco, vendaatt->dia, vendaatt->mes, vendaatt->ano, vendaatt->tag);
+        fprintf(arquivovenda, "Preço: %s, Data: %s/%s/%s, Categoria: %s, Tag: %s\n", vendaatt->preco, vendaatt->dia, vendaatt->mes, vendaatt->ano, vendaatt->categoria, vendaatt->tag);
         fclose(arquivovenda);
 
         printf("Deseja atualizar outra venda?(S/N)");

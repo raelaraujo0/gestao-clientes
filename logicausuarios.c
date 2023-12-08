@@ -30,11 +30,9 @@ Usuario* SubTelaCadUsu(void)
         do {
             printf("Digite seu nome: ");
             scanf("%14s", usuario->nome);
-            usuario->nome[strcspn(usuario->nome, "\n")] = '\0';
 
             printf("Digite seu sobrenome: ");
             scanf("%14s", usuario->sobrenome);
-            usuario->sobrenome[strcspn(usuario->sobrenome, "\n")] = '\0';
 
             nomevalido = validarnome(usuario->nome, usuario->sobrenome);
 
@@ -44,7 +42,7 @@ Usuario* SubTelaCadUsu(void)
             } while (!nomevalido);
 
         do {
-            printf("Digite seu CPF: ");
+            printf("Digite seu CPF: (apenas numeros) ");
             scanf("%11s", usuario->cpf);
             cpf_valido = validarcpf(usuario->cpf);
             limparBuffer();
@@ -73,7 +71,7 @@ Usuario* SubTelaCadUsu(void)
             } while (!datavalida);
 
         do {
-            printf("Telefone: ");
+            printf("Telefone: (apenas numeros)");
             fgets(usuario->telefone, sizeof(usuario->telefone), stdin);
 
             telvalido = validartelefone(usuario->telefone);
@@ -84,7 +82,7 @@ Usuario* SubTelaCadUsu(void)
             } while (!telvalido);
 
         do {
-            printf("Email: ");
+            printf("Email: (deve conter arroba)");
             scanf("%25s", usuario->email);
             emailvalido = validaremail(usuario->email);
             if (!emailvalido) {
