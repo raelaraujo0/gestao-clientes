@@ -29,11 +29,11 @@ Usuario* SubTelaCadUsu(void)
 
         do {
             printf("Digite seu nome: ");
-            scanf("%15s", usuario->nome);
+            scanf("%14s", usuario->nome);
             usuario->nome[strcspn(usuario->nome, "\n")] = '\0';
 
             printf("Digite seu sobrenome: ");
-            scanf("%15s", usuario->sobrenome);
+            scanf("%14s", usuario->sobrenome);
             usuario->sobrenome[strcspn(usuario->sobrenome, "\n")] = '\0';
 
             nomevalido = validarnome(usuario->nome, usuario->sobrenome);
@@ -56,13 +56,13 @@ Usuario* SubTelaCadUsu(void)
 
         do {
             printf("insira dia do nascimento: ");
-            scanf("%2s", &usuario->dia);
+            fgets(usuario->dia , sizeof(usuario->dia), stdin);
             limparBuffer();
             printf("insira mes da nascimento: ");
-            scanf("%2s", &usuario->mes);
+            fgets(usuario->mes , sizeof(usuario->mes), stdin);
             limparBuffer();
             printf("insira ano da nascimento: ");
-            scanf("%4s", &usuario->ano);
+            fgets(usuario->ano , sizeof(usuario->ano), stdin);
             limparBuffer();
 
             datavalida = validardata(usuario->dia, usuario->mes, usuario->ano);
@@ -411,7 +411,7 @@ void listagem_alf(void)
     Usuario* usuarios = (Usuario*)malloc(num_usuarios * sizeof(Usuario));
 
     fread(usuarios, sizeof(Usuario), num_usuarios, arquivousuarios);
-    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador());
+    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
 
     printf("Lista de usuarios em ordem alfabetica:\n");
     for (int i = 0; i < num_usuarios; i++)
@@ -422,6 +422,7 @@ void listagem_alf(void)
     free(usuarios);
     fclose(arquivousuarios);
 }
+
 
 void Login(void)
 {

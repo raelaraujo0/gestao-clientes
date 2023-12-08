@@ -6,10 +6,10 @@ struct usuario{
     char nome[15];
     char sobrenome[15];
     char cpf[12];
-    char dia[2], mes[2], ano[4];
+    char dia[3], mes[3], ano[5];
     char telefone[12];
     char email[25];
-    char senha[50];
+    char senha[30];
     int ativo;
 };
 

@@ -10,6 +10,24 @@ int validardata(char* dia, char* mes, char* ano)
     int ano_int;
     sscanf(ano, "%d", &ano_int);
 
+    for(int i = 0; i< strlen(dia); i++){
+        if(!isdigit(dia[i]) && dia[i] != ' '){
+            return false;
+        }
+    }
+
+    for(int i = 0; i< strlen(mes); i++){
+        if(!isdigit(mes[i]) && mes[i] != ' '){
+            return false;
+        }
+    }
+
+    for(int i = 0; i< strlen(ano); i++){
+        if(!isdigit(ano[i]) && ano[i] != ' '){
+            return false;
+        }
+    }
+
     if (ano_int < 0 && ano_int > 2023 && mes < 1 && mes > 12 && dia < 1 && dia > 31) {
         return false;
     }

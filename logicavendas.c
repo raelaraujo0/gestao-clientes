@@ -30,14 +30,15 @@ Venda* SubTelaRegVen()
 
     do {
         printf("insira dia da venda: ");
-        scanf("%s", &venda->dia);
+        fgets(venda->dia , sizeof(venda->dia), stdin);
         limparBuffer();
         printf("insira mes da venda: ");
-        scanf("%s", &venda->mes);
+        fgets(venda->mes , sizeof(venda->mes), stdin);
         limparBuffer();
         printf("insira ano da venda: ");
-        scanf("%s", &venda->ano);
+        fgets(venda->ano , sizeof(venda->ano), stdin);
         limparBuffer();
+
         datavalida = validardata(venda->dia, venda->mes, venda->ano);
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
@@ -200,15 +201,15 @@ void SubTelaAttVen(void)
         scanf("%s", vendaatt->preco); limparBuffer();
 
         do {
-        printf("insira dia da venda: ");
-        scanf("%s", &vendaatt->dia);
-        limparBuffer();
-        printf("insira mes da venda: ");
-        scanf("%s", &vendaatt->mes);
-        limparBuffer();
-        printf("insira ano da venda: ");
-        scanf("%s", &vendaatt->ano);
-        limparBuffer();
+            printf("insira dia da venda: ");
+            fgets(vendaatt->dia , sizeof(vendaatt->dia), stdin);
+            limparBuffer();
+            printf("insira mes da vendaatt: ");
+            fgets(vendaatt->mes , sizeof(vendaatt->mes), stdin);
+            limparBuffer();
+            printf("insira ano da vendaatt: ");
+            fgets(vendaatt->ano , sizeof(vendaatt->ano), stdin);
+            limparBuffer();
         datavalida = validardata(vendaatt->dia, vendaatt->mes, vendaatt->ano);
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
