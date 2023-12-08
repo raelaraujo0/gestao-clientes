@@ -411,7 +411,7 @@ void listagem_alf(void)
     Usuario* usuarios = (Usuario*)malloc(num_usuarios * sizeof(Usuario));
 
     fread(usuarios, sizeof(Usuario), num_usuarios, arquivousuarios);
-    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
+    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador());
 
     printf("Lista de usuarios em ordem alfabetica:\n");
     for (int i = 0; i < num_usuarios; i++)
@@ -463,7 +463,7 @@ void Login(void)
         } else {
             printf("Usuario nao encontrado. Deseja cadastrar um novo usuario? (S/N)\n");
             char respt;
-            scanf(" %c", &respt);
+            scanf("%c", &respt);
             limparBuffer();
 
             if (respt == 'S' || respt == 's')

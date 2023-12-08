@@ -1,7 +1,7 @@
 #ifndef VALIDADORES_H
 #define VALIDADORES_H
 
-int validardata(int dia, int mes, int ano);
+int validardata(char* dia, char* mes, char* ano);
 
 int validarnome(char* nome, char* sobrenome);
 
@@ -12,5 +12,7 @@ int validarcpf(char* cpf);
 int validartelefone(const char* telefone);
 
 int validaremail(const char* email);
+
+int comparador(const void* a, const void* b);
 
 #endif

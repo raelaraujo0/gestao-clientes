@@ -5,23 +5,30 @@
 #include "cbclho.h"
 #include <stdbool.h>
 
-int validardata(int dia, int mes, int ano){    
-    if (ano < 0 && ano > 2023 && mes < 1 && mes > 12 && dia < 1 && dia > 31) {
+int validardata(char* dia, char* mes, char* ano)
+{
+    int ano_int;
+    sscanf(ano, "%d", &ano_int);
+
+    if (ano_int < 0 && ano_int > 2023 && mes < 1 && mes > 12 && dia < 1 && dia > 31) {
         return false;
     }
-    if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)){
-        if (mes == 2 && (dia > 29 || dia < 1)){
+
+    if (ano_int % 4 == 0 && (ano_int % 100 != 0 || ano_int % 400 == 0)) {
+        if (mes == 2 && (dia > 29 || dia < 1)) {
             return false;
-        } 
+        }
         // É bissexto
     } else {
-        if (mes == 2 && (dia > 28 || dia < 1)){
+        if (mes == 2 && (dia > 28 || dia < 1)) {
             return false;
         }
         // Não é bissexto
     }
+
     return true;
 }
+
 
 int validarnome(char* nome, char* sobrenome){
     for (int i = 0; i < strlen(nome); i++) {
