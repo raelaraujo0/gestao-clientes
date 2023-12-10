@@ -1,8 +1,8 @@
 #ifndef LOGICAUSUARIOS_H
 #define LOGICAUSUARIOS_H
 
-typedef struct usuario Usuario;
-struct usuario{
+typedef struct usu Usuario;
+struct usu{
     char nome[15];
     char sobrenome[15];
     char cpf[12];
@@ -26,5 +26,7 @@ void SubTelaListarUsu(void);
 void listagem_alf(void);
 
 void Login(void);
+
+void salvarusuario(Usuario *usuario);
 
 #endif
