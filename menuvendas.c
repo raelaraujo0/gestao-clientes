@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
+void listagemvendasformat(Venda *venda)
+{
+    printf("%-8s %-15s %-12s %-10s %-s\n", venda->preco, venda->categoria, venda->dia, venda->mes, venda->ano, venda->tag, venda->quantidade);
+}
+
 void listagensvendas(){
     int escolha;
     int n = 7;
@@ -10,7 +15,8 @@ void listagensvendas(){
         system("clear || cls");
         ListagemCategoria();
 
-        scanf("%d", &escolha); limparBuffer();
+        scanf("%d", &escolha); 
+        limparBuffer();
         switch (escolha)
         {
         case 1:

@@ -77,7 +77,7 @@ int validarcategoria(const char* categoria){
         return false;
     }
     for (int i = 0; categoria[i] != '\0'; i++) {
-        if (!isalpha(categoria[i])) {
+        if (!isalpha(categoria[i]) && categoria[i] != ' ') {
             return false;
         }
     }
