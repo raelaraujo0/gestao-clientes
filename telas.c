@@ -244,7 +244,7 @@ void Tela_DelVen(void){
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
-    printf(" ===                                             Tag:                                              === \n");
+    printf(" ===                                              Id:                                              === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===================================================================================================== \n");
@@ -263,7 +263,7 @@ void Tela_AttVen(void){
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
-    printf(" ===                                             Tag:                                              === \n");
+    printf(" ===                                              Id:                                              === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===================================================================================================== \n");
@@ -282,7 +282,7 @@ void Tela_LerVen(void){
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
-    printf(" ===                                              Tag:                                             === \n");
+    printf(" ===                                              Id:                                              === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");

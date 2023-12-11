@@ -47,7 +47,6 @@ int validardata(char* dia, char* mes, char* ano)
     return true;
 }
 
-
 int validarnome(char* nome, char* sobrenome){
     for (int i = 0; i < strlen(nome); i++) {
     if (!isalpha(nome[i]) && nome[i] != ' ') {
@@ -75,11 +74,6 @@ int validarnome(char* nome, char* sobrenome){
 int validarcategoria(const char* categoria){
     if (strlen(categoria) == 0) {
         return false;
-    }
-    for (int i = 0; categoria[i] != '\0'; i++) {
-        if (!isalpha(categoria[i]) && categoria[i] != ' ') {
-            return false;
-        }
     }
     return true;
 }
