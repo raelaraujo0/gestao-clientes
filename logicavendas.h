@@ -1,8 +1,8 @@
 #ifndef LOGICAVENDAS_H
 #define LOGICAVENDAS_H
 
-typedef struct venda Venda;
-struct venda{
+typedef struct ven Venda;
+struct ven{
     char id;
     char preco[10];
     char dia[2], mes[2], ano[4];
@@ -24,7 +24,5 @@ void SubTelaListarVen(void);
 void salvarvenda(Venda* venda);
 
 void listagemvendasformat(Venda* venda);
-
-int gerarid();
 
 #endif

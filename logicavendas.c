@@ -4,21 +4,70 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
-Venda* SubTelaRegVen()
+void Login(void)
 {
-    Venda* venda;
-    venda = (Venda*)malloc(sizeof(Venda));
+    Usuario* usuario;
+    char senha[50];
+    char nome[12];
+    while (1)
+    {
+        system("clear || cls");
+        Tela_Login();
+
+        printf("Digite seu nome: ");
+        scanf("%s", nome); 
+        limparBuffer();
+
+        printf("Digite sua senha: ");
+        scanf("%s", senha); 
+        limparBuffer();
+
+        FILE* arquivousuarios = fopen("usuarios.dat", "r");
+        Usuario usuario_encontrado;
+        int encontrado = 0;
+        while (fread(arquivousuarios, "Nome: %s, Senha: %s\n",
+            usuario_encontrado.nome, usuario_encontrado.senha) != EOF)
+        {
+            if (strcmp(usuario->nome, usuario_encontrado.nome) == 0 && strcmp(usuario->senha, usuario_encontrado.senha) == 0)
+            {
+                encontrado = 1;
+                break;
+            }
+        }
+
+        fclose(arquivousuarios);
+
+        if(encontrado == 1)
+        {
+            menuVendas();
+            break;
+        } else {
+            printf("Usuario nao encontrado. Deseja cadastrar um novo usuario? (S/N)\n");
+            char respt;
+            scanf("%c", &respt);
+            limparBuffer();
+
+            if (respt == 'S' || respt == 's')
+            {
+                SubTelaCadUsu();
+                break;
+            } else {
+                break;
+            }
+        }
+    }
+}
+
+
+Venda* SubTelaRegVen(void)
+{
+    Venda *ven;
+    ven = (Venda*)malloc(sizeof(Venda));
 
     bool datavalida;
     bool categoriaval = false;
     
     char respt;
-
-    FILE *arquivovenda = fopen("vendas.dat", "w");
-    if (arquivovenda == NULL){
-        printf("erro");
-        exit(1);
-    }
 
     while (1)
     {
@@ -26,20 +75,21 @@ Venda* SubTelaRegVen()
         Tela_RegVen();
 
         printf("Informe o preco:");
-        scanf("%s", &venda->preco); limparBuffer();
+        scanf("%s", &ven->preco); 
+        limparBuffer();
 
     do {
         printf("insira dia da venda: ");
-        fgets(venda->dia , sizeof(venda->dia), stdin);
+        fgets(ven->dia , sizeof(ven->dia), stdin);
         limparBuffer();
         printf("insira mes da venda: ");
-        fgets(venda->mes , sizeof(venda->mes), stdin);
+        fgets(ven->mes , sizeof(ven->mes), stdin);
         limparBuffer();
         printf("insira ano da venda: ");
-        fgets(venda->ano , sizeof(venda->ano), stdin);
+        scanf("%2s", ven->ano);
         limparBuffer();
+        datavalida = validardata(ven->dia, ven->mes, ven->ano);
 
-        datavalida = validardata(venda->dia, venda->mes, venda->ano);
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
             }
@@ -47,28 +97,31 @@ Venda* SubTelaRegVen()
 
         do {
             printf("Categoria da venda:");
-            fgets(venda->categoria, sizeof(venda->categoria), stdin);
-            categoriaval = validarcategoria(venda->categoria);
+            scanf("%s", ven->categoria);
+            limparBuffer();
+
+            categoriaval = validarcategoria(ven->categoria);
 
             if (!categoriaval){
                 printf("A categoria esta incorreta, tente novamente \n");
             }
-            } while (!categoriaval); limparBuffer();
+            } while (!categoriaval);
 
         printf("Informe a quantidade de itens vendidos:");
-        fgets(venda->quantidade, sizeof(venda->quantidade), stdin);
+        scanf("%s", ven->quantidade);
         limparBuffer();
 
-        snprintf(venda->tag, sizeof(venda->tag), "%s.%s.%s", venda->categoria, venda->preco, venda->dia);
+        ven->ativa = 1;
 
-        printf("venda cadastrada!, para fazer alterações sera essa sua tag >> %s <<\n\n", venda->tag);
+        snprintf(ven->id,sizeof(ven->id), "%s%s%s%s", ven->ano, ven->preco, ven->dia, ven->mes);
+
+        salvarvenda(ven);
+
+        printf("venda cadastrada!, para fazer alterações sera esse seu id >> %s <<\n\n", ven->id);
 
         printf("Deseja adicionar outra venda?(S/N)");
         scanf(" %c", &respt);
         limparBuffer();
-
-        fprintf(arquivovenda, "Preço: %s, Data: %s/%s/%s, Categoria: %s, Tag: %s, Quantidade: %s\n", venda->preco, venda->dia, venda->mes, venda->ano, venda->categoria, venda->tag, venda->quantidade);   
-        fclose(arquivovenda);
 
         // funcao de loop para caso queira fazer a operacao dnv, voltar a funcao, senao ir ao menu principal
         switch (respt)
@@ -76,46 +129,49 @@ Venda* SubTelaRegVen()
         case 'S':
         case 's':
             SubTelaRegVen();
+            break;
         case 'N':
         case 'n':
             menuVendas();
+            break;
         default:
             printf("Funcao invalida");
+
+        return ven;
         }
     }
 }
 
 void SubTelaDelVen(void)
 {
-    Venda venda;
+    Venda ven;
     char respt;
-    char tag[20];
     char respt2;
+    char id[20];
 
     while (1)
     {
         system("clear || cls");
         Tela_DelVen();
 
-        printf("Digite tag da venda: ");
-        scanf("%s", tag);
+        printf("Digite id da venda: ");
+        scanf("%s", id);
         limparBuffer();
 
         FILE *arquivovenda = fopen("vendas.dat", "rb+");
 
         if (arquivovenda == NULL)
         {
-            printf("Erro ao abrir o arquivo de vendas.\n");
+            printf("Erro\n");
             return;
         }
 
-        while (fread(&venda, sizeof(Venda), 1, arquivovenda) == 1)
-        {
-            if (strcmp(venda.tag, tag) == 0)
+        while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1){
+            if (strcmp(venda.id, id) == 0)
             {
                 venda.ativa = 0;//venda nao mais ativa
                 fseek(arquivovenda, -sizeof(Venda), SEEK_CUR);
-                fwrite(&venda, sizeof(Venda), 1, arquivovenda);
+                fwrite(&ven, sizeof(Venda), 1, arquivovenda);
                 break;
             }
         }
@@ -159,9 +215,9 @@ void SubTelaDelVen(void)
 
 void SubTelaAttVen(void)
 {   
-    char tag;
+    char id;
     char respt;
-    Venda *vendaatt;
+    Venda vendaatt;
 
     bool datavalida = false;
     bool categoriaval = false;
@@ -171,14 +227,14 @@ void SubTelaAttVen(void)
         system("clear || cls");
         Tela_AttVen();
 
-        printf("Digite tag da venda:");
-        scanf("%s", tag);
+        printf("Digite id da venda:");
+        scanf("%s", id);
         limparBuffer();
 
         FILE* arquivovenda = fopen("vendas.dat", "rb+");
         int encontrado = 0;
         while(fread(&vendaatt, sizeof(Venda), 1, arquivovenda) == 1){
-            if(strcmp(vendaatt->tag, tag) == 0){
+            if(strcmp(vendaatt.id, id) == 0){
                 encontrado = 1;
                 break;
             }
@@ -191,9 +247,8 @@ void SubTelaAttVen(void)
         }
         do {
             printf("Categoria da venda:");
-            scanf("%s", vendaatt->categoria);
-            vendaatt->categoria[strcspn (vendaatt->categoria, "\n")] = '\0';
-            categoriaval = validarcategoria(vendaatt->categoria);
+            scanf("%s", vendaatt.categoria);
+            categoriaval = validarcategoria(vendaatt.categoria);
 
             if (!categoriaval){
                 printf("A categoria esta incorreta, tente novamente \n");
@@ -201,29 +256,29 @@ void SubTelaAttVen(void)
         } while (!categoriaval); limparBuffer();
 
         printf("Preco:");
-        scanf("%s", vendaatt->preco); limparBuffer();
+        scanf("%s", vendaatt.preco); limparBuffer();
 
         do {
             printf("insira dia da venda: ");
-            fgets(vendaatt->dia , sizeof(vendaatt->dia), stdin);
+            fgets(vendaatt.dia , sizeof(vendaatt.dia), stdin);
             limparBuffer();
             printf("insira mes da venda: ");
-            fgets(vendaatt->mes , sizeof(vendaatt->mes), stdin);
+            fgets(vendaatt.mes , sizeof(vendaatt.mes), stdin);
             limparBuffer();
             printf("insira ano da venda: ");
-            fgets(vendaatt->ano , sizeof(vendaatt->ano), stdin);
+            fgets(vendaatt.ano , sizeof(vendaatt.ano), stdin);
             limparBuffer();
-        datavalida = validardata(vendaatt->dia, vendaatt->mes, vendaatt->ano);
+        datavalida = validardata(vendaatt.dia, vendaatt.mes, vendaatt.ano);
         if (!datavalida){
             printf("Data invalida, tente novamente \n");
             }
             } while (!datavalida); limparBuffer();
 
         printf("Informe a quantidade:");
-        fgets(vendaatt->quantidade, sizeof(vendaatt->quantidade), stdin); limparBuffer();
+        fgets(vendaatt.quantidade, sizeof(vendaatt.quantidade), stdin); limparBuffer();
 
-        arquivovenda = fopen("vendas.dat", "w");
-        fprintf(arquivovenda, "Preço: %s, Data: %s/%s/%s, Categoria: %s, Tag: %s, Quantidade: %s\n", vendaatt->preco, vendaatt->dia, vendaatt->mes, vendaatt->ano, vendaatt->categoria, vendaatt->tag, vendaatt->quantidade);
+        fseek(arquivovenda, -sizeof(Venda), SEEK_CUR);
+        fwrite(&vendaatt, sizeof(Venda), 1, arquivovenda);
         fclose(arquivovenda);
 
         printf("Deseja atualizar outra venda?(S/N)");
@@ -247,8 +302,8 @@ void SubTelaAttVen(void)
 
 void SubTelaLerVen(void)
 {
-    Venda venda;
-    char tag[20];
+    Venda vendaencontrada;
+    char id[20];
     char respt;
     bool found = false;
 
@@ -264,20 +319,20 @@ void SubTelaLerVen(void)
             return;
         }
 
-        printf("Digite tag da venda: ");
-        scanf("%s", tag);
+        printf("Digite id da venda: ");
+        scanf("%s", id);
         limparBuffer();
 
-        while (fread(&venda, sizeof(Venda), 1, arquivovenda) == 1){
-            if (strcmp(venda.tag, tag) == 0)
+        while (fread(&vendaencontrada, sizeof(Venda), 1, arquivovenda) == 1){
+            if (strcmp(vendaencontrada.id, id) == 0)
             {
                 found = true;
                 printf("Informacoes da venda:\n");
-                printf("Categoria: %s\n", venda.categoria);
-                printf("Preco: %s\n", venda.preco);
-                printf("Data da venda: %s/%s/%s\n", venda.dia, venda.mes, venda.ano);
-                printf("Tag: %s\n", venda.tag);
-                printf("Quantidade: %s\n", venda.quantidade);
+                printf("Categoria: %s\n", vendaencontrada.categoria);
+                printf("Preco: %s\n", vendaencontrada.preco);
+                printf("Data da venda: %s/%s/%s\n", vendaencontrada.dia, vendaencontrada.mes, vendaencontrada.ano);
+                printf("id: %s\n", vendaencontrada.id);
+                printf("Quantidade: %s\n", vendaencontrada.quantidade);
                 break;
             }
         }
@@ -286,7 +341,7 @@ void SubTelaLerVen(void)
 
         if (!found)
         {
-            printf("Tag errada ou inexistente.\n");
+            printf("id errada ou inexistente.\n");
         }
 
         printf("Deseja ler outra venda? (S/N)");
@@ -311,7 +366,7 @@ void SubTelaLerVen(void)
 
 void SubTelaListarVen(void)
 {
-    Venda venda;
+    Venda ven;
     FILE *arquivovenda = fopen("vendas.dat", "rb");
 
     if (arquivovenda == NULL)
@@ -320,26 +375,49 @@ void SubTelaListarVen(void)
         return;
     }
 
-    printf("%-8s %-15s %-12s %-10s %-s\n", "Preco", "Categoria", "Data da Venda", "Tag", "Quantidade");
-    while (fread(&venda, sizeof(Venda), 1, arquivovenda) == 1)
+    printf("%-8s %-15s %-12s %-10s %-s\n", "Preco", "Categoria", "Data da Venda", "id", "Quantidade");
+    while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1)
     {
-        listagemvendasformat(&venda);
+        listagemvendasformat(&ven);
     }
 
     fclose(arquivovenda);
 }
+
 void listarcategoria(const char* categoria)
 {
-    Venda venda;
+    Venda ven;
     FILE* arquivovenda = fopen("vendas.dat", "rb");
     if (arquivovenda == NULL){
         printf("erro \n");
     }
-    while(fread(&venda, sizeof(Venda),1, arquivovenda) == 1){
-        if(strcmp(venda.categoria, categoria) == 0){
-            printf("Categorias: %s\n", venda.categoria);
+    while(fread(&ven, sizeof(Venda),1, arquivovenda) == 1){
+        if(strcmp(ven.categoria, categoria) == 0){
+            printf("Categorias: %s\n", ven.categoria);
         }
     }
     fclose(arquivovenda);
 
+}
+
+void salvarvenda(Venda* ven){
+
+    FILE *arquivovendas;
+    arquivovendas = fopen("vendas.dat", "ab");
+
+    if (arquivovendas == NULL){
+        printf("erro\n");
+        return;
+    }
+
+    fwrite(ven, sizeof(Venda), 1, arquivovendas);
+
+    fclose(arquivovendas);
+    free(ven);
+
+}
+
+void listagemvendasformat(Venda* ven)
+{
+    printf("%-8s %-15s %-12s %-10s %-s\n", venda->preco, venda->categoria, venda->dia, venda->mes, venda->ano, venda->quantidade);
 }
