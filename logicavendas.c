@@ -20,8 +20,9 @@ void Login(void)
         limparBuffer();
 
         printf("Digite sua senha: ");
-        scanf("%s", senha); 
-        limparBuffer();
+        fgets(senha, sizeof(senha), stdin);
+        senha[strcspn(senha, "\n")] = '\0';
+
 
         FILE* arquivousuarios = fopen("usuarios.dat", "r");
         Usuario usuario_encontrado;
@@ -80,19 +81,20 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
         system("clear || cls");
         Tela_RegVen();
 
-        printf("Informe o preco:");
-        scanf("%s", ven->preco); 
-        limparBuffer();
+        printf("Informe o preço: ");
+        fgets(ven->preco, sizeof(ven->preco), stdin);
+        ven->preco[strcspn(ven->preco, "\n")] = '\0';  // Remover o caractere de nova linha
+
 
     do {
         printf("insira dia da venda: ");
-        scanf("%2s", ven->dia);
+        scanf("%s", &ven->dia); 
         limparBuffer();
         printf("insira mes da venda: ");
-        scanf("%2s", ven->mes);
+        scanf("%s", &ven->mes);
         limparBuffer();
         printf("insira ano da venda: ");
-        scanf("%5s", ven->ano);
+        scanf("%s", &ven->ano);
         limparBuffer();
         datavalida = validardata(ven->dia, ven->mes, ven->ano);
 
@@ -145,7 +147,7 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
             break;
         default:
             printf("Funcao invalida");
-            return NULL;
+            return ven;
         }
     }
 }
@@ -394,13 +396,14 @@ void SubTelaListarVen(void)
     if (num_vendas > 0)
     {
         printf("Lista de vendas:\n");
-        printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
 
         for (int i = 0; i < num_vendas; i++)
         {
+            printf("==================================================================\n");
+            printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
             listagemvendasformat(&vendas[i]);
             printf("\n");
-            printf("\t>>> Pressione <ENTER> para pular a venda...\n");
+            printf("\t>> tecle <ENTER> para pular a venda <<\n");
             getchar();  // Aguarda a tecla ENTER
         }
     }

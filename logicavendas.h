@@ -3,11 +3,11 @@
 
 typedef struct ven Venda;
 struct ven{
-    char id;
-    char preco[10];
-    char dia[3], mes[3], ano[5];
-    char categoria[20];
-    char quantidade[4];
+    char id[12];;
+    char preco[40];
+    char dia[2], mes[2], ano[5];
+    char categoria[15];
+    char quantidade[20];
     char nome[15];
     int ativa;
 };
