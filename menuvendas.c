@@ -15,7 +15,7 @@ void menuVendas() {
 
     switch (escolha) {
     case 1:
-        SubTelaRegVen(nome);
+        SubTelaRegVen();
         break;
     case 2:
         SubTelaDelVen();

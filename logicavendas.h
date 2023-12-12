@@ -3,16 +3,16 @@
 
 typedef struct ven Venda;
 struct ven{
-    char id[12];;
-    char preco[40];
-    char dia[2], mes[2], ano[5];
-    char categoria[15];
+    char id[31];
+    char preco[20];
+    char dia[3], mes[3], ano[5];
+    char categoria[20];
     char quantidade[20];
-    char nome[15];
+    char nome[20];
     int ativa;
 };
 
-Venda* SubTelaRegVen(const char* nomeVendedor);
+Venda* SubTelaRegVen(void);
 
 void SubTelaDelVen(void);
 

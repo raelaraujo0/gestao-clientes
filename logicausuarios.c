@@ -46,7 +46,7 @@ Usuario* SubTelaCadUsu(void)
             cpf_valido = validarcpf(usu->cpf);
             cpfduplo = cpfjaexiste(usu->cpf);
             if(cpfduplo){
-                printf("esse cpf ja esta cadastrado, (S)deseja sair ou (C)continuar?\n");
+                printf("esse cpf ja esta cadastrado, deseja (S)sair ou (C)continuar?\n");
                 scanf("%s", &respt3);
                 if (respt3 == 'S' || 's'){
                     menu_principal();
@@ -392,6 +392,7 @@ void listagem_usuarios(void)
         for (int i = 0; i < num_usuarios; i++)
         {
             printf("============================================================================\n");
+            printf("\n");
             printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
             printf("CPF: %s\n", usuarios[i].cpf);
             printf("Data de Nascimento: %s/%s/%s\n", usuarios[i].dia, usuarios[i].mes, usuarios[i].ano);
@@ -407,7 +408,6 @@ void listagem_usuarios(void)
     free(usuarios);
     fclose(arquivousuarios);
 }
-
 
 void listagem_alf(void)
 {
@@ -462,7 +462,6 @@ void salvarusuario(Usuario* usu){
         fclose(arquivousuarios);
         free(usu);
 }
-
 
 int cpfjaexiste(const char* cpf){
 

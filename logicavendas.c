@@ -60,8 +60,7 @@ void Login(void)
 }
 
 
-
-Venda* SubTelaRegVen(const char* nomeVendedor)
+Venda* SubTelaRegVen(void)
 {
     Venda *ven;
     ven = (Venda*)malloc(sizeof(Venda));
@@ -88,14 +87,15 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
 
     do {
         printf("insira dia da venda: ");
-        scanf("%s", &ven->dia); 
+        fgets(ven->dia , sizeof(ven->dia), stdin);
         limparBuffer();
         printf("insira mes da venda: ");
-        scanf("%s", &ven->mes);
+        fgets(ven->mes , sizeof(ven->mes), stdin);
         limparBuffer();
         printf("insira ano da venda: ");
-        scanf("%s", &ven->ano);
+        fgets(ven->ano , sizeof(ven->ano), stdin);
         limparBuffer();
+
         datavalida = validardata(ven->dia, ven->mes, ven->ano);
 
         if (!datavalida){
@@ -121,14 +121,14 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
 
         ven->ativa = 1;
 
-        strcpy(ven->nome, nomeVendedor);
+        ven->nome;
 
         snprintf(ven->id,sizeof(ven->id), "%s%s%s%s", ven->ano, ven->preco, ven->dia, ven->mes);
 
         salvarvenda(ven);
         free(ven);
 
-        printf("venda cadastrada!, para fazer alterações sera esse seu id >> %s <<\n\n", ven->id);
+        printf("venda cadastrada!, para fazer alterações sera esse seu id >> %s%s%s%s <<\n\n", ven->ano, ven->preco, ven->dia, ven->mes);
 
         printf("Deseja adicionar outra venda?(S/N)");
         scanf(" %c", &respt);
@@ -139,7 +139,7 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
         {
         case 'S':
         case 's':
-            SubTelaRegVen(nomeVendedor);
+            SubTelaRegVen();
             break;
         case 'N':
         case 'n':
@@ -243,12 +243,16 @@ void SubTelaAttVen(void)
 
         FILE* arquivovenda = fopen("vendas.dat", "rb+");
         int encontrado = 0;
-        while(fread(&vendaatt, sizeof(Venda), 1, arquivovenda) == 1){
+        long posicao_anterior = 0;
+
+        while (fread(&vendaatt, sizeof(Venda), 1, arquivovenda) == 1){
             if(strcmp(vendaatt.id, id) == 0){
                 encontrado = 1;
                 break;
             }
+            posicao_anterior = ftell(arquivovenda) - sizeof(Venda);
         }
+
         fclose(arquivovenda);
 
         if(encontrado == 0){
@@ -287,7 +291,12 @@ void SubTelaAttVen(void)
         printf("Informe a quantidade:");
         fgets(vendaatt.quantidade, sizeof(vendaatt.quantidade), stdin); limparBuffer();
 
-        fseek(arquivovenda, -sizeof(Venda), SEEK_CUR);
+        snprintf(vendaatt.id,sizeof(vendaatt.id), "%s%s%s%s", vendaatt.ano, vendaatt.preco, vendaatt.dia, vendaatt.mes);
+        printf("venda alterada!, para fazer alterações sera esse seu id >> %s%s%s%s <<\n\n", vendaatt.ano, vendaatt.preco, vendaatt.dia, vendaatt.mes);
+
+        // Vá para a posição anterior no arquivo para sobrescrever a venda
+        arquivovenda = fopen("vendas.dat", "rb+");
+        fseek(arquivovenda, posicao_anterior, SEEK_SET);
         fwrite(&vendaatt, sizeof(Venda), 1, arquivovenda);
         fclose(arquivovenda);
 
@@ -400,11 +409,16 @@ void SubTelaListarVen(void)
         for (int i = 0; i < num_vendas; i++)
         {
             printf("==================================================================\n");
-            printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
-            listagemvendasformat(&vendas[i]);
             printf("\n");
-            printf("\t>> tecle <ENTER> para pular a venda <<\n");
-            getchar();  // Aguarda a tecla ENTER
+            printf("Vendedor: %s\n", vendas[i].nome);
+            printf("Preco: %s\n", vendas[i].preco);
+            printf("Data: %s/%s/%s\n", vendas[i].dia, vendas[i].mes, vendas[i].ano);
+            printf("Categoria: %s\n", vendas[i].categoria);
+            printf("Id: %s\n", vendas[i].id);
+            printf("Quantidade: %s\n", vendas[i].quantidade);
+            printf("\n");
+            printf("\t> tecle <ENTER> para pular a venda <\n");
+            getchar();
         }
     }
 
@@ -425,32 +439,26 @@ void listagem_alf_vendas(void) {
 
     int num_vendas = tamanho_arquivo / sizeof(Venda);
     Venda* vendas = (Venda*)malloc(num_vendas * sizeof(Venda));
-
-    if (vendas == NULL) {
-        printf("Erro de alocação de memória.\n");
-        fclose(arquivovendas);
-        return;
-    }
-
     fread(vendas, sizeof(Venda), num_vendas, arquivovendas);
 
     if (num_vendas > 0) {
         qsort(vendas, num_vendas, sizeof(Venda), comparador_vendas);
 
-        printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
+        printf("Listagem de categorias em ordem alfabética:\n");
 
+        // Imprime apenas categorias distintas
         for (int i = 0; i < num_vendas; i++) {
-            listagemvendasformat(&vendas[i]);
-            printf("\n");
-            printf("\t>>> Tecle <ENTER> para pular a venda...\n");
-            getchar();
+            if ((i == 0 || strcmp(vendas[i].categoria, vendas[i - 1].categoria) != 0) && strlen(vendas[i].categoria) > 0) {
+                printf("Categoria: %s\n", vendas[i].categoria);
+            }
         }
+    } else {
+        printf("Nenhuma venda cadastrada.\n");
     }
 
     free(vendas);
     fclose(arquivovendas);
 }
-
 
 void salvarvenda(Venda* ven){
 
@@ -467,8 +475,4 @@ void salvarvenda(Venda* ven){
     fclose(arquivovendas);
 }
 
-void listagemvendasformat(Venda* ven)
-{
-    printf("%-8s %-15s %-12s %-10s %-10s %-s\n", ven->nome, ven->preco, ven->categoria, ven->dia, ven->id, ven->quantidade);
-}
 
