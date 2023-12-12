@@ -5,7 +5,7 @@ typedef struct ven Venda;
 struct ven{
     char id;
     char preco[10];
-    char dia[2], mes[2], ano[4];
+    char dia[3], mes[3], ano[5];
     char categoria[20];
     char quantidade[4];
     int ativa;

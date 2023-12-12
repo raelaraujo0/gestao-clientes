@@ -6,9 +6,9 @@
 
 void Login(void)
 {
-    Usuario* usuario;
     char senha[50];
     char nome[12];
+
     while (1)
     {
         system("clear || cls");
@@ -25,10 +25,9 @@ void Login(void)
         FILE* arquivousuarios = fopen("usuarios.dat", "r");
         Usuario usuario_encontrado;
         int encontrado = 0;
-        while (fread(arquivousuarios, "Nome: %s, Senha: %s\n",
-            usuario_encontrado.nome, usuario_encontrado.senha) != EOF)
+        while (fread(&usuario_encontrado, sizeof(Usuario), 1, arquivousuarios) == 1)
         {
-            if (strcmp(usuario->nome, usuario_encontrado.nome) == 0 && strcmp(usuario->senha, usuario_encontrado.senha) == 0)
+            if (strcmp(nome, usuario_encontrado.nome) == 0 && strcmp(senha, usuario_encontrado.senha) == 0)
             {
                 encontrado = 1;
                 break;
@@ -44,7 +43,7 @@ void Login(void)
         } else {
             printf("Usuario nao encontrado. Deseja cadastrar um novo usuario? (S/N)\n");
             char respt;
-            scanf("%c", &respt);
+            scanf(" %c", &respt);
             limparBuffer();
 
             if (respt == 'S' || respt == 's')
@@ -57,6 +56,7 @@ void Login(void)
         }
     }
 }
+
 
 
 Venda* SubTelaRegVen(void)
@@ -80,13 +80,13 @@ Venda* SubTelaRegVen(void)
 
     do {
         printf("insira dia da venda: ");
-        fgets(ven->dia , sizeof(ven->dia), stdin);
+        scanf("%2s", ven->dia);
         limparBuffer();
         printf("insira mes da venda: ");
-        fgets(ven->mes , sizeof(ven->mes), stdin);
+        scanf("%2s", ven->mes);
         limparBuffer();
         printf("insira ano da venda: ");
-        scanf("%2s", ven->ano);
+        scanf("%5s", ven->ano);
         limparBuffer();
         datavalida = validardata(ven->dia, ven->mes, ven->ano);
 
@@ -167,9 +167,9 @@ void SubTelaDelVen(void)
         }
 
         while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1){
-            if (strcmp(venda.id, id) == 0)
+            if (strcmp(ven.id, id) == 0)
             {
-                venda.ativa = 0;//venda nao mais ativa
+                ven.ativa = 0;//venda nao mais ativa
                 fseek(arquivovenda, -sizeof(Venda), SEEK_CUR);
                 fwrite(&ven, sizeof(Venda), 1, arquivovenda);
                 break;
@@ -178,7 +178,7 @@ void SubTelaDelVen(void)
 
         fclose(arquivovenda);
 
-        if(venda.ativa == 0){
+        if(ven.ativa == 0){
             printf("deseja deletar esta venda? (S/N)\n");
             scanf("%c", &respt2);
             limparBuffer();
@@ -419,5 +419,5 @@ void salvarvenda(Venda* ven){
 
 void listagemvendasformat(Venda* ven)
 {
-    printf("%-8s %-15s %-12s %-10s %-s\n", venda->preco, venda->categoria, venda->dia, venda->mes, venda->ano, venda->quantidade);
+    printf("%-8s %-15s %-12s %-10s %-s\n", ven->preco, ven->categoria, ven->dia, ven->mes, ven->ano, ven->quantidade);
 }

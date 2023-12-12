@@ -415,6 +415,7 @@ void listagem_alf(void)
     fclose(arquivousuarios);
 }
 
+
 void salvarusuario(Usuario* usu){
 
     FILE *arquivousuarios;
@@ -430,6 +431,7 @@ void salvarusuario(Usuario* usu){
         free(usu);
     }
 
+
 int cpfjaexiste(const char* cpf){
 
     Usuario readuser;
@@ -443,10 +445,10 @@ int cpfjaexiste(const char* cpf){
     while(fread(&readuser, sizeof(Usuario), 1, arquivousuarios) == 1){
         if (strcmp(readuser.cpf, cpf)==0){
             fclose(arquivousuarios);
-            return 1;
+            return true;
         }
     }
     fclose(arquivousuarios);
 
-    return 0;
+    return false;
 }

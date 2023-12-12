@@ -72,7 +72,7 @@ int validarnome(char* nome, char* sobrenome){
 }
 
 int validarcategoria(const char* categoria){
-    if (strlen(categoria) == 0) {
+    if (!categoria || categoria[0] == '\0') {
         return false;
     }
     return true;
@@ -140,5 +140,9 @@ int validaremail(const char* email){
 
 int comparador(const void* a, const void* b)
 {
-    return strcmp(((Usuario*)a)->nome, ((Usuario*)b)->nome);
+    const Usuario* usuario_a = (const Usuario*)a;
+    const Usuario* usuario_b = (const Usuario*)b;
+
+    return strcmp(usuario_a->nome, usuario_b->nome);
 }
+
