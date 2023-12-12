@@ -1,40 +1,43 @@
+void menuVendas();
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "cbclho.h"
 
+char nome[15];
 
-void listagensvendas(){
+void listagensvendas() {
     int escolha;
     int n = 7;
-    
-    do{
+
+    do {
         system("clear || cls");
         ListagemCategoria();
 
-        scanf("%d", &escolha); 
+        scanf("%d", &escolha);
         limparBuffer();
-        switch (escolha)
-        {
+        switch (escolha) {
         case 1:
             SubTelaListarVen();
-                break;
+            break;
 
         case 2:
-            ListagemCategoria(); 
-                break;
+            ListagemCategoria();
+            break;
 
         case 0:
-            menuVendas();
-                break;
-        
+            menuVendas(); 
+            break;
+
         default:
-        printf("escolha invalida \n");
+            printf("escolha invalida \n");
             break;
         }
-    } while(escolha != 'n' || 'n+1');
+    } while (escolha != 'n' || 'n+1');
 }
 
-void menuVendas(void){
+void menuVendas() {
     int escolha;
 
     system("clear || cls");
@@ -42,10 +45,9 @@ void menuVendas(void){
     scanf("%d", &escolha);
     getchar();
 
-    switch (escolha)
-    {
+    switch (escolha) {
     case 1:
-        SubTelaRegVen();
+        SubTelaRegVen(nome);
         break;
     case 2:
         SubTelaDelVen();
@@ -66,5 +68,5 @@ void menuVendas(void){
         system("pause");
         menuVendas();
         break;
-        }
     }
+}

@@ -8,10 +8,11 @@ struct ven{
     char dia[3], mes[3], ano[5];
     char categoria[20];
     char quantidade[4];
+    char nome[15];
     int ativa;
 };
 
-Venda* SubTelaRegVen(void);
+Venda* SubTelaRegVen(const char* nomeVendedor);
 
 void SubTelaDelVen(void);
 

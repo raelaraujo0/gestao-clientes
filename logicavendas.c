@@ -4,10 +4,11 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
+
 void Login(void)
 {
     char senha[50];
-    char nome[12];
+    char nome[15];
 
     while (1)
     {
@@ -59,10 +60,15 @@ void Login(void)
 
 
 
-Venda* SubTelaRegVen(void)
+Venda* SubTelaRegVen(const char* nomeVendedor)
 {
     Venda *ven;
     ven = (Venda*)malloc(sizeof(Venda));
+
+    if(ven == NULL){
+        printf("erro na alocacao de memoia \n");
+        return NULL;
+    }
 
     bool datavalida;
     bool categoriaval = false;
@@ -75,7 +81,7 @@ Venda* SubTelaRegVen(void)
         Tela_RegVen();
 
         printf("Informe o preco:");
-        scanf("%s", &ven->preco); 
+        scanf("%s", ven->preco); 
         limparBuffer();
 
     do {
@@ -113,6 +119,8 @@ Venda* SubTelaRegVen(void)
 
         ven->ativa = 1;
 
+        strcpy(ven->nome, nomeVendedor);
+
         snprintf(ven->id,sizeof(ven->id), "%s%s%s%s", ven->ano, ven->preco, ven->dia, ven->mes);
 
         salvarvenda(ven);
@@ -128,7 +136,7 @@ Venda* SubTelaRegVen(void)
         {
         case 'S':
         case 's':
-            SubTelaRegVen();
+            SubTelaRegVen(nomeVendedor);
             break;
         case 'N':
         case 'n':
@@ -136,8 +144,7 @@ Venda* SubTelaRegVen(void)
             break;
         default:
             printf("Funcao invalida");
-
-        return ven;
+            return NULL;
         }
     }
 }
@@ -180,7 +187,7 @@ void SubTelaDelVen(void)
 
         if(ven.ativa == 0){
             printf("deseja deletar esta venda? (S/N)\n");
-            scanf("%c", &respt2);
+            scanf(" %c", &respt2);
             limparBuffer();
             if (respt2 == 'S' || 's'){
                 printf("venda marcada como inativa\n");
@@ -215,7 +222,7 @@ void SubTelaDelVen(void)
 
 void SubTelaAttVen(void)
 {   
-    char id;
+    char id[20];
     char respt;
     Venda vendaatt;
 
@@ -328,6 +335,7 @@ void SubTelaLerVen(void)
             {
                 found = true;
                 printf("Informacoes da venda:\n");
+                printf("Vendedor: %s\n", vendaencontrada.nome);
                 printf("Categoria: %s\n", vendaencontrada.categoria);
                 printf("Preco: %s\n", vendaencontrada.preco);
                 printf("Data da venda: %s/%s/%s\n", vendaencontrada.dia, vendaencontrada.mes, vendaencontrada.ano);
@@ -375,7 +383,7 @@ void SubTelaListarVen(void)
         return;
     }
 
-    printf("%-8s %-15s %-12s %-10s %-s\n", "Preco", "Categoria", "Data da Venda", "id", "Quantidade");
+    printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
     while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1)
     {
         listagemvendasformat(&ven);
@@ -383,6 +391,7 @@ void SubTelaListarVen(void)
 
     fclose(arquivovenda);
 }
+
 
 void listarcategoria(const char* categoria)
 {
@@ -419,5 +428,6 @@ void salvarvenda(Venda* ven){
 
 void listagemvendasformat(Venda* ven)
 {
-    printf("%-8s %-15s %-12s %-10s %-s\n", ven->preco, ven->categoria, ven->dia, ven->mes, ven->ano, ven->quantidade);
+    printf("%-8s %-15s %-12s %-10s %-10s %-s\n", ven->nome, ven->preco, ven->categoria, ven->dia, ven->id, ven->quantidade);
 }
+

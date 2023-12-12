@@ -406,9 +406,11 @@ void listagem_alf(void)
     qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
 
     printf("Lista de usuarios em ordem alfabetica:\n");
+
     for (int i = 0; i < num_usuarios; i++)
     {
         printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+
     }
 
     free(usuarios);
@@ -429,7 +431,7 @@ void salvarusuario(Usuario* usu){
 
         fclose(arquivousuarios);
         free(usu);
-    }
+}
 
 
 int cpfjaexiste(const char* cpf){
