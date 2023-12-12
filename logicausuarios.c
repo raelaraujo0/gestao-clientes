@@ -10,6 +10,7 @@ Usuario* SubTelaCadUsu(void)
     usu = (Usuario*)malloc(sizeof(Usuario));
 
     char respt;
+    char respt3;
     bool datavalida = false;
     bool cpf_valido = false;
     bool nomevalido = false;
@@ -45,7 +46,11 @@ Usuario* SubTelaCadUsu(void)
             cpf_valido = validarcpf(usu->cpf);
             cpfduplo = cpfjaexiste(usu->cpf);
             if(cpfduplo){
-                printf("esse cpf ja esta cadastrado\n");
+                printf("esse cpf ja esta cadastrado, (S)deseja sair ou (C)continuar?\n");
+                scanf("%s", &respt3);
+                if (respt3 == 'S' || 's'){
+                    menu_principal();
+                }
             } else if (cpfjaexiste(usu->cpf)){
                 valido = 1;
             } else if (!cpf_valido) {
@@ -388,7 +393,7 @@ void SubTelaListarUsu(void)
 
 void listagem_alf(void)
 {
-    FILE* arquivousuarios = fopen("usuarios.dat", "rb");
+     FILE* arquivousuarios = fopen("usuarios.dat", "rb");
     if (arquivousuarios == NULL)
     {
         printf("Erro \n");
@@ -403,20 +408,27 @@ void listagem_alf(void)
     Usuario* usuarios = (Usuario*)malloc(num_usuarios * sizeof(Usuario));
 
     fread(usuarios, sizeof(Usuario), num_usuarios, arquivousuarios);
-    qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
 
-    printf("Lista de usuarios em ordem alfabetica:\n");
-
-    for (int i = 0; i < num_usuarios; i++)
+    if (num_usuarios > 0)
     {
-        printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+        qsort(usuarios, num_usuarios, sizeof(Usuario), comparador);
+
+        printf("Lista de usuarios em ordem alfabetica:\n");
+
+        for (int i = 0; i < num_usuarios; i++)
+        {
+            printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+            printf("\n");
+            printf("\t>>> aperte <ENTER> para pular o cliente...\n");
+            getchar();
+
+        }
 
     }
 
     free(usuarios);
     fclose(arquivousuarios);
 }
-
 
 void salvarusuario(Usuario* usu){
 

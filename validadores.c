@@ -146,3 +146,11 @@ int comparador(const void* a, const void* b)
     return strcmp(usuario_a->nome, usuario_b->nome);
 }
 
+int comparador_vendas(const void* a, const void* b)
+{
+    const Venda* venda_a = (const Venda*)a;
+    const Venda* venda_b = (const Venda*)b;
+
+    return strcmp(((Venda*)a)->nome, ((Venda*)b)->nome);
+}
+

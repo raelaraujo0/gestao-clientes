@@ -387,26 +387,50 @@ void SubTelaListarVen(void)
     while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1)
     {
         listagemvendasformat(&ven);
+        printf("\n");
+        printf("\t>>> Tecle <ENTER> para pular o cliente...\n");
+        getchar();
     }
 
     fclose(arquivovenda);
 }
 
 
-void listarcategoria(const char* categoria)
+void listagem_alf_vendas(void)
 {
-    Venda ven;
-    FILE* arquivovenda = fopen("vendas.dat", "rb");
-    if (arquivovenda == NULL){
-        printf("erro \n");
+    FILE* arquivovendas = fopen("vendas.dat", "rb");
+    if (arquivovendas == NULL)
+    {
+        printf("Erro \n");
+        return;
     }
-    while(fread(&ven, sizeof(Venda),1, arquivovenda) == 1){
-        if(strcmp(ven.categoria, categoria) == 0){
-            printf("Categorias: %s\n", ven.categoria);
+
+    fseek(arquivovendas, 0, SEEK_END);
+    long tamanho_arquivo = ftell(arquivovendas);
+    rewind(arquivovendas);
+
+    int num_vendas = tamanho_arquivo / sizeof(Venda);
+    Venda* vendas = (Venda*)malloc(num_vendas * sizeof(Venda));
+
+    fread(vendas, sizeof(Venda), num_vendas, arquivovendas);
+
+    if (num_vendas > 0)
+    {
+        qsort(vendas, num_vendas, sizeof(Venda), comparador_vendas);
+
+        printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
+
+        for (int i = 0; i < num_vendas; i++)
+        {
+            listagemvendasformat(&vendas[i]);
+            printf("\n");
+            printf("\t>>> Tecle <ENTER> para pular a venda...\n");
+            getchar();
         }
     }
-    fclose(arquivovenda);
 
+    free(vendas);
+    fclose(arquivovendas);
 }
 
 void salvarvenda(Venda* ven){
@@ -429,5 +453,6 @@ void salvarvenda(Venda* ven){
 void listagemvendasformat(Venda* ven)
 {
     printf("%-8s %-15s %-12s %-10s %-10s %-s\n", ven->nome, ven->preco, ven->categoria, ven->dia, ven->id, ven->quantidade);
+    
 }
 
