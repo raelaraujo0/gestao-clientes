@@ -2,9 +2,6 @@
 #define SUBDIVISOES_H
 
 void menuVendas();
-
 void listagensvendas();
-
-
 
 #endif

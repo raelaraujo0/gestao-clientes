@@ -52,7 +52,7 @@ void Login(void)
                 SubTelaCadUsu();
                 break;
             } else {
-                break;
+                Login();
             }
         }
     }
@@ -124,6 +124,7 @@ Venda* SubTelaRegVen(const char* nomeVendedor)
         snprintf(ven->id,sizeof(ven->id), "%s%s%s%s", ven->ano, ven->preco, ven->dia, ven->mes);
 
         salvarvenda(ven);
+        free(ven);
 
         printf("venda cadastrada!, para fazer alterações sera esse seu id >> %s <<\n\n", ven->id);
 
@@ -374,34 +375,10 @@ void SubTelaLerVen(void)
 
 void SubTelaListarVen(void)
 {
-    Venda ven;
-    FILE *arquivovenda = fopen("vendas.dat", "rb");
-
-    if (arquivovenda == NULL)
-    {
-        printf("Erro\n");
-        return;
-    }
-
-    printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
-    while (fread(&ven, sizeof(Venda), 1, arquivovenda) == 1)
-    {
-        listagemvendasformat(&ven);
-        printf("\n");
-        printf("\t>>> Tecle <ENTER> para pular o cliente...\n");
-        getchar();
-    }
-
-    fclose(arquivovenda);
-}
-
-
-void listagem_alf_vendas(void)
-{
     FILE* arquivovendas = fopen("vendas.dat", "rb");
     if (arquivovendas == NULL)
     {
-        printf("Erro \n");
+        printf("Erro\n");
         return;
     }
 
@@ -416,12 +393,50 @@ void listagem_alf_vendas(void)
 
     if (num_vendas > 0)
     {
-        qsort(vendas, num_vendas, sizeof(Venda), comparador_vendas);
-
+        printf("Lista de vendas:\n");
         printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
 
         for (int i = 0; i < num_vendas; i++)
         {
+            listagemvendasformat(&vendas[i]);
+            printf("\n");
+            printf("\t>>> Pressione <ENTER> para pular a venda...\n");
+            getchar();  // Aguarda a tecla ENTER
+        }
+    }
+
+    free(vendas);
+    fclose(arquivovendas);
+}
+
+void listagem_alf_vendas(void) {
+    FILE* arquivovendas = fopen("vendas.dat", "rb");
+    if (arquivovendas == NULL) {
+        printf("Erro ao abrir o arquivo de vendas.\n");
+        return;
+    }
+
+    fseek(arquivovendas, 0, SEEK_END);
+    long tamanho_arquivo = ftell(arquivovendas);
+    rewind(arquivovendas);
+
+    int num_vendas = tamanho_arquivo / sizeof(Venda);
+    Venda* vendas = (Venda*)malloc(num_vendas * sizeof(Venda));
+
+    if (vendas == NULL) {
+        printf("Erro de alocação de memória.\n");
+        fclose(arquivovendas);
+        return;
+    }
+
+    fread(vendas, sizeof(Venda), num_vendas, arquivovendas);
+
+    if (num_vendas > 0) {
+        qsort(vendas, num_vendas, sizeof(Venda), comparador_vendas);
+
+        printf("%-8s %-15s %-12s %-10s %-10s %-s\n", "Vendedor", "Preco", "Categoria", "Dia", "id", "Quantidade");
+
+        for (int i = 0; i < num_vendas; i++) {
             listagemvendasformat(&vendas[i]);
             printf("\n");
             printf("\t>>> Tecle <ENTER> para pular a venda...\n");
@@ -433,9 +448,10 @@ void listagem_alf_vendas(void)
     fclose(arquivovendas);
 }
 
+
 void salvarvenda(Venda* ven){
 
-    FILE *arquivovendas;
+    FILE* arquivovendas;
     arquivovendas = fopen("vendas.dat", "ab");
 
     if (arquivovendas == NULL){
@@ -446,13 +462,10 @@ void salvarvenda(Venda* ven){
     fwrite(ven, sizeof(Venda), 1, arquivovendas);
 
     fclose(arquivovendas);
-    free(ven);
-
 }
 
 void listagemvendasformat(Venda* ven)
 {
     printf("%-8s %-15s %-12s %-10s %-10s %-s\n", ven->nome, ven->preco, ven->categoria, ven->dia, ven->id, ven->quantidade);
-    
 }
 

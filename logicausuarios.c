@@ -367,29 +367,47 @@ void SubTelaDelUsu(void)
     }
 }
 
-void SubTelaListarUsu(void)
+void listagem_usuarios(void)
 {
-    Usuario nusuario;
-
-    FILE* arquivousuarios = fopen("usuarios.dat", "rb"); 
-    if (arquivousuarios == NULL) {
+    FILE* arquivousuarios = fopen("usuarios.dat", "rb");
+    if (arquivousuarios == NULL)
+    {
         printf("Erro\n");
         return;
     }
 
-    printf("%-20s %-15s %-14s %-15s %-20s\n", "Nome", "Data de Nasc.", "CPF", "Telefone", "Email");
-    
-    while (fread(&nusuario, sizeof(Usuario), 1, arquivousuarios) == 1) {
-        printf("%-20s %-15s %-14s %-15s %-20s\n",
-               strcat(nusuario.nome, nusuario.sobrenome),
-               strcat(nusuario.dia, strcat("/", strcat(nusuario.mes, strcat("/", nusuario.ano)))),
-               nusuario.cpf,
-               nusuario.telefone,
-               nusuario.email);
+    fseek(arquivousuarios, 0, SEEK_END);
+    long tamanho_arquivo = ftell(arquivousuarios);
+    rewind(arquivousuarios);
+
+    int num_usuarios = tamanho_arquivo / sizeof(Usuario);
+    Usuario* usuarios = (Usuario*)malloc(num_usuarios * sizeof(Usuario));
+
+    fread(usuarios, sizeof(Usuario), num_usuarios, arquivousuarios);
+
+    if (num_usuarios > 0)
+    {
+        printf("Lista de usuários:\n");
+
+        for (int i = 0; i < num_usuarios; i++)
+        {
+            printf("============================================================================\n");
+            printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+            printf("CPF: %s\n", usuarios[i].cpf);
+            printf("Data de Nascimento: %s/%s/%s\n", usuarios[i].dia, usuarios[i].mes, usuarios[i].ano);
+            printf("Telefone: %s\n", usuarios[i].telefone);
+            printf("Email: %s\n", usuarios[i].email);
+            printf("\n");
+            printf("\t> Pressione <ENTER> para pular o usuario< <\n");
+            printf("============================================================================\n");
+            getchar();
+        }
     }
 
+    free(usuarios);
     fclose(arquivousuarios);
 }
+
 
 void listagem_alf(void)
 {
