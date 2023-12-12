@@ -6,7 +6,7 @@
 
 Venda* SubTelaRegVen()
 {
-    Venda *venda;
+    Venda* venda;
     venda = (Venda*)malloc(sizeof(Venda));
 
     bool datavalida;
