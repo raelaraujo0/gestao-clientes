@@ -57,13 +57,15 @@ Venda* SubTelaRegVen(void)
 
     do {
         printf("insira dia da venda: ");
-        fgets(ven->dia , sizeof(ven->dia), stdin);
+        fgets(ven->dia, sizeof(ven->dia), stdin);
         limparBuffer();
+
         printf("insira mes da venda: ");
-        fgets(ven->mes , sizeof(ven->mes), stdin);
+        fgets(ven->mes, sizeof(ven->mes), stdin);
         limparBuffer();
+
         printf("insira ano da venda: ");
-        fgets(ven->ano , sizeof(ven->ano), stdin);
+        fgets(ven->ano, sizeof(ven->ano), stdin);
         limparBuffer();
 
         datavalida = validardata(ven->dia, ven->mes, ven->ano);

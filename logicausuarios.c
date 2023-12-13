@@ -133,7 +133,6 @@ void SubTelaAttUsu(void)
     char respt;
 
     bool datavalida = false;
-    bool cpf_valido = false;
     bool nomevalido = false;
     bool telvalido = false;
     bool emailvalido = false;
@@ -167,7 +166,15 @@ void SubTelaAttUsu(void)
         {
             printf("Usuario nao encontrado\n");
             fclose(arquivousuarios);
-            return;
+            printf("Deseja tentar outro CPF? (S/N)");
+            scanf(" %c", &respt);
+            limparBuffer();
+
+            if (respt == 'S' || respt == 's') {
+                continue;
+            } else {
+                menu_principal();
+            }
         }
 
     fseek(arquivousuarios, -sizeof(Usuario), SEEK_CUR);
@@ -234,18 +241,19 @@ void SubTelaAttUsu(void)
 
     fclose(arquivousuarios);
 
-    printf("Deseja atualizar outro usuario? (S/N)");
-    scanf("%c", &respt); limparBuffer();
+        printf("Deseja atualizar outro usuario? (S/N)");
+        scanf(" %c", &respt);
+        limparBuffer();
 
-    switch (respt){
-    case 'S':
-    case 's':
-        continue;
-    case 'N':
-    case 'n':
-        menu_principal();
-    default:
-        printf("opcao invalida\n");
+        switch (respt){
+            case 'S':
+            case 's':
+                continue;
+            case 'N':
+            case 'n':
+                menu_principal();
+            default:
+                printf("opcao invalida\n");
         }
     }
 }
@@ -412,7 +420,7 @@ void listagem_alf(void)
         {
             printf("Nome: %s\n", usuarios[i].nome);
             printf("\n");
-            printf("\t>>> aperte <ENTER> para pular o cliente...\n");
+            printf("\t> aperte <ENTER> para pular o usuario <\n");
             getchar();
 
         }
