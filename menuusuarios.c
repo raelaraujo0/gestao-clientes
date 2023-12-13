@@ -66,7 +66,7 @@ void menu_principal(void){
             opcoeslistagens(); break;
 
         case 6:
-            Login();
+            menuVendas();
         case 0:
             system("clear || cls");
             Sobre();

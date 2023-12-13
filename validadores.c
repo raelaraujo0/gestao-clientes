@@ -146,11 +146,17 @@ int comparador(const void* a, const void* b)
     return strcmp(usuario_a->nome, usuario_b->nome);
 }
 
-int comparador_vendas(const void* a, const void* b)
+int verificapreco(const char* preco)
 {
-    const Venda* venda_a = (const Venda*)a;
-    const Venda* venda_b = (const Venda*)b;
+    if (strlen(preco) > 20) {
+        return 0; 
+    }
 
-    return strcmp(((Venda*)a)->nome, ((Venda*)b)->nome);
+   
+    for (int i = 0; i < strlen(preco); i++) {
+        if (!isdigit(preco[i])) {
+            return 0; 
+        }
+    }
+    return 1;
 }
-

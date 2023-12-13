@@ -9,7 +9,6 @@ struct usu{
     char dia[3], mes[3], ano[5];
     char telefone[12];
     char email[25];
-    char senha[30];
     int ativo;
 };
 

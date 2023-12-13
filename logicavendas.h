@@ -8,7 +8,7 @@ struct ven{
     char dia[3], mes[3], ano[5];
     char categoria[20];
     char quantidade[20];
-    char nome[20];
+    char nome[40];
     int ativa;
 };
 
@@ -22,8 +22,8 @@ void SubTelaLerVen(void);
 
 void SubTelaListarVen(void);
 
-void salvarvenda(Venda* venda);
+void ListagemCatePrec(void);
 
-void listagemvendasformat(Venda* venda);
+void salvarvenda(Venda* venda);
 
 #endif

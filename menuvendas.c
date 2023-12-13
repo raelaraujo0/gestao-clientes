@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
-char nome[15];
-
-
 void menuVendas() {
     int escolha;
 
@@ -55,7 +52,7 @@ void listagensvendas() {
             break;
 
         case 2:
-            ListagemCategoria();
+            ListagemCatePrec();
             break;
 
         case 0:

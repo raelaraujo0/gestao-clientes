@@ -15,6 +15,5 @@ int validaremail(const char* email);
 
 int comparador(const void* a, const void* b);
 
-int comparador_vendas(const void* a, const void* b);
-
+int verificapreco(const char* preco);
 #endif

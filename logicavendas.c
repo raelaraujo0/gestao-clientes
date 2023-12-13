@@ -5,61 +5,6 @@
 #include "cbclho.h"
 
 
-void Login(void)
-{
-    char senha[50];
-    char nome[15];
-
-    while (1)
-    {
-        system("clear || cls");
-        Tela_Login();
-
-        printf("Digite seu nome: ");
-        scanf("%s", nome); 
-        limparBuffer();
-
-        printf("Digite sua senha: ");
-        fgets(senha, sizeof(senha), stdin);
-        senha[strcspn(senha, "\n")] = '\0';
-
-
-        FILE* arquivousuarios = fopen("usuarios.dat", "r");
-        Usuario usuario_encontrado;
-        int encontrado = 0;
-        while (fread(&usuario_encontrado, sizeof(Usuario), 1, arquivousuarios) == 1)
-        {
-            if (strcmp(nome, usuario_encontrado.nome) == 0 && strcmp(senha, usuario_encontrado.senha) == 0)
-            {
-                encontrado = 1;
-                break;
-            }
-        }
-
-        fclose(arquivousuarios);
-
-        if(encontrado == 1)
-        {
-            menuVendas();
-            break;
-        } else {
-            printf("Usuario nao encontrado. Deseja cadastrar um novo usuario? (S/N)\n");
-            char respt;
-            scanf(" %c", &respt);
-            limparBuffer();
-
-            if (respt == 'S' || respt == 's')
-            {
-                SubTelaCadUsu();
-                break;
-            } else {
-                Login();
-            }
-        }
-    }
-}
-
-
 Venda* SubTelaRegVen(void)
 {
     Venda *ven;
@@ -72,6 +17,7 @@ Venda* SubTelaRegVen(void)
 
     bool datavalida;
     bool categoriaval = false;
+    bool precovalido = false;
     
     char respt;
 
@@ -80,9 +26,23 @@ Venda* SubTelaRegVen(void)
         system("clear || cls");
         Tela_RegVen();
 
-        printf("Informe o preço: ");
-        fgets(ven->preco, sizeof(ven->preco), stdin);
-        ven->preco[strcspn(ven->preco, "\n")] = '\0';  // Remover o caractere de nova linha
+        printf("Digite seu nome:");
+        fgets(ven->nome, sizeof(ven->nome), stdin);
+        ven->nome[strcspn(ven->nome, "\n")] = '\0';
+        limparBuffer();
+
+    do{
+        printf("Informe o preço (apenas numeros): ");
+        scanf("%20s", ven->preco);
+        limparBuffer();
+        ven->preco[strcspn(ven->preco, "\n")] = '\0';
+
+        precovalido = verificapreco(ven->preco);
+
+        if(!precovalido){
+            printf("isso nao e um valor, tente novamente\n");
+        }
+    } while (!precovalido);
 
 
     do {
@@ -426,10 +386,12 @@ void SubTelaListarVen(void)
     fclose(arquivovendas);
 }
 
-void listagem_alf_vendas(void) {
+void ListagemCatePrec(void)
+{
     FILE* arquivovendas = fopen("vendas.dat", "rb");
-    if (arquivovendas == NULL) {
-        printf("Erro ao abrir o arquivo de vendas.\n");
+    if (arquivovendas == NULL)
+    {
+        printf("Erro\n");
         return;
     }
 
@@ -439,20 +401,26 @@ void listagem_alf_vendas(void) {
 
     int num_vendas = tamanho_arquivo / sizeof(Venda);
     Venda* vendas = (Venda*)malloc(num_vendas * sizeof(Venda));
+
     fread(vendas, sizeof(Venda), num_vendas, arquivovendas);
 
-    if (num_vendas > 0) {
-        qsort(vendas, num_vendas, sizeof(Venda), comparador_vendas);
+    if (num_vendas > 0)
+    {
+        printf("Lista de vendas:\n");
 
-        printf("Listagem de categorias em ordem alfabética:\n");
-
-        // Imprime apenas categorias distintas
-        for (int i = 0; i < num_vendas; i++) {
-            if ((i == 0 || strcmp(vendas[i].categoria, vendas[i - 1].categoria) != 0) && strlen(vendas[i].categoria) > 0) {
-                printf("Categoria: %s\n", vendas[i].categoria);
-            }
+        for (int i = 0; i < num_vendas; i++)
+        {
+            printf("==================================================================\n");
+            printf("Categoria: %s\n", vendas[i].categoria);
+            printf("Preco: %s\n", vendas[i].preco);
+            printf("Quantidade: %s\n", vendas[i].quantidade);
+            printf("\n");
+            printf("\t> tecle <ENTER> para pular a venda <\n");
+            getchar();
         }
-    } else {
+    }
+    else
+    {
         printf("Nenhuma venda cadastrada.\n");
     }
 
