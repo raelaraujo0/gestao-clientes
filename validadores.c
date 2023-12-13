@@ -47,25 +47,17 @@ int validardata(char* dia, char* mes, char* ano)
     return true;
 }
 
-int validarnome(char* nome, char* sobrenome){
+int validarnome(char* nome){
     for (int i = 0; i < strlen(nome); i++) {
     if (!isalpha(nome[i]) && nome[i] != ' ') {
     return false;
-        }
-    }
-    for (int i = 0; i < strlen(sobrenome); i++) {
-    if (!isalpha(sobrenome[i]) && sobrenome[i] != ' ') {
-        return false;
         }
     }
 
     if (strlen(nome) < 3){
     return false;
         }
-    if (strlen(sobrenome) < 3){
-    return false;
-        }
-    if (strlen(nome) == 0 || strlen(sobrenome) == 0) {
+    if (strlen(nome) == 0) {
     return false;
         }
     return true;

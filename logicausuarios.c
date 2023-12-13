@@ -25,40 +25,37 @@ Usuario* SubTelaCadUsu(void)
 
         do {
             printf("Digite seu nome: ");
-            scanf("%14s", usu->nome);
+            fgets(usu->nome, sizeof(usu->nome), stdin);
+            usu->nome[strcspn(usu->nome, "\n")] = '\0';
             limparBuffer();
 
-            printf("Digite seu sobrenome: ");
-            scanf("%14s", usu->sobrenome); 
-            limparBuffer();
-
-            nomevalido = validarnome(usu->nome, usu->sobrenome);
+            nomevalido = validarnome(usu->nome);
 
             if (!nomevalido) {
-                printf("Nome ou sobrenome inválidos, tente novamente.\n");
+                printf("Nome invalido, tente novamente.\n");
             }
             } while (!nomevalido);
 
         do {
-            printf("Digite seu CPF: (apenas numeros) ");
-            scanf("%11s", usu->cpf);
-            limparBuffer();
-            cpf_valido = validarcpf(usu->cpf);
-            cpfduplo = cpfjaexiste(usu->cpf);
-            if(cpfduplo){
-                printf("esse cpf ja esta cadastrado, deseja (S)sair ou (C)continuar?\n");
-                scanf("%s", &respt3);
-                if (respt3 == 'S' || 's'){
-                    menu_principal();
-                }
-            } else if (cpfjaexiste(usu->cpf)){
-                valido = 1;
-            } else if (!cpf_valido) {
-                printf("CPF invalido, tente novamente.\n");
-            }
-            } while (!cpf_valido || cpfduplo);
+    printf("Digite seu CPF: (apenas numeros) ");
+    scanf("%11s", usu->cpf);
+    limparBuffer();
+    cpf_valido = validarcpf(usu->cpf);
+    cpfduplo = cpfjaexiste(usu->cpf);   
+    
+    if (cpfduplo) {
+        printf("Esse CPF ja esta cadastrado. Deseja (S)sair ou (C)continuar?\n");
+        scanf(" %c", &respt3);
+        if (respt3 == 'S' || respt3 == 's') {
+            menu_principal();
+        }
+    } else if (!cpf_valido) {
+        printf("CPF inválido, tente novamente.\n");
+    }
 
-            valido = 0;
+} while (!cpf_valido || cpfduplo);
+
+    valido = 0;
 
         do {
             printf("insira dia do nascimento: (DD)");
@@ -177,19 +174,14 @@ void SubTelaAttUsu(void)
 
     do {
             printf("Digite seu nome: ");
-            scanf("%14s", usuarioatt.nome);
-            limparBuffer();
+            fgets(usuarioatt.nome, sizeof(usuarioatt.nome), stdin);
             usuarioatt.nome[strcspn(usuarioatt.nome, "\n")] = '\0';
-
-            printf("Digite seu sobrenome: ");
-            scanf("%14s", usuarioatt.sobrenome);
             limparBuffer();
-            usuarioatt.sobrenome[strcspn(usuarioatt.sobrenome, "\n")] = '\0';
 
-            nomevalido = validarnome(usuarioatt.nome, usuarioatt.sobrenome);
+            nomevalido = validarnome(usuarioatt.nome);
 
             if (!nomevalido) {
-                printf("Nome ou sobrenome invalidos, tente novamente.\n");
+                printf("Nome invalidos, tente novamente.\n");
             }
             } while (!nomevalido);
 
@@ -285,7 +277,7 @@ void SubTelaLerUsu(void)
             if (strcmp(usuarioEncontrado.cpf, cpf) == 0)
             {
                 found = 1;
-                printf("Nome: %s %s\n", usuarioEncontrado.nome, usuarioEncontrado.sobrenome);
+                printf("Nome: %s\n", usuarioEncontrado.nome);
                 printf("CPF: %s\n", usuarioEncontrado.cpf);
                 printf("Data de nascimento:  %s/%s/%s\n", usuarioEncontrado.dia, usuarioEncontrado.mes, usuarioEncontrado.ano);
                 printf("Telefone: %s\n", usuarioEncontrado.telefone);
@@ -376,7 +368,7 @@ void listagem_usuarios(void)
         {
             printf("============================================================================\n");
             printf("\n");
-            printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+            printf("Nome: %s\n", usuarios[i].nome);
             printf("CPF: %s\n", usuarios[i].cpf);
             printf("Data de Nascimento: %s/%s/%s\n", usuarios[i].dia, usuarios[i].mes, usuarios[i].ano);
             printf("Telefone: %s\n", usuarios[i].telefone);
@@ -418,7 +410,7 @@ void listagem_alf(void)
 
         for (int i = 0; i < num_usuarios; i++)
         {
-            printf("Nome: %s %s\n", usuarios[i].nome, usuarios[i].sobrenome);
+            printf("Nome: %s\n", usuarios[i].nome);
             printf("\n");
             printf("\t>>> aperte <ENTER> para pular o cliente...\n");
             getchar();

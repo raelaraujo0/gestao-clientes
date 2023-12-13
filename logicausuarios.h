@@ -3,8 +3,7 @@
 
 typedef struct usu Usuario;
 struct usu{
-    char nome[15];
-    char sobrenome[15];
+    char nome[45];
     char cpf[12];
     char dia[3], mes[3], ano[5];
     char telefone[12];

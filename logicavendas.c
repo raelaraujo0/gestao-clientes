@@ -18,6 +18,7 @@ Venda* SubTelaRegVen(void)
     bool datavalida;
     bool categoriaval = false;
     bool precovalido = false;
+    bool nomevalido = false;
     
     char respt;
 
@@ -26,10 +27,19 @@ Venda* SubTelaRegVen(void)
         system("clear || cls");
         Tela_RegVen();
 
+    do{
         printf("Digite seu nome:");
         fgets(ven->nome, sizeof(ven->nome), stdin);
         ven->nome[strcspn(ven->nome, "\n")] = '\0';
         limparBuffer();
+
+        nomevalido = validarnome(ven->nome);
+
+        if (!nomevalido){
+            printf("Nome invalido, tente novamente.");
+        }
+
+    }while(!nomevalido);
 
     do{
         printf("Informe o preço (apenas numeros): ");

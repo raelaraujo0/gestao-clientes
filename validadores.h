@@ -3,7 +3,7 @@
 
 int validardata(char* dia, char* mes, char* ano);
 
-int validarnome(char* nome, char* sobrenome);
+int validarnome(char* nome);
 
 int validarcategoria(const char* categoria);
 
