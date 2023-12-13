@@ -146,17 +146,25 @@ int comparador(const void* a, const void* b)
     return strcmp(usuario_a->nome, usuario_b->nome);
 }
 
-int verificapreco(const char* preco)
-{
+int verificapreco(const char* preco) {
     if (strlen(preco) > 20) {
-        return 0; 
+        return 0;
     }
 
-   
+    int pontoEncontrado = 0;
+
     for (int i = 0; i < strlen(preco); i++) {
         if (!isdigit(preco[i])) {
-            return 0; 
+            if (preco[i] == '.') {
+                if (!pontoEncontrado) {
+                    pontoEncontrado = 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
         }
     }
-    return 1;
+    return 1; 
 }
