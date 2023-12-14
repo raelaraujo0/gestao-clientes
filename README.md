@@ -1,4 +1,7 @@
 Projeto da displina DCT1106 - Programação, voltado a C puro. Um projeto de gestao de clientes
 para rodar o projeto:
-gcc telas.o validadores.o main.o menuvendas.o menuusuarios.o logicausuarios.o logicavendas.o -o main
-./main
+
+(1) gcc -c *.c
+(2) gcc -o gestaoclientes *.o
+(3) gcc *.o
+(4) ./a.out
