@@ -76,5 +76,5 @@ void menu_principal(void){
             printf("opcao invalida,tente novamente \n");
             continue;
         }
-    } while (escolha != 'n' || 'n+1');
+    } while (escolha != 'n' || n+1);
 }

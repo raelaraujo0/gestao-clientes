@@ -63,5 +63,5 @@ void listagensvendas() {
             printf("escolha invalida \n");
             break;
         }
-    } while (escolha != 'n' || 'n+1');
+    } while (escolha != 'n' || n+1);
 }
