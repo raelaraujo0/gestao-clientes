@@ -310,13 +310,15 @@ void TelaMenuCompras(void){
 void TelaCriarCompra(void){
     printf("=========================================\n");
     printf("                                         \n");
-    printf("         (1) ITEM QUE FOI COMPRADO       \n");
+    printf("                (1) NOME                 \n");
     printf("                                         \n");
-    printf("            (2) DATA DA COMPRA           \n");
+    printf("                (2) PRECO                \n");
     printf("                                         \n");
-    printf("             (3) QUANTIDADE              \n");
+    printf("            (3) DATA DA COMPRA           \n");
     printf("                                         \n");
-    printf("                (4) PRECO                \n");
+    printf("         (4) ITEM QUE FOI COMPRADO       \n");
+    printf("                                         \n");
+    printf("             (5) QUANTIDADE              \n");
     printf("=========================================\n");
 }
 
