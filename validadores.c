@@ -7,38 +7,25 @@
 
 int validardata(char* dia, char* mes, char* ano)
 {
-    int ano_int;
-    sscanf(ano, "%d", &ano_int);
+    int dia_int, mes_int, ano_int;
 
-    for(int i = 0; i< strlen(dia); i++){
-        if(!isdigit(dia[i]) && dia[i] != ' '){
-            return false;
-        }
+    if (sscanf(dia, "%d", &dia_int) != 1 ||
+        sscanf(mes, "%d", &mes_int) != 1 ||
+        sscanf(ano, "%d", &ano_int) != 1) {
+        return false;
     }
 
-    for(int i = 0; i< strlen(mes); i++){
-        if(!isdigit(mes[i]) && mes[i] != ' '){
-            return false;
-        }
-    }
-
-    for(int i = 0; i< strlen(ano); i++){
-        if(!isdigit(ano[i]) && ano[i] != ' '){
-            return false;
-        }
-    }
-
-    if (ano_int < 0 && ano_int > 2023 && mes < 1 && mes > 12 && dia < 1 && dia > 31) {
+    if (ano_int < 0 || ano_int > 2023 || mes_int < 1 || mes_int > 12 || dia_int < 1 || dia_int > 31) {
         return false;
     }
 
     if (ano_int % 4 == 0 && (ano_int % 100 != 0 || ano_int % 400 == 0)) {
-        if (mes == 2 && (dia > 29 || dia < 1)) {
+        if (mes_int == 2 && (dia_int > 29 || dia_int < 1)) {
             return false;
         }
         // É bissexto
     } else {
-        if (mes == 2 && (dia > 28 || dia < 1)) {
+        if (mes_int == 2 && (dia_int > 28 || dia_int < 1)) {
             return false;
         }
         // Não é bissexto

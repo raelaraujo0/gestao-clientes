@@ -3,5 +3,4 @@ para rodar o projeto:
 
 (1) gcc -c *.c
 (2) gcc -o gestaoclientes *.o
-(3) gcc *.o
-(4) ./a.out
+(3) ./gestaoclientes

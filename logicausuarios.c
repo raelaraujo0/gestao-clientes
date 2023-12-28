@@ -4,6 +4,27 @@
 #include <stdlib.h>
 #include "cbclho.h"
 
+int cpfjaexiste(const char* cpf){
+
+    Usuario readuser;
+    FILE* arquivousuarios = fopen("usuarios.dat", "rb");
+
+    if(arquivousuarios == NULL){
+        printf("erro\n");
+        exit(1);
+    }
+
+    while(fread(&readuser, sizeof(Usuario), 1, arquivousuarios) == 1){
+        if (strcmp(readuser.cpf, cpf)==0){
+            fclose(arquivousuarios);
+            return true;
+        }
+    }
+    fclose(arquivousuarios);
+
+    return false;
+}
+
 Usuario* SubTelaCadUsu(void)
 {
     Usuario *usu;
@@ -12,15 +33,13 @@ Usuario* SubTelaCadUsu(void)
     char respt;
     char respt3;
     bool datavalida = false;
-    bool cpf_valido = false;
     bool nomevalido = false;
     bool telvalido = false;
     bool emailvalido = false;
     bool cpfduplo = false;
-    bool valido = false;
 
     while (1) {
-        system("clear || cls");
+        LimpaTela();
         Tela_CadUsu();
 
         do {
@@ -37,25 +56,20 @@ Usuario* SubTelaCadUsu(void)
             } while (!nomevalido);
 
         do {
-    printf("Digite seu CPF: (apenas numeros) ");
-    scanf("%11s", usu->cpf);
-    limparBuffer();
-    cpf_valido = validarcpf(usu->cpf);
-    cpfduplo = cpfjaexiste(usu->cpf);   
-    
-    if (cpfduplo) {
-        printf("Esse CPF ja esta cadastrado. Deseja (S)sair ou (C)continuar?\n");
-        scanf(" %c", &respt3);
-        if (respt3 == 'S' || respt3 == 's') {
-            menu_principal();
-        }
-    } else if (!cpf_valido) {
-        printf("CPF inválido, tente novamente.\n");
-    }
+            printf("Digite seu CPF: (apenas numeros) ");
+            scanf("%11s", usu->cpf);
+            limparBuffer();
+            cpfduplo = cpfjaexiste(usu->cpf);   
+            
+            if (cpfduplo) {
+                printf("Esse CPF ja esta cadastrado. Deseja (S)sair ou (C)continuar?\n");
+                scanf(" %c", &respt3);
+                if (respt3 == 'S' || respt3 == 's') {
+                    menu_principal();
+                    }
+                } 
+            } while (!cpfduplo);
 
-} while (!cpf_valido || cpfduplo);
-
-    valido = 0;
 
         do {
             printf("insira dia do nascimento: (DD)");
@@ -139,7 +153,7 @@ void SubTelaAttUsu(void)
 
     while (1)
     {
-        system("clear || cls");
+        LimpaTela();
         Tela_AttUsu();
 
         int encontrado = 0;
@@ -193,14 +207,16 @@ void SubTelaAttUsu(void)
             } while (!nomevalido);
 
         do {
-            printf("insira dia do nascimento: ");
-            scanf("%s", &usuarioatt.dia);
+            printf("Insira o dia do nascimento: ");
+            scanf("%2s", usuarioatt.dia);
             limparBuffer();
-            printf("insira mes da nascimento: ");
-            scanf("%s", &usuarioatt.mes);
+
+            printf("Insira o mês do nascimento: ");
+            scanf("%2s", usuarioatt.mes);
             limparBuffer();
-            printf("insira ano da nascimento: ");
-            scanf("%s", &usuarioatt.ano);
+
+            printf("Insira o ano do nascimento: ");
+            scanf("%4s", usuarioatt.ano);
             limparBuffer();
 
             datavalida = validardata(usuarioatt.dia, usuarioatt.mes, usuarioatt.ano);
@@ -268,7 +284,7 @@ void SubTelaLerUsu(void)
 
     while (1)
     {
-        system("clear || cls");
+        LimpaTela();
         Tela_LerUsu();
 
         printf("Digite seu cpf: ");
@@ -313,11 +329,9 @@ void SubTelaLerUsu(void)
 void SubTelaDelUsu(void) {
     Usuario usu;
     char cpf[12];
-    char respt;
-    char respt2;
 
     while (1) {
-        system("clear || cls");
+        LimpaTela();
         Tela_DelUsu();
 
         printf("Digite seu cpf: (somente numeros) ");
@@ -444,25 +458,4 @@ void salvarusuario(Usuario* usu){
 
         fclose(arquivousuarios);
         free(usu);
-}
-
-int cpfjaexiste(const char* cpf){
-
-    Usuario readuser;
-    FILE* arquivousuarios = fopen("usuarios.dat", "rb");
-
-    if(arquivousuarios == NULL){
-        printf("erro\n");
-        return;
-    }
-
-    while(fread(&readuser, sizeof(Usuario), 1, arquivousuarios) == 1){
-        if (strcmp(readuser.cpf, cpf)==0){
-            fclose(arquivousuarios);
-            return true;
-        }
-    }
-    fclose(arquivousuarios);
-
-    return false;
 }

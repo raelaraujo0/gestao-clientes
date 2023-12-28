@@ -93,8 +93,6 @@ Venda* SubTelaRegVen(void)
 
         ven->ativa = 1;
 
-        ven->nome;
-
         snprintf(ven->id,sizeof(ven->id), "%s%s%s%s", ven->ano, ven->preco, ven->dia, ven->mes);
 
         salvarvenda(ven);

@@ -21,9 +21,9 @@ void SubTelaLerUsu(void);
 
 void SubTelaListarUsu(void);
 
-void listagem_alf(void);
+void listagem_usuarios(void);
 
-void Login(void);
+void listagem_alf(void);
 
 void salvarusuario(Usuario *usuario);
 

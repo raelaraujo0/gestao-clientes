@@ -17,7 +17,7 @@ void opcoeslistagens(){
     int escolha;
     
     do{   
-        system("clear || cls");
+        LimpaTela();
         Tela_Listagem();
 
         scanf("%d", &escolha); limparBuffer();
@@ -42,7 +42,7 @@ void menu_principal(void){
     int escolha;
     int n = 7;
     do{
-        system("clear || cls");
+        LimpaTela();
         TelaPrincipal();
 
         scanf("%d", &escolha);
@@ -67,8 +67,11 @@ void menu_principal(void){
 
         case 6:
             menuVendas();
+        case 7:
+            MenuCompras();
+
         case 0:
-            system("clear || cls");
+            LimpaTela();
             Sobre();
             pausa();
 

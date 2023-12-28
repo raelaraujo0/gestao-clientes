@@ -49,6 +49,9 @@ void TelaPrincipal(void){
     printf(" ===                                        = (6) VENDAS =                                         === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
+    printf(" ===                                      == (7) COMPRAS ==                                        === \n");
+    printf(" ===                                                                                               === \n");
+    printf(" ===                                                                                               === \n");
     printf(" ===                                          (0) SOBRE                                            === \n");
     printf(" ===                                                                                               === \n");
     printf(" ===                                                                                               === \n");
@@ -280,4 +283,74 @@ void ListagemCategoria(void){
     printf(" ===                                                                                               === \n");
     printf(" ===================================================================================================== \n");
     printf(" ===================================================================================================== \n");
+}
+
+void TelaMenuCompras(void){
+    printf("=========================================\n");
+    printf("              MENU COMPRAS               \n");
+    printf("=========================================\n");
+    printf("                                         \n");
+    printf("           (1) REGISTRAR COMPRA          \n");
+    printf("                                         \n");
+    printf("           (2) ATUALIZAR COMPRA          \n");
+    printf("                                         \n");
+    printf("            (3) DELETAR COMPRA           \n");
+    printf("                                         \n");
+    printf("              (4) LER COMPRA             \n");
+    printf("                                         \n");
+    printf("            (5) LISTAR COMPRAS           \n");
+    printf("                                         \n");
+    printf("         (6) 3 COMPRAS MAIS CARAS        \n");
+    printf("                                         \n");
+    printf("               (7) VOLTAR                \n");
+    printf("                                         \n");
+    printf("=========================================\n");
+}
+
+void TelaCriarCompra(void){
+    printf("=========================================\n");
+    printf("                                         \n");
+    printf("         (1) ITEM QUE FOI COMPRADO       \n");
+    printf("                                         \n");
+    printf("            (2) DATA DA COMPRA           \n");
+    printf("                                         \n");
+    printf("             (3) QUANTIDADE              \n");
+    printf("                                         \n");
+    printf("                (4) PRECO                \n");
+    printf("=========================================\n");
+}
+
+void TelaAttCompra(void){
+    printf("=========================================\n");
+    printf("             ATUALIZAR COMPRA            \n");
+    printf("=========================================\n");
+    printf("                                         \n");
+    printf("         (1) ITEM QUE FOI COMPRADO       \n");
+    printf("                                         \n");
+    printf("            (2) DATA DA COMPRA           \n");
+    printf("                                         \n");
+    printf("             (3) QUANTIDADE              \n");
+    printf("                                         \n");
+    printf("                (4) PRECO                \n");
+    printf("=========================================\n");
+}
+
+void TelaDelCompra(void){
+    printf("=========================================\n");
+    printf("              DELETAR COMPRA             \n");
+    printf("=========================================\n");
+    printf("                                         \n");
+    printf("                  COMPRA                 \n");
+    printf("                                         \n");
+    printf("=========================================\n");
+}
+
+void TelaLerCompra(void){
+    printf("=========================================\n");
+    printf("                LER COMPRA               \n");
+    printf("=========================================\n");
+    printf("                                         \n");
+    printf("                  COMPRA                 \n");
+    printf("                                         \n");
+    printf("=========================================\n");
 }

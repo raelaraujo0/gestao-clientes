@@ -24,6 +24,6 @@ void SubTelaListarVen(void);
 
 void ListagemCatePrec(void);
 
-void salvarvenda(Venda* venda);
+void salvarvenda(Venda* ven);
 
 #endif

@@ -5,7 +5,7 @@
 void menuVendas() {
     int escolha;
 
-    system("clear || cls");
+    LimpaTela();
     Tela_MenuV();
     scanf("%d", &escolha);
     getchar();
@@ -41,7 +41,7 @@ void listagensvendas() {
     int n = 7;
 
     do {
-        system("clear || cls");
+        LimpaTela();
         ListagemCategoria();
 
         scanf("%d", &escolha);

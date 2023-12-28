@@ -2,5 +2,7 @@
 #include "validadores.h"
 #include "menuvendas.h"
 #include "menuusuarios.h"
+#include "menucompras.h"
 #include "logicausuarios.h"
 #include "logicavendas.h"
+#include "logicacompras.h"
