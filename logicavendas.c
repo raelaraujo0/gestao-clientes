@@ -16,10 +16,8 @@ Venda* SubTelaRegVen(void)
     }
 
     bool datavalida;
-    bool categoriaval = false;
-    bool precovalido = false;
-    bool nomevalido = false;
-    
+    bool categoriaval, nomevalido, precovalido = false;
+
     char respt;
 
     while (1)
@@ -199,8 +197,7 @@ void SubTelaAttVen(void)
     char respt;
     Venda vendaatt;
 
-    bool datavalida = false;
-    bool categoriaval = false;
+    bool datavalida, categoriaval = false;
 
     while (1)
     {

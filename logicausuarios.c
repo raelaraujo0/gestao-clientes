@@ -32,11 +32,7 @@ Usuario* SubTelaCadUsu(void)
 
     char respt;
     char respt3;
-    bool datavalida = false;
-    bool nomevalido = false;
-    bool telvalido = false;
-    bool emailvalido = false;
-    bool cpfduplo = false;
+    bool datavalida, nomevalido, telvalido, emailvalido, cpfduplo = false;
 
     while (1) {
         LimpaTela();
@@ -146,10 +142,7 @@ void SubTelaAttUsu(void)
     char cpf[12];
     char respt;
 
-    bool datavalida = false;
-    bool nomevalido = false;
-    bool telvalido = false;
-    bool emailvalido = false;
+    bool datavalida, nomevalido, telvalido, emailvalido = false;
 
     while (1)
     {
